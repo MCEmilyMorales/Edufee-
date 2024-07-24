@@ -9,6 +9,6 @@ export class PaymentDetail {
   @Column()
   fecha: Date;
 
-  @OneToOne(()=>PaymentOrder,(paymentOrder) => paymentOrder.id)
-  paymentOrder_id: PaymentOrder
+  @OneToOne(() => PaymentOrder, (paymentOrder) => paymentOrder.id)
+  paymentOrder_id: PaymentOrder;
 }
