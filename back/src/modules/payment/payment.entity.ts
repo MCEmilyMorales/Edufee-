@@ -12,4 +12,4 @@ export class PaymentDetail {
 // orden de pago Id falta charla con el profesor
 // instituto id Id falta charla con el profesor
 
-// una vez que hablemos con el profesor vamos a crear las relaciones
+// una vez que hablemos con el profesor vamos a crear las relaciones .
