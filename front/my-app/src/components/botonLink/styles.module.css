@@ -1,0 +1,32 @@
+.btn {
+    font-size: 16px;
+    color: black;
+    cursor: pointer;
+    position: relative;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition-duration: 500ms;
+  }
+  
+  .btn:focus,
+  .btn:hover {
+    color: black;
+  }
+  
+  .btn:focus:after,
+  .btn:hover:after {
+    width: 100%;
+    left: 0%;
+  }
+  
+  .btn:after {
+    content: "";
+    bottom: -2px;
+    left: 50%;
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background-color: rgb(0, 0, 0) ;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition-duration: 400ms;
+    transition-property: width, left;
+  }
