@@ -14,6 +14,5 @@ export class PaymentOrder {
 
   @OneToOne(()=>User)
   user_id: User;
-
 }
 
