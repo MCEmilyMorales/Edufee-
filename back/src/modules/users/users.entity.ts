@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Institution } from '../institution/institution.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -29,14 +30,6 @@ export class User {
   })
   email: string;
 
-  @Column({
-    type: 'varchar',
-    length: 128,
-  })
-  password: string;
+  @ManyToOne(()=>Institution, (institution)=>institution.user_id)
+  institution: Institution
 }
-
-//instiucion ID falta harla con el profesor
-
-//carrera ID falta harla con el profesor
-// una vez que hablemos con el profesor vamos a crear las relacione

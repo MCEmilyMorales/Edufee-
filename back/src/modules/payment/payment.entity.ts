@@ -1,15 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import { PaymentOrder } from '../payment-order/paymentOrder.entity';
 
-@Entity({ name: 'paymentDetails' })
-export class PaymentDetail {
+@Entity({ name: 'payments' })
+export class Payment {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  price: number;
+  fecha: Date;
+
+  @OneToOne(()=> PaymentOrder,(paymentOrder) => paymentOrder.id)
+  paymentOrder_id: PaymentOrder
 }
-
-// orden de pago Id falta charla con el profesor
-// instituto id Id falta charla con el profesor
-
-// una vez que hablemos con el profesor vamos a crear las relaciones .

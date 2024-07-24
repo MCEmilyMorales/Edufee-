@@ -1,4 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column} from 'typeorm'; 
+import {Entity, PrimaryGeneratedColumn, Column, OneToMany} from 'typeorm'; 
+import { User } from '../users/users.entity';
+
 
 @Entity('institutions')
 export class Institution{
@@ -14,9 +16,9 @@ export class Institution{
     @Column({type:'varchar', length:50})
     email:string
 
-    // @Column({type:'varchar', length:50})
-    // img?: string
+    @Column({type:'int'})
+    phone:string
 
-    // @Column({type:'varchar', length:50})
-    // student_id?:[]
+    @OneToMany(() => User, (user) => user.institution )
+     user_id: User[]
 }
