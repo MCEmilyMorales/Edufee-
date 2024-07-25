@@ -16,5 +16,6 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   await app.listen(3000);
+  console.log('Server listening on http://localhost:3000');
 }
 bootstrap();
