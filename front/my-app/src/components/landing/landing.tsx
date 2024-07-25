@@ -4,7 +4,6 @@ const Landing: React.FC = () => {
   return (
     <div
       className="
-        
         w-full
         max-w-screen-sm md:max-w-screen-sm lg:max-w-screen-md
         relative
@@ -35,14 +34,14 @@ const Landing: React.FC = () => {
           justify-center
           text-center
           p-6
-          font-raleway
+        
           leading-tight
           h-max
         "
       >
-        <p className="text-lg font-raleway sm:text-xl md:text-2xl lg:text-3xl text-black">
-          <span className="font-raleway font-bold text-red-500">edufee</span> es
-          la herramienta que simplifica todo para ti, ya seas una institución
+        <p className="text-lg   sm:text-xl md:text-2xl lg:text-3xl text-black">
+          <span className="  font-bold text-red-500">edufee</span> es la
+          herramienta que simplifica todo para ti, ya seas una institución
           educativa o un usuario que necesita hacer pagos. ¡Todo en un solo
           lugar!
         </p>
@@ -63,7 +62,7 @@ const Landing: React.FC = () => {
             justify-center
             text-center
             p-6
-            font-raleway
+           
             leading-tight
             h-max
             text-black
@@ -73,8 +72,8 @@ const Landing: React.FC = () => {
             transition-colors duration-300
         "
       >
-        <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl">
-          Quiero saber más!
+        <p className="text-lg font-extrabold sm:text-xl md:text-2xl lg:text-3xl">
+          ¡Quiero saber más!
         </p>
       </a>
     </div>
