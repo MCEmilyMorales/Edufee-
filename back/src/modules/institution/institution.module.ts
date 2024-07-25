@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Institution } from './institution.entity';
 
 @Module({
-  // imports: [TypeOrmModule.forFeature([Institution])],
+  imports: [TypeOrmModule.forFeature([Institution])],
   controllers: [InstitutionController],
   providers: [InstitutionService, InstitutionRepository],
 })
