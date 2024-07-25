@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar/navbar";
 import Footer from "@/components/footer/footer";
 const inter = Inter({ subsets: ["latin"] });
-const raleway = Raleway({ subsets: ["latin"] });
+const raleway = Raleway({ subsets: ["latin"], weight: ["500", "200"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="${raleway.className}${inter.className}">
+      <body className={`${inter.className} ${raleway.className}`}>
         <Navbar />
         {children}
         <Footer />

@@ -1,6 +1,8 @@
+/* globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&family=Poetsen+One&display=swap");
 
 :root {
@@ -27,4 +29,8 @@ body {
 
 .font-inter {
   font-family: "Inter", sans-serif;
+}
+
+.font-poetsen {
+  font-family: "Poetsen One", sans-serif;
 }
