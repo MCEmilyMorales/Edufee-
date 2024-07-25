@@ -32,4 +32,4 @@ export class User {
 
   @ManyToOne(() => Institution, (institution) => institution.user_id)
   institution: Institution;
-}
+} //prueba
