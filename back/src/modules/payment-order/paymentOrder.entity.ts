@@ -6,13 +6,12 @@ export class PaymentOrder {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({type:'decimal'})
+  @Column({ type: 'decimal' })
   monto: number;
 
-  @Column({default:'pending'})
-  estado:string
+  @Column({ default: 'pending' })
+  estado: string;
 
-  @OneToOne(()=>User)
+  @OneToOne(() => User)
   user_id: User;
 }
-
