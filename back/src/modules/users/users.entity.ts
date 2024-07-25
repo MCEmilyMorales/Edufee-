@@ -16,7 +16,7 @@ export class User {
     type: 'varchar',
     length: 8,
   })
-  Dni: string;
+  dni: string;
 
   @Column({
     type: 'int',
@@ -29,6 +29,9 @@ export class User {
     unique: true,
   })
   email: string;
+
+  @Column()
+  password: string
 
   @ManyToOne(() => Institution, (institution) => institution.user_id)
   institution: Institution;

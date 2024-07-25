@@ -8,7 +8,7 @@ import { User } from './users.entity';
 import { Institution } from '../institution/institution.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([])],
+  imports: [TypeOrmModule.forFeature([User])],
   controllers: [UsersController],
   providers: [UsersService, UsersRepository],
 })
