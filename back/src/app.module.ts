@@ -5,8 +5,9 @@ import { InstitutionModule } from './modules/institution/institution.module';
 import { PaymentDetailModule } from './modules/payment/payment.module';
 import { PaymentOrderModule } from './modules/payment-order/payment-order.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { typeOrmConfig } from './modules/config/typeorm';
+import { typeOrmConfig } from './config/typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     InstitutionModule,
     PaymentDetailModule,
     PaymentOrderModule,
+    MailModule,
   ],
   controllers: [],
   providers: [],
