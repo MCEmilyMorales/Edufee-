@@ -37,7 +37,7 @@ const Navbar = () => {
   }, [open]);
 
   return (
-    <div className='h-16 bg-white'>
+    <div className='h-16 bg-white w-full fixed'>
       {
         token !== "" ? (
           <nav className='h-full flex items-center justify-between'>
