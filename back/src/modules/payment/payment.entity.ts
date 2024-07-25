@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
 import { PaymentOrder } from '../payment-order/paymentOrder.entity';
 
-@Entity({ name: 'paymentDetails' })
-export class PaymentDetail {
+@Entity({ name: 'payments' })
+export class Payment {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

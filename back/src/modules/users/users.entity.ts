@@ -30,6 +30,6 @@ export class User {
   })
   email: string;
 
-  @ManyToOne(()=>Institution, (institution)=>institution.user_id)
-  institution: Institution
+  @ManyToOne(() => Institution, (institution) => institution.user_id)
+  institution: Institution;
 }
