@@ -13,9 +13,9 @@ export class UsersService {
     return this.usersRepository.getId(id)
   }
 
-  signUp(user){
-    return this.usersRepository.signUp(user)
-  }
+//   signUp(user){
+//     return this.usersRepository.signUp(user)
+//   }
 
   updateUser(){
     return this.usersRepository.updateUser()

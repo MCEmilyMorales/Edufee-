@@ -20,10 +20,10 @@ export class UsersController {
     return 
   }
 
-  @Post('signup')
-  signUp(@Body() user: userDto) {
-    return this.usersService.signUp(user);
-  }
+  // @Post('signup')
+  // signUp(@Body() user: userDto) {
+  //   return this.usersService.signUp(user);
+  // }
 
   @Put()
   updateUser(@Param() id: string) {
