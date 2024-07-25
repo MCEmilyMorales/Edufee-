@@ -4,6 +4,7 @@ const Landing: React.FC = () => {
   return (
     <div
       className="
+        
         w-full
         max-w-screen-sm md:max-w-screen-sm lg:max-w-screen-md
         relative
@@ -15,7 +16,7 @@ const Landing: React.FC = () => {
         border-[10px_solid_#24282b]
         box-border
         h-screen
-        mt-4 sm:mt-16 md:mt-24 lg:mt-32
+        mt-20 sm:mt-16 md:mt-24 lg:mt-32
         flex
         flex-col
         items-center
@@ -39,8 +40,8 @@ const Landing: React.FC = () => {
           h-max
         "
       >
-        <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-black">
-          <span className="font-poetsen font-bold text-red-500">edufee</span> es
+        <p className="text-lg font-raleway sm:text-xl md:text-2xl lg:text-3xl text-black">
+          <span className="font-raleway font-bold text-red-500">edufee</span> es
           la herramienta que simplifica todo para ti, ya seas una institución
           educativa o un usuario que necesita hacer pagos. ¡Todo en un solo
           lugar!
@@ -65,7 +66,7 @@ const Landing: React.FC = () => {
             font-raleway
             leading-tight
             h-max
-             text-black
+            text-black
             ml-[30%] sm:ml-[25%] md:ml-[40%] lg:ml-[40%]
             hover:bg-[#1657FF] /* Adjust this to your desired hover color */
             hover:text-white

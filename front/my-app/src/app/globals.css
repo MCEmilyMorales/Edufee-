@@ -17,4 +17,14 @@
   }
 }
 
+body {
+  font-family: "Raleway", "Arial", sans-serif;
+}
 
+.font-raleway {
+  font-family: "Raleway", sans-serif;
+}
+
+.font-inter {
+  font-family: "Inter", sans-serif;
+}
