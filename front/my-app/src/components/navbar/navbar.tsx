@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useRef } from 'react'
-import Image from 'next/image'
 import BotonLink from '../botonLink/boton'
 import { Transition } from '@headlessui/react';
 import { useUser } from '@auth0/nextjs-auth0/client';
