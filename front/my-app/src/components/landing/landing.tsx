@@ -15,7 +15,7 @@ const Landing: React.FC = () => {
         border-[10px_solid_#24282b]
         box-border
         h-screen
-        mt-4 sm:mt-16 md:mt-24 lg:mt-32
+        mt-20 sm:mt-16 md:mt-24 lg:mt-32
         flex
         flex-col
         items-center
@@ -34,14 +34,14 @@ const Landing: React.FC = () => {
           justify-center
           text-center
           p-6
-          font-raleway
+        
           leading-tight
           h-max
         "
       >
-        <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-black">
-          <span className="font-poetsen font-bold text-red-500">edufee</span> es
-          la herramienta que simplifica todo para ti, ya seas una institución
+        <p className="text-lg   sm:text-xl md:text-2xl lg:text-3xl text-black">
+          <span className="  font-bold text-red-500">edufee</span> es la
+          herramienta que simplifica todo para ti, ya seas una institución
           educativa o un usuario que necesita hacer pagos. ¡Todo en un solo
           lugar!
         </p>
@@ -62,18 +62,18 @@ const Landing: React.FC = () => {
             justify-center
             text-center
             p-6
-            font-raleway
+           
             leading-tight
             h-max
-             text-black
+            text-black
             ml-[30%] sm:ml-[25%] md:ml-[40%] lg:ml-[40%]
             hover:bg-[#1657FF] /* Adjust this to your desired hover color */
             hover:text-white
             transition-colors duration-300
         "
       >
-        <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl">
-          Quiero saber más!
+        <p className="text-lg font-inter sm:text-xl md:text-2xl lg:text-3xl">
+          ¡Quiero saber más!
         </p>
       </a>
     </div>
