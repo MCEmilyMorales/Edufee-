@@ -30,9 +30,6 @@ export class User {
   })
   email: string;
 
-  @Column()
-  password: string
-
   @ManyToOne(() => Institution, (institution) => institution.user_id)
   institution: Institution;
 } //prueba
