@@ -3,11 +3,14 @@ import { UsersService } from './users.service';
 import { UUID } from 'crypto';
 import { User } from './users.entity';
 import { userDto } from './users.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags()
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiBearerAuth()
   @Get()
   getAll(
     @Query('page') page: string = '1',
@@ -25,6 +28,7 @@ export class UsersController {
   //   return this.usersService.signUp(user);
   // }
 
+  @ApiBearerAuth()
   @Put()
   updateUser(@Param() id: string) {
     return this.usersService.updateUser();
