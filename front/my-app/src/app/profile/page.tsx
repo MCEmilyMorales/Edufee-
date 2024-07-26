@@ -11,15 +11,16 @@ export default function ProfileClient() {
   const { user, error, isLoading } = useUser();
   const router = useRouter();
 
+  
+  if (isLoading) return <div className='text-black text-3xl absolute top-1/2 left-1/2 translate-x-0 -translate-y-1/2'>Loading...</div>;
+  if (error) return <div className='text-black text-3xl absolute top-1/2 left-1/2 translate-x-0 -translate-y-1/2'>{error.message}</div>;
+  
   useEffect(() => {
     if(!user){
       swal("Error", "Debes iniciar sesion para ver tu perfil", "error");
       router.push('/api/auth/login')
     }
   }, [user])
-
-  if (isLoading) return <div className='text-black text-3xl absolute top-1/2 left-1/2 translate-x-0 -translate-y-1/2'>Loading...</div>;
-  if (error) return <div className='text-black text-3xl absolute top-1/2 left-1/2 translate-x-0 -translate-y-1/2'>{error.message}</div>;
 
   console.log(user)
   return (
