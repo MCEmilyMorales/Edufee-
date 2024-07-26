@@ -16,8 +16,8 @@ export class UsersController {
     return this.usersService.getAll(Number(page), Number(limit));
   }
 
-  getId(@Param() id: string){
-    return 
+  getId(@Param() id: string) {
+    return;
   }
 
   // @Post('signup')
