@@ -21,11 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <UserProvider>
-      <body className="${raleway.className}${inter.className}">
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
+        <body className={`${raleway.className} ${inter.className}`}>
+          <Navbar />
+          {children}
+          <Footer />
+        </body>
       </UserProvider>
     </html>
   );

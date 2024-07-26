@@ -72,7 +72,7 @@ const Landing: React.FC = () => {
             transition-colors duration-300
         "
       >
-        <p className="text-lg font-extrabold sm:text-xl md:text-2xl lg:text-3xl">
+        <p className="text-lg font-inter sm:text-xl md:text-2xl lg:text-3xl">
           ¡Quiero saber más!
         </p>
       </a>
