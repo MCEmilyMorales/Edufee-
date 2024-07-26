@@ -39,7 +39,7 @@ const Landing: React.FC = () => {
         "
       >
         <p className="text-lg text-left sm:text-xl md:text-2xl lg:text-3xl text-black p-4">
-          <span className="  font-bold text-3xl font-inter text-[#55A058]">
+          <span className=" font-bold italic text-3xl text-[#55A058]">
             edufee {""}
           </span>
           es la herramienta que simplifica todo para ti, ya seas una institución
@@ -48,8 +48,7 @@ const Landing: React.FC = () => {
         </p>
       </div>
       <a
-        href="https://www.google.com"
-        target="_blank"
+        href="/api/auth/login"
         rel="noopener noreferrer"
         className="
             mt-6 sm:mt-8 md:mt-16 lg:mt-12
