@@ -34,14 +34,15 @@ const Landing: React.FC = () => {
           justify-center
           text-center
           p-6
-        
           leading-tight
           h-max
         "
       >
-        <p className="text-lg   sm:text-xl md:text-2xl lg:text-3xl text-black">
-          <span className="  font-bold text-red-500">edufee</span> es la
-          herramienta que simplifica todo para ti, ya seas una institución
+        <p className="text-lg text-left sm:text-xl md:text-2xl lg:text-3xl text-black p-4">
+          <span className="  font-bold text-3xl font-inter text-[#55A058]">
+            edufee {""}
+          </span>
+          es la herramienta que simplifica todo para ti, ya seas una institución
           educativa o un usuario que necesita hacer pagos. ¡Todo en un solo
           lugar!
         </p>
