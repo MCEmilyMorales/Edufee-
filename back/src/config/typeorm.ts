@@ -16,8 +16,8 @@ const config = {
   autoloadEntities: true,
   // logging: true,
   // migrationsRun: true,
-  synchronize: false,
-  dropSchema: false,
+  synchronize: true,
+  dropSchema: true,
 };
 export const typeOrmConfig = registerAs('typeorm', () => config);
 export const connectionSource = new DataSource(config as DataSourceOptions);
