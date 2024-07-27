@@ -9,13 +9,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { FilesService } from './files.service';
+import { FilesUserService } from './filesUser.service';
 
 @Controller('files')
-export class FilesController {
-  constructor(private readonly fileUploadService: FilesService) {}
+export class FilesUserController {
+  constructor(private readonly fileUploadService: FilesUserService) {}
 
-  @Post('uploadImage/:id')
+  @Post('uploadUserImage/:id')
   @UseInterceptors(FileInterceptor('file'))
   uploadImage(
     @Param('id') userId: string,
