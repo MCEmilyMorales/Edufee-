@@ -6,6 +6,7 @@ dotenvConfig({ path: '.env' });
 
 const config = {
   type: 'postgres',
+  //host: 'postgresdb',//esto lo use para crear las imagenes de docker
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
   username: process.env.DB_USERNAME,
