@@ -1,12 +1,7 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './users.entity';
 import { Repository } from 'typeorm';
-import { userDto } from './users.dto';
 
 @Injectable()
 export class UsersRepository {
@@ -30,11 +25,11 @@ export class UsersRepository {
     return getId;
   }
 
-//   async signUp(user: userDto) {
-//     const usernew = await this.usersRepository.save(user);
-//     //!return 'ver si el front lo va a necesitar';
-//     return usernew;
-//   }
+  //   async signUp(user: userDto) {
+  //     const usernew = await this.usersRepository.save(user);
+  //     //!return 'ver si el front lo va a necesitar';
+  //     return usernew;
+  //   }
 
   updateUser() {
     return 'Para actualizar usuario-ver si el front lo va a necesitar';

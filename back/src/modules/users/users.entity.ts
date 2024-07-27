@@ -11,8 +11,8 @@ export class User {
   id: string;
 
   @ApiProperty({
-    description: 'Máximo 50 caractéres',
-    example: 'Juan García',
+    description: 'Máximo 50 caracteres',
+    example: 'Juan',
   })
   @Column({
     type: 'varchar',
@@ -21,7 +21,17 @@ export class User {
   name: string;
 
   @ApiProperty({
-    description: 'DNI del usuario / institution',
+    description: 'Máximo 50 caracteres',
+    example: 'García',
+  })
+  @Column({
+    type: 'varchar',
+    length: 50,
+  })
+  lastname: string;
+
+  @ApiProperty({
+    description: 'DNI del usuario',
     example: 12345678,
   })
   @Column({
@@ -31,29 +41,32 @@ export class User {
   dni?: string;
 
   @ApiProperty({
-    example: '2644123456',
-  })
-  @Column({
-    type: 'int',
-  })
-  phone?: number;
-
-  @ApiProperty({
-    description: 'email de tipo único, máximo 50 caractéres',
-    example: 'ejemplo@gmail.com',
+    description: 'URL de cloudinary',
   })
   @Column({
     type: 'varchar',
-    length: 50,
-    unique: true,
+    length: 130,
   })
-  email: string;
+  imgProfile: string;
 
-  @ApiProperty({
-    example: 'ejemploDeContraseña123!',
-  })
-  @Column()
-  password: string;
+  // @ApiProperty({
+  //   example: '2644123456',
+  // })
+  // @Column({
+  //   type: 'int',
+  // })
+  // phone?: number;
+
+  // @ApiProperty({
+  //   description: 'email de tipo único, máximo 50 caractéres',
+  //   example: 'ejemplo@gmail.com',
+  // })
+  // @Column({
+  //   type: 'varchar',
+  //   length: 50,
+  //   unique: true,
+  // })
+  // email: string;
 
   @ManyToOne(() => Institution, (institution) => institution.user_id)
   institution: Institution;
