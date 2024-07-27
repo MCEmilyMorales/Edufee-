@@ -19,7 +19,7 @@ export class InstitutionController {
   }
 
   @Get(':id')
-  getInstitutionById(@Param('id') id: string) {
+  getInstitutionByEmail(@Param('email') id: string) {
     return this.institutionService.getInstitutionById(id);
   }
 }
