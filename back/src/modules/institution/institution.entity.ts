@@ -17,22 +17,37 @@ export class Institution {
   name: string;
 
   @ApiProperty({
-    example: 'Calle falsa 123',
+    description: 'Número de cuenta / CBU de cuenta',
   })
-  @Column({ type: 'varchar', length: 50 })
-  address: string;
+  @Column({ type: 'varchar', length: 80 })
+  accountNumber: string;
 
   @ApiProperty({
-    example: 'ejemplo@gmail.com',
+    example: 'Calle falsa 123',
   })
-  @Column({ type: 'varchar', length: 50 })
-  email: string;
+  @Column({ type: 'varchar', length: 80 })
+  address: string;
 
   @ApiProperty({
     example: '123456789',
   })
   @Column({ type: 'int' })
   phone: number;
+
+  @ApiProperty({
+    description: 'URL de cloudinary',
+  })
+  @Column({
+    type: 'varchar',
+    length: 130,
+  })
+  logo?: string;
+
+  @ApiProperty({
+    description: 'URL de cloudinary',
+  })
+  @Column({ type: 'varchar', length: 130 })
+  banner?: string;
 
   @OneToMany(() => User, (user) => user.institution)
   user_id: User[];
