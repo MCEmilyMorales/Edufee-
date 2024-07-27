@@ -8,6 +8,7 @@ import { typeOrmConfig } from './config/typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SendMailsModule } from './modules/send-mails/send-mails.module';
 import { StripeModule } from './modules/stripe/stripe.module';
+import { FilesModule } from './modules/files/files.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { StripeModule } from './modules/stripe/stripe.module';
     PaymentOrderModule,
     SendMailsModule,
     StripeModule,
+    FilesModule,
   ],
   controllers: [],
   providers: [],
