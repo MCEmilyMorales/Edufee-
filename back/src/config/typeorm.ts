@@ -19,5 +19,6 @@ const config = {
   synchronize: true,
   dropSchema: false,
 };
+
 export const typeOrmConfig = registerAs('typeorm', () => config);
 export const connectionSource = new DataSource(config as DataSourceOptions);
