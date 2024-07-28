@@ -28,4 +28,4 @@ jobs:
           context: ./back
           file: ./back/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/edufee:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/back-edufee:latest
