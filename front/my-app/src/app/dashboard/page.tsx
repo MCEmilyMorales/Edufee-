@@ -5,6 +5,7 @@ import UserList from "./UserList";
 import InstitutionList from "./InstitutionList";
 import PendingInstitutions from "./PendingInstitutions";
 import { AiOutlineSearch } from "react-icons/ai";
+
 const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
     "users" | "institutions" | "pending"
@@ -15,9 +16,48 @@ const Dashboard: React.FC = () => {
     setSearchTerm(event.target.value);
   };
 
+  // Placeholder data
+  const users = [
+    {
+      id: 1,
+      nombre: "Juan",
+      apellido: "Prueba",
+      dni: "12345678",
+      foto: "https://thispersondoesnotexist.com/",
+    },
+    {
+      id: 2,
+      nombre: "Maria",
+      apellido: "Prueba",
+      dni: "87654321",
+      foto: "https://thispersondoesnotexist.com/",
+    },
+  ];
+
+  const institutions = [
+    {
+      id: 1,
+      nombre: "Instituto A",
+      numerocuenta: "1001",
+      direccion: "123 Calle",
+      telefono: "123-456-7890",
+      logo: "/ruta",
+      banner: "/ruta",
+    },
+    {
+      id: 2,
+      nombre: "Instituto B",
+      numerocuenta: "1002",
+      direccion: "456 Calle",
+      telefono: "123-654-3210",
+      logo: "/ruta",
+      banner: "/ruta",
+    },
+  ];
+
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold mb-4 mt-">Admin Dashboard</h1>
+      <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
 
       <div className="flex items-center space-x-4 mb-4">
         <span
@@ -28,7 +68,7 @@ const Dashboard: React.FC = () => {
               : "text-gray-600 hover:text-blue-400"
           }`}
         >
-          Users
+          Usuarios
         </span>
         <span
           onClick={() => setActiveTab("institutions")}
@@ -38,7 +78,7 @@ const Dashboard: React.FC = () => {
               : "text-gray-600 hover:text-blue-400"
           }`}
         >
-          Institutions
+          Instituciones
         </span>
         <span
           onClick={() => setActiveTab("pending")}
@@ -48,7 +88,7 @@ const Dashboard: React.FC = () => {
               : "text-gray-600 hover:text-blue-400"
           }`}
         >
-          Pending
+          Pendiente
         </span>
       </div>
 
@@ -64,21 +104,11 @@ const Dashboard: React.FC = () => {
       </div>
 
       <div>
-        {activeTab === "users" && (
-          <div>
-            <UserList users={[]} />
-          </div>
-        )}
+        {activeTab === "users" && <UserList users={users} />}
         {activeTab === "institutions" && (
-          <div>
-            <InstitutionList institutions={[]} />
-          </div>
+          <InstitutionList institutions={institutions} />
         )}
-        {activeTab === "pending" && (
-          <div>
-            <PendingInstitutions />
-          </div>
-        )}
+        {activeTab === "pending" && <PendingInstitutions />}
       </div>
     </div>
   );

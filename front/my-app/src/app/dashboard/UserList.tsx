@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
+
 interface User {
   id: number;
   nombre: string;
@@ -24,7 +27,9 @@ const UserList: React.FC<UserListProps> = ({ users }) => {
             <Image
               src={user.foto}
               alt={`${user.nombre} Foto`}
-              className="w-16 h-16 object-cover rounded-full"
+              width={64}
+              height={64}
+              className="object-cover rounded-full"
             />
             <div>
               <h3 className="text-lg font-semibold">
