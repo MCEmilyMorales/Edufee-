@@ -20,7 +20,7 @@ const Register: React.FC = () => {
               : "text-black hover:text-[#55A058]"
           }`}
         >
-          Usuario
+          Estudiante
         </span>{" "}
         o{" "}
         <span
