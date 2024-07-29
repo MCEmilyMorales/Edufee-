@@ -4,7 +4,7 @@ import { SwaggerModule } from '@nestjs/swagger';
 import { swaggerConfig } from './config/swaggerConfig';
 import { ValidationPipe } from '@nestjs/common';
 
-const PORT = process.env.PORT || 3000//cambiara el puerto si no lo encuentra en render
+const PORT = process.env.PORT || 3000
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

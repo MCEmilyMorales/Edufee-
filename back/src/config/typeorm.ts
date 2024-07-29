@@ -17,7 +17,8 @@ const config = {
   // logging: true,
   // migrationsRun: true,
   synchronize: true,
-  dropSchema: false,
+  dropSchema: true,
 };
+
 export const typeOrmConfig = registerAs('typeorm', () => config);
 export const connectionSource = new DataSource(config as DataSourceOptions);
