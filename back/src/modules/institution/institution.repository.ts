@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Institution } from './institution.entity';
 import { Repository } from 'typeorm';
@@ -25,5 +29,21 @@ export class InstitutionRepository {
     if (!institution)
       throw new NotFoundException(`No se encontró institución con el id ${id}`);
     return institution;
+  }
+
+  async signUp(institution: Partial<Institution>) {
+    // const { accountNumber } = institution;
+    // if (accountNumber)
+    //   throw new BadRequestException(
+    //     'El número de cuenta ya pertenece a un usuario',
+    //   );
+    const newInstitution = await this.institutionRepository.save(institution);
+
+    const dbInstitution = await this.institutionRepository.findOneBy({
+      id: newInstitution.id,
+    });
+
+    const { rol, user_id, ...institutionResponse } = dbInstitution;
+    return institutionResponse;
   }
 }

@@ -29,5 +29,5 @@ export class createUserDto {
    */
   @IsString()
   @Length(3, 130)
-  imgProfile: string;
+  imgProfile?: string;
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InstitutionRepository } from './institution.repository';
+import { Institution } from './institution.entity';
 
 @Injectable()
 export class InstitutionService {
@@ -10,5 +11,9 @@ export class InstitutionService {
 
   getInstitutionById(id: string) {
     return this.institutionRepository.getInstitutionById(id);
+  }
+
+  signUp(institution: Partial<Institution>) {
+    return this.institutionRepository.signUp(institution);
   }
 }
