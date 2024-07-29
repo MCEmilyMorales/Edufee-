@@ -1,14 +1,6 @@
+import { IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
 
-import {
-  IsEmpty,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  Length,
-} from 'class-validator';
-
-
-export class createUserDto {
+export class updateUserDto {
   /**
    * Debe ser un string de entre 3 y 50 caracteres
    */
@@ -34,8 +26,6 @@ export class createUserDto {
   @IsOptional()
   dni?: string;
 
-  @IsEmpty()
-  role?: string;
   /**
    * url de la imágen subida a cloudinary
    */

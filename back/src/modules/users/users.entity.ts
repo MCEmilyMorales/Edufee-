@@ -37,6 +37,7 @@ export class User {
   @Column({
     type: 'varchar',
     length: 8,
+    nullable: true,
   })
   dni?: string;
 
@@ -46,27 +47,12 @@ export class User {
   @Column({
     type: 'varchar',
     length: 130,
+    nullable: true,
   })
-  imgProfile: string;
+  imgProfile?: string;
 
-  // @ApiProperty({
-  //   example: '2644123456',
-  // })
-  // @Column({
-  //   type: 'int',
-  // })
-  // phone?: number;
-
-  // @ApiProperty({
-  //   description: 'email de tipo único, máximo 50 caractéres',
-  //   example: 'ejemplo@gmail.com',
-  // })
-  // @Column({
-  //   type: 'varchar',
-  //   length: 50,
-  //   unique: true,
-  // })
-  // email: string;
+  @Column({ type: 'varchar', length: 50, default: 'student' })
+  role: string;
 
   @ManyToOne(() => Institution, (institution) => institution.user_id)
   institution: Institution;
