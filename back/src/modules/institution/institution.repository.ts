@@ -43,7 +43,7 @@ export class InstitutionRepository {
       id: newInstitution.id,
     });
 
-    const { rol, user_id, ...institutionResponse } = dbInstitution;
+    const { role, user_id, ...institutionResponse } = dbInstitution;
     return institutionResponse;
   }
 }
