@@ -4,7 +4,7 @@ import { SwaggerModule } from '@nestjs/swagger';
 import { swaggerConfig } from './config/swaggerConfig';
 import { ValidationPipe } from '@nestjs/common';
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,6 +19,6 @@ async function bootstrap() {
   );
 
   await app.listen(PORT);
-  console.log('Server listening on http://localhost:3000');
+  console.log(`Server listening on http:localhost:${PORT}`);
 }
 bootstrap();
