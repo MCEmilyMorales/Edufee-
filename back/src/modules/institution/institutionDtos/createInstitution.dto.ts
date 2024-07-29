@@ -61,5 +61,5 @@ export class createInstitutionDto {
 
   @ApiHideProperty()
   @IsEmpty()
-  rol?: string;
+  role?: string;
 }
