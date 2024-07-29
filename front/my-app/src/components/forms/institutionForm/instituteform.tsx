@@ -21,11 +21,30 @@ const instituteForm: React.FC = () => {
           placeholder="Teléfono"
           className="w-full p-3 border border-gray-300 rounded-md"
         />
-        <label htmlFor="logo" className="mt-2 block">Subir Logo</label>
-        <input id="logo" type="file" className="w-full p-3 border bg-gray-300 border-gray-300 rounded-md" placeholder="Subir Logo" />
+        <input
+          type="text"
+          placeholder="Numero de cuenta"
+          className="w-full p-3 border border-gray-300 rounded-md"
+        />
+        <label htmlFor="logo" className="mt-2 block">
+          Subir Logo
+        </label>
+        <input
+          id="logo"
+          type="file"
+          className="w-full p-3 border bg-gray-300 border-gray-300 rounded-md"
+          placeholder="Subir Logo"
+        />
 
-        <label htmlFor="banner" className="mt-2 block">Banner</label>
-        <input id="banner" type="file" className="w-full p-3 border bg-gray-300 border-gray-300 rounded-md" placeholder="Subir banner" />
+        <label htmlFor="banner" className="mt-2 block">
+          Banner
+        </label>
+        <input
+          id="banner"
+          type="file"
+          className="w-full p-3 border bg-gray-300 border-gray-300 rounded-md"
+          placeholder="Subir banner"
+        />
         <Link href="/institucion">
           <button
             type="submit"
