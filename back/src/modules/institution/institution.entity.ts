@@ -57,7 +57,7 @@ export class Institution {
   @Column({
     default: 'institution',
   })
-  rol: string;
+  role: string;
 
   @OneToMany(() => User, (user) => user.institution)
   user_id: User[];
