@@ -31,8 +31,8 @@ export class Institution {
   @ApiProperty({
     example: '123456789',
   })
-  @Column({ type: 'int' })
-  phone: number;
+  @Column({ type: 'varchar' })
+  phone: string;
 
   @ApiProperty({
     description: 'URL de cloudinary',
@@ -40,14 +40,24 @@ export class Institution {
   @Column({
     type: 'varchar',
     length: 130,
+    nullable: true,
   })
   logo?: string;
 
   @ApiProperty({
     description: 'URL de cloudinary',
   })
-  @Column({ type: 'varchar', length: 130 })
+  @Column({ type: 'varchar', length: 130, nullable: true })
   banner?: string;
+
+  @ApiProperty({
+    description:
+      'Siempre que se cree una entidad tendrá el rol institution por defecto',
+  })
+  @Column({
+    default: 'institution',
+  })
+  rol: string;
 
   @OneToMany(() => User, (user) => user.institution)
   user_id: User[];

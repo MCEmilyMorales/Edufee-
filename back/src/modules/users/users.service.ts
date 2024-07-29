@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 
+import { updateUserDto } from './userDtos/updateUser.dto';
+
 @Injectable()
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
@@ -13,11 +15,11 @@ export class UsersService {
     return this.usersRepository.getId(id);
   }
 
-  //   signUp(user){
-  //     return this.usersRepository.signUp(user)
-  //   }
+  signUp(user: any) {
+    return this.usersRepository.signUp(user);
+  }
 
-  updateUser() {
-    return this.usersRepository.updateUser();
+  updateUser(id: string, user: updateUserDto) {
+    return this.usersRepository.updateUser(id, user);
   }
 }

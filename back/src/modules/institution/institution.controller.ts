@@ -1,5 +1,6 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { InstitutionService } from './institution.service';
+import { createInstitutionDto } from './institutionDtos/createInstitution.dto';
 
 @Controller('institution')
 export class InstitutionController {
@@ -21,5 +22,10 @@ export class InstitutionController {
   @Get(':id')
   getInstitutionByEmail(@Param('email') id: string) {
     return this.institutionService.getInstitutionById(id);
+  }
+
+  @Post('signup')
+  signUp(@Body() institution: createInstitutionDto) {
+    return this.institutionService.signUp(institution);
   }
 }
