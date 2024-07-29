@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const instituteForm: React.FC = () => {
@@ -20,12 +21,38 @@ const instituteForm: React.FC = () => {
           placeholder="Teléfono"
           className="w-full p-3 border border-gray-300 rounded-md"
         />
-        <button
-          type="submit"
-          className="w-full p-3 bg-[#16ABFF] border-2 border-black text-white rounded-md shadow-lg hover:bg-[#1657FF] transition-colors duration-300"
-        >
-          Registrar
-        </button>
+        <input
+          type="text"
+          placeholder="Numero de cuenta"
+          className="w-full p-3 border border-gray-300 rounded-md"
+        />
+        <label htmlFor="logo" className="mt-2 block">
+          Subir Logo
+        </label>
+        <input
+          id="logo"
+          type="file"
+          className="w-full p-3 border bg-gray-300 border-gray-300 rounded-md"
+          placeholder="Subir Logo"
+        />
+
+        <label htmlFor="banner" className="mt-2 block">
+          Banner
+        </label>
+        <input
+          id="banner"
+          type="file"
+          className="w-full p-3 border bg-gray-300 border-gray-300 rounded-md"
+          placeholder="Subir banner"
+        />
+        <Link href="/institucion">
+          <button
+            type="submit"
+            className="w-full mt-4 p-3 bg-[#16ABFF] border-2 border-black text-white rounded-md shadow-lg hover:bg-[#1657FF] transition-colors duration-300"
+          >
+            Registrar
+          </button>
+        </Link>
       </form>
     </div>
   );
