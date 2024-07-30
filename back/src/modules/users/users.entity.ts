@@ -1,6 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { Institution } from '../institution/institution.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { PaymentOrder } from '../payment-order/paymentOrder.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -59,4 +66,7 @@ export class User {
 
   @ManyToOne(() => Institution, (institution) => institution.user_id)
   institution: Institution;
+
+  @OneToMany(() => PaymentOrder, (paymentOrder) => paymentOrder.user)
+  paymentOrder: PaymentOrder;
 }

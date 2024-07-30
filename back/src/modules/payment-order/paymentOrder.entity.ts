@@ -1,6 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  JoinColumn,
+  ManyToOne,
+} from 'typeorm';
 import { User } from '../users/users.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Institution } from '../institution/institution.entity';
 
 @Entity({ name: 'paymentOrders' })
 export class PaymentOrder {
@@ -23,6 +30,11 @@ export class PaymentOrder {
   @Column({ default: 'Pendiente' })
   estado: string;
 
-  @OneToOne(() => User)
-  user_id: User;
+  @ManyToOne(() => User, (user) => user.paymentOrder)
+  @JoinColumn()
+  user: User;
+
+  @ManyToOne(() => Institution, (institution) => institution.paymentOrders)
+  @JoinColumn({ name: 'institution_id' }) // Asegúrate de tener el nombre de la columna correcto
+  institution: Institution;
 }
