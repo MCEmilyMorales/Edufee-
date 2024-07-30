@@ -1,4 +1,3 @@
-
 import {
   IsEmpty,
   IsNotEmpty,
@@ -6,8 +5,6 @@ import {
   IsString,
   Length,
 } from 'class-validator';
-import { IsEmpty, IsNotEmpty, IsString, Length } from 'class-validator';
-
 
 export class createUserDto {
   /**
