@@ -1,6 +1,16 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { InstitutionService } from './institution.service';
 import { createInstitutionDto } from './institutionDtos/createInstitution.dto';
+import { UpdateInstitutionDto } from './institutionDtos/updateInstitution.dto';
 
 @Controller('institution')
 export class InstitutionController {
@@ -27,5 +37,13 @@ export class InstitutionController {
   @Post('signup')
   signUp(@Body() institution: createInstitutionDto) {
     return this.institutionService.signUp(institution);
+  }
+
+  @Put(':id')
+  updateInstitution(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() institution: UpdateInstitutionDto,
+  ) {
+    return this.institutionService.updateInstitution(id, institution);
   }
 }

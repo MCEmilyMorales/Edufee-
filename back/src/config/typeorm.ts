@@ -18,9 +18,9 @@ const config = {
   // migrationsRun: true,
   synchronize: true,
   dropSchema: false,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  // ssl: {
+  //   rejectUnauthorized: false,
+  // },
 };
 
 export const typeOrmConfig = registerAs('typeorm', () => config);
