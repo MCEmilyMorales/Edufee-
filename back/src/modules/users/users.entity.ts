@@ -1,6 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { Institution } from '../institution/institution.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { PaymentOrder } from '../payment-order/paymentOrder.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -51,9 +58,15 @@ export class User {
   })
   imgProfile?: string;
 
+  @ApiProperty({
+    description: 'role de usuario',
+  })
   @Column({ type: 'varchar', length: 50, default: 'student' })
   role: string;
 
   @ManyToOne(() => Institution, (institution) => institution.user_id)
   institution: Institution;
+
+  @OneToMany(() => PaymentOrder, (paymentOrder) => paymentOrder.user)
+  paymentOrder: PaymentOrder;
 }
