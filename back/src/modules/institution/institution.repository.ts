@@ -6,6 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Institution } from './institution.entity';
 import { Repository } from 'typeorm';
+import { UpdateInstitutionDto } from './institutionDtos/updateInstitution.dto';
 
 @Injectable()
 export class InstitutionRepository {
@@ -32,18 +33,29 @@ export class InstitutionRepository {
   }
 
   async signUp(institution: Partial<Institution>) {
-    // const { accountNumber } = institution;
-    // if (accountNumber)
-    //   throw new BadRequestException(
-    //     'El número de cuenta ya pertenece a un usuario',
-    //   );
+    if (!institution) throw new BadRequestException();
     const newInstitution = await this.institutionRepository.save(institution);
 
     const dbInstitution = await this.institutionRepository.findOneBy({
       id: newInstitution.id,
     });
+    if (!dbInstitution) throw new NotFoundException();
 
     const { role, user_id, ...institutionResponse } = dbInstitution;
     return institutionResponse;
+  }
+
+  async updateInstitution(id: string, institution: UpdateInstitutionDto) {
+    if (!id || !institution) throw new BadRequestException();
+
+    await this.institutionRepository.update(id, institution);
+
+    const updatedInstitution = await this.institutionRepository.findOneBy({
+      id,
+    });
+
+    const { role, ...updateInstitutionResponse } = updatedInstitution;
+
+    return updateInstitutionResponse;
   }
 }
