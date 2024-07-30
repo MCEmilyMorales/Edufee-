@@ -51,6 +51,9 @@ export class User {
   })
   imgProfile?: string;
 
+  @ApiProperty({
+    description: 'role de usuario',
+  })
   @Column({ type: 'varchar', length: 50, default: 'student' })
   role: string;
 
