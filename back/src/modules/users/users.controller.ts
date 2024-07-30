@@ -34,6 +34,7 @@ export class UsersController {
     return this.usersService.getId(id);
   }
 
+  @ApiBearerAuth()
   @Post('signup')
   signUp(@Body() user: createUserDto) {
     return this.usersService.signUp(user);
