@@ -11,10 +11,14 @@ import {
 import { InstitutionService } from './institution.service';
 import { createInstitutionDto } from './institutionDtos/createInstitution.dto';
 import { UpdateInstitutionDto } from './institutionDtos/updateInstitution.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Institucion')
 @Controller('institution')
 export class InstitutionController {
   constructor(private readonly institutionService: InstitutionService) {}
+  
+  @ApiBearerAuth()
   @Get()
   getAllInstitutions(
     @Query('page') page: string,
@@ -29,16 +33,19 @@ export class InstitutionController {
       );
   }
 
+  @ApiBearerAuth()
   @Get(':id')
   getInstitutionByEmail(@Param('email') id: string) {
     return this.institutionService.getInstitutionById(id);
   }
 
+  @ApiBearerAuth()
   @Post('signup')
   signUp(@Body() institution: createInstitutionDto) {
     return this.institutionService.signUp(institution);
   }
 
+  @ApiBearerAuth()
   @Put(':id')
   updateInstitution(
     @Param('id', ParseUUIDPipe) id: string,
