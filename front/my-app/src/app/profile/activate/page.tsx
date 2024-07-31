@@ -5,5 +5,4 @@ const ActivateProfile = () => {
     <div>ActivateProfile</div>
   )
 }
-
-export default ActivateProfile
+export default ActivateProfile;
