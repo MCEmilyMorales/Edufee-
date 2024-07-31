@@ -8,10 +8,10 @@ import swal from 'sweetalert';
 
 
 export default function ProfileClient() {
-  const { user, error, isLoading } = useUser();
+  const { user, error, isLoading,  } = useUser();
   const router = useRouter();
 
-  console.log(useUser())
+  console.log()
   
   useEffect(() => {
     if(!user){

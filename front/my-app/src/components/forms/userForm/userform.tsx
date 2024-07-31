@@ -1,7 +1,7 @@
 'use client'
 
 import FormInput from "@/components/FormInput";
-import { useFormStudent } from "@/helpers/useForm";
+import { useFormStudent } from "@/hooks/useFormStudent";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -21,9 +21,10 @@ const StudentForm: React.FC = () => {
     
     
     if (validate()) {
-      console.log("Datos del formulario:", formData);
-      
+      console.log("Datos del formulario:", formData); 
       // Aquí iría la llamada a la API
+
+      
       router.push("/usuario")   
     }
   };

@@ -46,14 +46,12 @@ const instituteForm: React.FC = () => {
             className="w-full p-3 border bg-gray-300 border-gray-300 rounded-md"
             placeholder="Subir banner"
           />
-          <Link href="/institucion">
             <button
               type="submit"
               className="w-full mt-4 p-3 bg-[#16ABFF] border-2 border-black text-white rounded-md shadow-lg hover:bg-[#1657FF] transition-colors duration-300"
             >
               Registrar
             </button>
-          </Link>
         </form>
       </div>
     </div>
