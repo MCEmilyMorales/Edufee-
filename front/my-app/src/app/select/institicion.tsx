@@ -19,7 +19,7 @@ const Insitucion: React.FC = () => {
           text="¡Quiero vincularme!"
           bgColor="#F7FFD0"
           textColor="black"
-          route="/"
+          route="/institution"
           hoverBgColor="#5b06f9"
           hoverTextColor="white"
         />

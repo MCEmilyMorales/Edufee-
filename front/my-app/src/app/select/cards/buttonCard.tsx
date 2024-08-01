@@ -33,7 +33,7 @@ const ButtonGeneral: React.FC<ButtonProps> = ({
     <Link href={route || "#"} passHref>
       <div
         className={` leading-none absolute flex justify-center items-center p-1 sm:p-2 md:p-2 lg:p-2 xl:p-4 
-        font-bold right-0 bottom-[-10px] text-white rounded-[2em] sm:rounded-[2em] md:rounded-[2em] lg:rounded-[4em] xl:rounded-[6em]
+         right-0 bottom-[-10px] text-white rounded-[2em] sm:rounded-[2em] md:rounded-[2em] lg:rounded-[4em] xl:rounded-[6em]
         max-w-[215px] max-h-[60px] border-4 ${className} cursor-pointer
         transition-colors duration-300 ease-in-out`}
         style={{
@@ -45,7 +45,7 @@ const ButtonGeneral: React.FC<ButtonProps> = ({
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <p className="text-base leading-none text-center sm:text-lg md:text-xl lg:text-2xl xl:text-lg">
+        <p className="text-base leading-none text-center sm:text-lg md:text-xl lg:text-2xl xl:text-lg tracking-tight font-semibold">
           {text}
         </p>
       </div>
