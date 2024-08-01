@@ -11,11 +11,14 @@ import {
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { FilesInstitutionService } from './filesInstitution.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Files')
 @Controller('files')
 export class FilesInstitutionController {
   constructor(private readonly fileUploadService: FilesInstitutionService) {}
 
+  @ApiBearerAuth()
   @Post('uploadInstitutionImages/:id')
   @UseInterceptors(
     FileFieldsInterceptor([
