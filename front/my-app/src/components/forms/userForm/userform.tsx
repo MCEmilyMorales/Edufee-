@@ -1,31 +1,38 @@
 'use client'
 
-import FormInput from "@/components/FormInput";
-import { useFormStudent } from "@/hooks/useFormStudent";
+import FormInput from "@/components/FormInputStudent";
+import { registerStudent } from "@/helpers/student.helper";
+import { FormDataStudent, useFormStudent } from "@/hooks/useFormStudent";
 import { useRouter } from "next/navigation";
 import React from "react";
-
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const StudentForm: React.FC = () => {
-  const initialState = {
+  const initialState: FormDataStudent = {
     nombre: "",
     apellido: "",
     dni: "",
-    fotoPerfil: null,
+    email: "",
+    fotoPerfil: new File([], ""),
   };
   const router = useRouter()
   const { formData, errors, handleChange, validate } = useFormStudent(initialState);
+  const { user} = useUser()
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     
-    
     if (validate()) {
-      console.log("Datos del formulario:", formData); 
-      // Aquí iría la llamada a la API
+      formData.email = user?.email!;
 
+      try {
+        const response = await registerStudent(formData);
+        console.log("Respuesta del servidor:", response);
+        router.push("/usuario")   
+      } catch(error) {
+        console.log(error);
+      }
       
-      router.push("/usuario")   
     }
   };
 
