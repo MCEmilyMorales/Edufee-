@@ -1,14 +1,20 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './users.entity';
 import { Repository } from 'typeorm';
 import { createUserDto } from './userDtos/createUsers.dto';
 import { updateUserDto } from './userDtos/updateUser.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersRepository {
   constructor(
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
+    private readonly jwtService: JwtService,
   ) {}
 
   async getAll(page: number, limit: number) {
@@ -31,6 +37,20 @@ export class UsersRepository {
     const usernew = await this.usersRepository.save(user);
 
     return usernew;
+  }
+
+  async signIn(email: string) {
+    const userId = await this.usersRepository.findOneBy({ email: 'email' });
+    if (!userId) {
+      throw new BadRequestException('Credenciales incorrectas');
+    }
+    const userPayload = {
+      email: userId.email,
+      roles: [], // buscar el rol de la base de datos
+    };
+    const token = this.jwtService.sign(userPayload);
+    console.log('token nuevo: ', token);
+    return { message: 'Usuario logueado correctamente', token };
   }
 
   async updateUser(id: string, user: updateUserDto) {
