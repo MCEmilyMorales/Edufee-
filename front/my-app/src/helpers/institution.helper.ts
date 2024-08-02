@@ -15,6 +15,7 @@ export const registerInstitution = async (formData: FormDataInstitute) => {
         address: formData.direccion,
         phone: formData.telefono,
         logo: formData.logo,
+        email: formData.email,
         banner: formData.banner
       }),
     });

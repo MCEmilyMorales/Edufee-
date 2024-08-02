@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { SendMailsRepository } from './send-mails.repository';
+import { SendEmailDto } from './dto/send-mails.dto';
 
 @Injectable()
 export class SendMailsService {
   constructor(private readonly sendMailsRepository: SendMailsRepository) {}
 
-  sendEmail(user: any, jwt: string): Promise<void> {
-    return this.sendMailsRepository.sendEmail(user, jwt);
+  sendEmail(user: SendEmailDto): Promise<void> {
+    return this.sendMailsRepository.sendEmail(user);
   }
 }

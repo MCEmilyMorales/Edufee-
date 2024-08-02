@@ -6,16 +6,14 @@ export class SendMailsController {
   constructor(private readonly sendMailsService: SendMailsService) {}
 
   @Post('welcome')
-  async sendWelcomeEmail(
-    @Body() body: { email: string; name: string; jwt: any },
-  ) {
+  async sendWelcomeEmail(@Body() body: { email: string; name: string }) {
     const user = {
       email: body.email,
       name: body.name,
     };
-    const jwt = body.jwt;
+    // const jwt = body.jwt;
 
-    await this.sendMailsService.sendEmail(user, jwt);
+    await this.sendMailsService.sendEmail(user);
     return { message: 'Correo de bienvenida enviado correctamente' };
   }
 }

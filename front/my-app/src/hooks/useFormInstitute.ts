@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from "react";
 
 export interface FormDataInstitute {
@@ -21,6 +23,8 @@ export const useFormInstitute = (initialState: FormDataInstitute) => {
     if (!formData.direccion) newErrors.direccion = "La dirección es requerida";
     if (!formData.telefono) newErrors.telefono = "El teléfono es requerido";
     if (!formData.numeroCuenta) newErrors.numeroCuenta = "El número de cuenta es requerido";
+    if (!formData.email) newErrors.email = "El email es requerido";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "El email no es válido";
     if (!formData.logo ) newErrors.logo = "El logo es requerido";
     if (!formData.banner) newErrors.banner = "El banner es requerido";
   
