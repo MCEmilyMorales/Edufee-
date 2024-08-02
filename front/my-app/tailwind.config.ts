@@ -15,6 +15,9 @@ const config: Config = {
       },
       fontFamily: {
         'sans': ['Inter', 'sans-serif'],
+      },
+      boxShadow: {
+        'custom': '8px 8px 0px 0px rgba(0,0,0,1)',
       }
     },
   },
