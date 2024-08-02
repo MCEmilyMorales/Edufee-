@@ -14,9 +14,12 @@ export default function Home() {
   const amount = 4.4;
 
   return (
-    <main className="font-inter relative max-w-6xl mx-auto text-white text-center border  rounded-md bg-gradient-to-tr from-blue-500 to-purple-500">
-      <div className="mt-32">
-        <h1 className="text-4xl font-semibold mb-2">Isntitucion A</h1>
+    <main
+      className="relative overflow-auto font-inter h-screen flex flex-col items-center  space-y-8 text-white text-center border
+     bg-gradient-to-tr from-blue-500 to-purple-500 pb-32"
+    >
+      <div className=" mt-32 ">
+        <h1 className="text-4xl font-semibold mb-2">Institucion A</h1>
         <h2 className="text-2xl">
           tiene un cobro por:
           <span className="font-bold font-inter"> ${amount}</span> pesos
