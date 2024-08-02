@@ -2,7 +2,15 @@
 
 import { useState } from 'react';
 
-export const useFormStudent = (initialState: any) => {
+export interface FormDataStudent {
+  nombre: string,
+  apellido: string,
+  dni: string,
+  email: string,
+  fotoPerfil: File,
+}
+
+export const useFormStudent = (initialState: FormDataStudent) => {
   const [formData, setFormData] = useState(initialState);
   const [errors, setErrors] = useState<any>({});
 
