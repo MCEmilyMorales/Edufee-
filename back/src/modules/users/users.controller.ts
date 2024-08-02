@@ -7,13 +7,17 @@ import {
   Param,
   Put,
   ParseUUIDPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 
 import { createUserDto } from './userDtos/createUsers.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { updateUserDto } from './userDtos/updateUser.dto';
-import { Role } from 'src/guards/roles.enum';
+
+import { Roles } from 'src/decorators/roles.decorator';
+import { RolesGuard } from 'src/guards/roles.guard';
+import { Role } from 'src/enums/enums';
 
 @ApiTags('Estudiantes')
 @Controller('users')
@@ -22,6 +26,8 @@ export class UsersController {
 
   @ApiBearerAuth()
   @Get()
+  @Roles(Role.Admin || Role.Institution)
+  @UseGuards(RolesGuard)
   getAll(
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '5',
@@ -39,6 +45,12 @@ export class UsersController {
   @Post('signup')
   signUp(@Body() user: createUserDto) {
     return this.usersService.signUp(user);
+  }
+
+  @ApiBearerAuth()
+  @Post('signin')
+  signIn(@Body() email: string) {
+    return;
   }
 
   @ApiBearerAuth()
