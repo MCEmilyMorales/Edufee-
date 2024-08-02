@@ -29,7 +29,7 @@ const Estudiante: React.FC = () => {
           text="¡Quiero iniciar!"
           bgColor="#F7FFD0"
           textColor="black"
-          route="/"
+          route="/student"
           hoverBgColor="#5b06f9"
           hoverTextColor="white"
         />
