@@ -17,7 +17,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @Controller('institution')
 export class InstitutionController {
   constructor(private readonly institutionService: InstitutionService) {}
-  
+
   @ApiBearerAuth()
   @Get()
   getAllInstitutions(
