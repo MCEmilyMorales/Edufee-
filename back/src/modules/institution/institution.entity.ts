@@ -17,6 +17,12 @@ export class Institution {
   @Column({ type: 'varchar', length: 50 })
   name: string;
 
+  @Column({
+    type: 'varchar',
+    length: 50,
+  })
+  email: string;
+
   @ApiProperty({
     description: 'Número de cuenta / CBU de cuenta',
   })

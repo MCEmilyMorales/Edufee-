@@ -13,8 +13,6 @@ import { UsersService } from './users.service';
 import { createUserDto } from './userDtos/createUsers.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { updateUserDto } from './userDtos/updateUser.dto';
-import { Role } from 'src/guards/roles.enum';
-
 @ApiTags('Estudiantes')
 @Controller('users')
 export class UsersController {
