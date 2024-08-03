@@ -16,9 +16,8 @@ export class RolesGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     const requiredRoles = this.reflector.getAllAndOverride<Role[]>('roles', [
-      //El decorador cuyo metadato se desea recuperar.
-      context.getHandler(), //que contexto me invoca?
-      context.getClass(), //que clase me invoca?
+      context.getHandler(),
+      context.getClass(),
     ]);
     if (!requiredRoles) {
       return true;
@@ -26,7 +25,18 @@ export class RolesGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
 
-    return requiredRoles.some((role) => user.role?.includes(role));
+    console.log('Required Roles:', requiredRoles);
+    console.log('User:', user);
+
+    const hasRole = () =>
+      requiredRoles.some((role) => user?.roles?.includes(role));
+    const valid = user && user.roles && hasRole();
+    if (!valid) {
+      throw new ForbiddenException(
+        'No tiene permisos para acceder a esta ruta',
+      );
+    }
+    return valid;
   }
 }
 /* {

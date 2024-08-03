@@ -25,9 +25,15 @@ export class createUserDto {
   lastname: string;
 
   /**
+   * Debe ser un email
+   * @example: email@email.com
+   */
+  @IsNotEmpty()
+  email: string;
+
+  /**
    * Debe ser un string hasta máximo 8 caracteres
    */
-
   @IsString()
   @Length(7, 8)
   @IsOptional()

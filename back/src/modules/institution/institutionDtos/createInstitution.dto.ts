@@ -1,4 +1,4 @@
-import { ApiHideProperty } from '@nestjs/swagger';
+import { ApiHideProperty, PickType } from '@nestjs/swagger';
 import {
   IsEmpty,
   IsNotEmpty,
@@ -8,7 +8,7 @@ import {
   Matches,
 } from 'class-validator';
 
-export class createInstitutionDto {
+export class CreateInstitutionDto {
   /**
    * Debe ser un string de entre 3 y 80 caracteres
    */
@@ -16,6 +16,13 @@ export class createInstitutionDto {
   @IsString()
   @Length(3, 80)
   name: string;
+
+  /**
+   * debe ser un email
+   */
+  @IsNotEmpty()
+  @IsString()
+  email: string;
 
   /**
    * Debe ser un string entre 3 y 80 caracteres
@@ -63,3 +70,5 @@ export class createInstitutionDto {
   @IsEmpty()
   role?: string;
 }
+
+export class EmailInstitutionDto extends PickType(CreateInstitutionDto, ['email', 'name']) {}
