@@ -19,8 +19,8 @@ export class UsersService {
     return this.usersRepository.signUp(user);
   }
 
-  signIn(email: string) {
-    return;
+  signIn(id: string) {
+    return this.usersRepository.signIn(id);
   }
 
   updateUser(id: string, user: updateUserDto) {

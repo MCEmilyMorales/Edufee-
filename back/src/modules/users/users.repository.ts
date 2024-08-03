@@ -1,14 +1,15 @@
 import {
   BadRequestException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './users.entity';
 import { Repository } from 'typeorm';
 import { createUserDto } from './userDtos/createUsers.dto';
 import { updateUserDto } from './userDtos/updateUser.dto';
 import { JwtService } from '@nestjs/jwt';
+import { User } from './users.entity';
 
 @Injectable()
 export class UsersRepository {
@@ -39,18 +40,19 @@ export class UsersRepository {
     return usernew;
   }
 
-  async signIn(email: string) {
-    const userId = await this.usersRepository.findOneBy({ email: 'email' });
-    if (!userId) {
-      throw new BadRequestException('Credenciales incorrectas');
+  async signIn(id: string) {
+    if (!id) {
+      throw new BadRequestException('Email es requerido');
     }
-    const userPayload = {
-      email: userId.email,
-      roles: [], // buscar el rol de la base de datos
-    };
-    const token = this.jwtService.sign(userPayload);
-    console.log('token nuevo: ', token);
-    return { message: 'Usuario logueado correctamente', token };
+
+    const emailUser = await this.usersRepository.findOneBy({ id: id });
+    console.log('Email encontrado:', emailUser);
+
+    if (!emailUser) {
+      throw new BadRequestException('No se encontro el usuario con ese email');
+    }
+
+    return emailUser;
   }
 
   async updateUser(id: string, user: updateUserDto) {

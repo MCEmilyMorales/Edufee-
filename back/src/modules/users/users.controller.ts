@@ -25,7 +25,7 @@ export class UsersController {
 
   @ApiBearerAuth()
   @Get()
-  @Roles(Role.Admin || Role.Institution)
+  @Roles(Role.admin || Role.institution)
   @UseGuards(RolesGuard)
   getAll(
     @Query('page') page: string = '1',
@@ -47,9 +47,11 @@ export class UsersController {
   }
 
   @ApiBearerAuth()
+  @Roles(Role.student)
+  @UseGuards(RolesGuard)
   @Post('signin')
-  signIn(@Body() email: string) {
-    return;
+  signIn(@Body() id) {
+    return this.usersService.signIn(id);
   }
 
   @ApiBearerAuth()
