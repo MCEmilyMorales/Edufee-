@@ -13,6 +13,8 @@ const StudentForm: React.FC = () => {
     apellido: "",
     dni: "",
     email: "",
+    direccion: "",
+    telefono: "",
     fotoPerfil: new File([], ""),
   };
   const router = useRouter()
@@ -64,6 +66,22 @@ const StudentForm: React.FC = () => {
             value={formData.dni}
             onChange={handleChange}
             error={errors.dni}
+          />
+                    <FormInput
+            type="text"
+            name="direccion"
+            placeholder="Dirección"
+            value={formData.direccion}
+            onChange={handleChange}
+            error={errors.direccion}
+          />
+          <FormInput
+            type="text"
+            name="telefono"
+            placeholder="Teléfono"
+            value={formData.telefono}
+            onChange={handleChange}
+            error={errors.telefono}
           />
           <div>
             <label htmlFor="photo-profile" className="mt-2 block">Subir foto de perfil</label>

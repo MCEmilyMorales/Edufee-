@@ -7,6 +7,8 @@ export interface FormDataStudent {
   apellido: string,
   dni: string,
   email: string,
+  telefono: string,
+  direccion: string,
   fotoPerfil: File,
 }
 
