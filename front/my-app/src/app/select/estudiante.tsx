@@ -1,6 +1,6 @@
 import React from "react";
-import CardGeneral from "./cards/cardGeneral";
-import ButtonGeneral from "./cards/buttonCard";
+import CardGeneral from "./cardsSelect/cardSelect";
+import ButtonGeneral from "./cardsSelect/buttonCard";
 import Image from "next/image";
 
 const Estudiante: React.FC = () => {
