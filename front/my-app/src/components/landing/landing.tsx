@@ -2,9 +2,10 @@
 import React from "react";
 import Image from "next/image";
 import ButtonPop from "@/components/button-pop/buttonPop";
-export default function Home() {
+
+export const Landing: React.FC = () => {
   return (
-    <main className="relative   min-h-screen flex flex-col items-center overflow-auto p-4">
+    <main className="relative   min-h-screen flex flex-col items-center  p-4">
       <div className=" //bg-red-500 mt-16 xl:mt-20 max-w-[1000px] max-h-[1000px] items-center flex justify-center flex-col mb-32">
         <div className="relative //bg-black max-w-[750px] max-h-[auto]  xl:w-[750px] xl:h-[400px]  flex flex-row">
           <div className="max-w-[750px] max-h-[400px] bg-green-400 rounded-3xl min-w-[70%">
@@ -56,4 +57,4 @@ export default function Home() {
       </div>
     </main>
   );
-}
+};
