@@ -38,6 +38,18 @@ export class User {
   lastname: string;
 
   @ApiProperty({
+    description: 'Email',
+    example: 'email@email.com',
+  })
+  @Column({
+    type: 'varchar',
+    length: 50,
+    nullable: false,
+    unique: true,
+  })
+  email: string;
+
+  @ApiProperty({
     description: 'DNI del usuario',
     example: 12345678,
   })

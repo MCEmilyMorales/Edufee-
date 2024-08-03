@@ -19,6 +19,10 @@ export class UsersService {
     return this.usersRepository.signUp(user);
   }
 
+  signIn(id: string) {
+    return this.usersRepository.signIn(id);
+  }
+
   updateUser(id: string, user: updateUserDto) {
     return this.usersRepository.updateUser(id, user);
   }

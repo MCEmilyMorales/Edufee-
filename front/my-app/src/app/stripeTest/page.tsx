@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import CheckoutPage from "../../components/checkoutPage/CheckoutPage";
 import convertToSubcurrency from "../../../lib/convertToSubcurrency";
 import { Elements } from "@stripe/react-stripe-js";
@@ -10,17 +12,40 @@ if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
 }
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
-export default function Home() {
-  const amount = 4.4;
+export default function Checkout() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const amountParam = searchParams.get("amount");
+
+  const [amount, setAmount] = useState<number>(1);
+
+  useEffect(() => {
+    if (amountParam) {
+      const parsedAmount = parseFloat(amountParam);
+      if (!isNaN(parsedAmount)) {
+        setAmount(parsedAmount);
+      }
+    }
+  }, [amountParam]);
 
   return (
-    <main className="font-inter relative max-w-6xl mx-auto text-white text-center border  rounded-md bg-gradient-to-tr from-blue-500 to-purple-500">
+    <main
+      className="relative overflow-auto font-inter h-screen flex flex-col items-center space-y-8 text-white text-center border
+     bg-gradient-to-tr from-blue-500 to-green-500 pb-32"
+    >
       <div className="mt-32">
-        <h1 className="text-4xl font-semibold mb-2">Isntitucion A</h1>
-        <h2 className="text-2xl">
-          tiene un cobro por:
-          <span className="font-bold font-inter"> ${amount}</span> pesos
+        <h1 className="text-4xl font-semibold mb-2">Institucion A</h1>
+        <h2 className="text-2xl flex items-center space-x-2">
+          <span className="font-regular font-inter mx-auto">
+            $ {amount.toFixed(2)} pesos
+          </span>
         </h2>
+        <button
+          onClick={() => router.back()}
+          className="p-2 bg-orange-300 text-black rounded hover:bg-orange-400 mt-8"
+        >
+          Cambiar monto
+        </button>
       </div>
 
       <Elements
