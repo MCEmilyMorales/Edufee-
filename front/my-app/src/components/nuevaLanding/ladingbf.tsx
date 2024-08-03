@@ -13,7 +13,7 @@ const Ladingbf = () => {
           lugar!
         </p>
       </div>
-      <div className="rounded-[3rem] w-[370px] h-[250px] overflow-hidden absolute lg:top-72 lg:right-72 border-[10px] border-[#42BD82]">
+      <div className="rounded-[3rem] w-[370px] h-[250px] overflow-hidden absolute border-[10px] border-[#42BD82] ml-[1050px] mt-[180px]">
         <Image
           src="/landinguse.png"
           alt=""
@@ -22,14 +22,14 @@ const Ladingbf = () => {
           className="object-cover h-full"
         />
       </div>
-      <div className="absolute lg:top-[480px] lg:right-[480px] z-10">
+      <div className="absolute z-10 ml-[900px] mt-[380px]">
         <button className="bg-[#F7FFD0] font-bold rounded-[50px] w-[320px] h-[70px] border-2 border-black shadow-custom">
           <Link className="text-[22px] " href="/select">
             ¡Dale click para saber más!
           </Link>
         </button>
       </div>
-      <div className="absolute lg:bottom-28 left-[580px]">
+      <div className="absolute ml-[460px] mt-[370px]">
         <svg
           width="265"
           height="265"
