@@ -17,9 +17,14 @@ export class Institution {
   @Column({ type: 'varchar', length: 50 })
   name: string;
 
+  @ApiProperty({
+    description: 'Email',
+    example: 'email@email.com',
+  })
   @Column({
     type: 'varchar',
     length: 50,
+    unique: true,
   })
   email: string;
 
