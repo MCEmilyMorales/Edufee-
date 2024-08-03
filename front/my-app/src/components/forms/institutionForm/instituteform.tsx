@@ -74,6 +74,7 @@ const InstituteForm: React.FC = () => {
             onChange={handleChange}
             error={errors.numeroCuenta}
           />
+          
           <div>
             <label htmlFor="logo" className="mt-2 block">
               Subir Logo
