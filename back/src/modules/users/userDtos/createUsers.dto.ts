@@ -43,7 +43,5 @@ export class createUserDto {
   @Length(3, 130)
   imgProfile?: string;
 
-  @IsNotEmpty()
-  @IsEmail()
-  email: string;
+
 }
