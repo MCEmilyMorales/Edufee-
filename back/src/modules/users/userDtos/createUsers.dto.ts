@@ -28,7 +28,7 @@ export class createUserDto {
    * Debe ser un email
    * @example: email@email.com
    */
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'El email es obligatorio' })
   email: string;
 
   /**
@@ -36,7 +36,8 @@ export class createUserDto {
    */
   @IsString()
   @Length(7, 8)
-  @IsOptional()
+  @IsNotEmpty({ message: 'El dni es obligatorio' })
+  //@IsOptional()
   dni?: string;
 
   @IsEmpty()
@@ -48,8 +49,6 @@ export class createUserDto {
   @IsOptional()
   @Length(3, 130)
   imgProfile?: string;
-
-
 }
 
 export class EmailUserDto extends PickType(createUserDto, ['email']) {}

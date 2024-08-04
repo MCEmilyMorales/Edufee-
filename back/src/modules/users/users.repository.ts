@@ -1,7 +1,7 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
-  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -35,6 +35,28 @@ export class UsersRepository {
   }
 
   async signUp(user: createUserDto) {
+    const { email, dni } = user;
+    const existsEmail = await this.usersRepository.findOneBy({
+      email,
+    });
+    if (existsEmail) {
+      throw new ConflictException({
+        status: 'error',
+        code: 409,
+        message: 'El correo electrónico ya existe en nuestra base de datos.',
+        details: { field: 'email', value: email },
+      });
+    }
+    const existsDni = await this.usersRepository.findOneBy({
+      dni,
+    });
+    if (existsDni) {
+      throw new ConflictException({
+        status: 'error',
+        code: 409,
+        message: 'El dni ya existe en nuestra base de datos.',
+      });
+    }
     const usernew = await this.usersRepository.save(user);
 
     return usernew;
@@ -48,7 +70,6 @@ export class UsersRepository {
     const emailUser = await this.usersRepository.findOneBy({
       email,
     });
-    console.log('Email encontrado:', emailUser);
 
     if (!emailUser) {
       throw new BadRequestException(
