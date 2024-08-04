@@ -16,4 +16,14 @@ export class SendMailsController {
     await this.sendMailsService.sendEmail(user);
     return { message: 'Correo de bienvenida enviado correctamente' };
   }
+  @Post('contact')
+  async sendContactEmail(@Body() body: { email: string; name: string }) {
+    const user = {
+      email: body.email,
+      name: body.name,
+    };
+    // const jwt = body.jwt;
+    await this.sendMailsService.sendContactEmail(user);
+    return { message: 'Correo de contacto enviado correctamente' };
+  }
 }

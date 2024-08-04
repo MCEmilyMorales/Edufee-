@@ -47,4 +47,6 @@ export class createUserDto {
   @IsOptional()
   @Length(3, 130)
   imgProfile?: string;
+
+
 }
