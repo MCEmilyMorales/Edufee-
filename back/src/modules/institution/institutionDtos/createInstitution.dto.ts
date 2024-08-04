@@ -71,4 +71,6 @@ export class CreateInstitutionDto {
   role?: string;
 }
 
-export class EmailInstitutionDto extends PickType(CreateInstitutionDto, ['email', 'name']) {}
+export class EmailInstitutionDto extends PickType(CreateInstitutionDto, [
+  'email',
+]) {}
