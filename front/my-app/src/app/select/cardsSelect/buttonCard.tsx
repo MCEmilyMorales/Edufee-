@@ -13,6 +13,7 @@ interface ButtonProps {
   hoverTextColor?: string;
   route?: string;
   className?: string;
+  type?: string;
 }
 
 const ButtonGeneral: React.FC<ButtonProps> = ({
@@ -26,11 +27,12 @@ const ButtonGeneral: React.FC<ButtonProps> = ({
   hoverTextColor = "white",
   route,
   className,
+  type 
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <Link href={route || "#"} passHref>
+    <Link href={route ? `${route}?type=${type}` : '#'}>
       <div
         className={` leading-none absolute flex justify-center items-center p-1 sm:p-2 md:p-2 lg:p-2 xl:p-4 
          right-0 bottom-[-10px] text-white rounded-[2em] sm:rounded-[2em] md:rounded-[2em] lg:rounded-[4em] xl:rounded-[6em]
