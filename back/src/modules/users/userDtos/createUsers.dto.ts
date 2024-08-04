@@ -1,3 +1,4 @@
+import { PickType } from '@nestjs/swagger';
 import {
   IsEmpty,
   IsNotEmpty,
@@ -48,3 +49,5 @@ export class createUserDto {
   @Length(3, 130)
   imgProfile?: string;
 }
+
+export class EmailUserDto extends PickType(createUserDto, ['email']) {}

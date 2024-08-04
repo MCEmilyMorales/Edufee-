@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { createUserDto } from './userDtos/createUsers.dto';
+import { createUserDto, EmailUserDto } from './userDtos/createUsers.dto';
 import { updateUserDto } from './userDtos/updateUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import { User } from './users.entity';
@@ -40,19 +40,27 @@ export class UsersRepository {
     return usernew;
   }
 
-  async signIn(id: string) {
-    if (!id) {
+  async signIn(emailUserDto: EmailUserDto) {
+    if (!emailUserDto) {
       throw new BadRequestException('Email es requerido');
     }
-
-    const emailUser = await this.usersRepository.findOneBy({ id: id });
+    const { email } = emailUserDto;
+    const emailUser = await this.usersRepository.findOneBy({
+      email,
+    });
     console.log('Email encontrado:', emailUser);
 
     if (!emailUser) {
-      throw new BadRequestException('No se encontro el usuario con ese email');
+      throw new BadRequestException(
+        'No se encontro el estudiante con ese email',
+      );
     }
-
-    return emailUser;
+    const payload = {
+      email: emailUser.email,
+      roles: [emailUser.role],
+    };
+    const token = this.jwtService.sign(payload);
+    return { message: 'Estudiante logueado correctamente', token };
   }
 
   async updateUser(id: string, user: updateUserDto) {

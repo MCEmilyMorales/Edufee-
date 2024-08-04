@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 
 import { updateUserDto } from './userDtos/updateUser.dto';
+import { EmailUserDto } from './userDtos/createUsers.dto';
 
 @Injectable()
 export class UsersService {
@@ -19,8 +20,8 @@ export class UsersService {
     return this.usersRepository.signUp(user);
   }
 
-  signIn(id: string) {
-    return this.usersRepository.signIn(id);
+  signIn(emailUserDto: EmailUserDto) {
+    return this.usersRepository.signIn(emailUserDto);
   }
 
   updateUser(id: string, user: updateUserDto) {

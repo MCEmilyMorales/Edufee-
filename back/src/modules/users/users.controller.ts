@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 
-import { createUserDto } from './userDtos/createUsers.dto';
+import { createUserDto, EmailUserDto } from './userDtos/createUsers.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { updateUserDto } from './userDtos/updateUser.dto';
 import { Roles } from 'src/decorators/roles.decorator';
@@ -47,11 +47,9 @@ export class UsersController {
   }
 
   @ApiBearerAuth()
-  @Roles(Role.student)
-  @UseGuards(RolesGuard)
   @Post('signin')
-  signIn(@Body() id) {
-    return this.usersService.signIn(id);
+  signIn(@Body() emailUserDto: EmailUserDto) {
+    return this.usersService.signIn(emailUserDto);
   }
 
   @ApiBearerAuth()
