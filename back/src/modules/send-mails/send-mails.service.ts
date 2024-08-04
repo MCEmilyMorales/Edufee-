@@ -9,4 +9,7 @@ export class SendMailsService {
   sendEmail(user: SendEmailDto): Promise<void> {
     return this.sendMailsRepository.sendEmail(user);
   }
+  sendContactEmail(user: SendEmailDto): Promise<void> {
+    return this.sendMailsRepository.sendContactEmail(user);
+  }
 }
