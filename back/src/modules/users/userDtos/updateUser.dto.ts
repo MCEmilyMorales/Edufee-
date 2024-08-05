@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
 
 export class updateUserDto {
   /**
@@ -21,6 +27,7 @@ export class updateUserDto {
    * Debe ser un email
    * @example: email@email.com
    */
+  @IsEmail()
   @IsNotEmpty()
   email: string;
 

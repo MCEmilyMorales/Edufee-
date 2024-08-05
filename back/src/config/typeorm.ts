@@ -16,7 +16,7 @@ const config = {
   autoloadEntities: true,
   // logging: true,
   // migrationsRun: true,
-  synchronize: false,
+  synchronize: true,
   dropSchema: false,
   // ssl: {
   //   rejectUnauthorized: false,
