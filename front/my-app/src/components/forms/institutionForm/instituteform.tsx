@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React from "react";
 import FormInput from "@/components/FormInputInstitution";
@@ -18,20 +18,21 @@ const InstituteForm: React.FC = () => {
     banner: "",
   };
   const router = useRouter();
-  const { formData, errors, handleChange, validate } = useFormInstitute(initialState);
-  const { user} = useUser();
+  const { formData, errors, handleChange, validate } =
+    useFormInstitute(initialState);
+  const { user } = useUser();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    
+
     if (validate()) {
       formData.email = user?.email!;
 
       try {
         const response = await registerInstitution(formData);
         console.log("Respuesta del servidor:", response);
-        router.push("/institucion")   
-      } catch(error) {
+        router.push("/institucion");
+      } catch (error) {
         console.log(error);
       }
     }
@@ -74,7 +75,7 @@ const InstituteForm: React.FC = () => {
             onChange={handleChange}
             error={errors.numeroCuenta}
           />
-          
+
           <div>
             <label htmlFor="logo" className="mt-2 block">
               Subir Logo
@@ -86,7 +87,11 @@ const InstituteForm: React.FC = () => {
               className="w-full p-3 border bg-gray-300 border-gray-300 rounded-md"
               onChange={handleChange}
             />
-            {errors.logo && <p className="text-red-500">Debes subir el logo de la institución</p>}
+            {errors.logo && (
+              <p className="text-red-500">
+                Debes subir el logo de la institución
+              </p>
+            )}
           </div>
           <div>
             <label htmlFor="banner" className="mt-2 block">
@@ -99,7 +104,11 @@ const InstituteForm: React.FC = () => {
               className="w-full p-3 border bg-gray-300 border-gray-300 rounded-md"
               onChange={handleChange}
             />
-            {errors.banner && <p className="text-red-500">Debes subir el banner de la institución</p>}
+            {errors.banner && (
+              <p className="text-red-500">
+                Debes subir el banner de la institución
+              </p>
+            )}
           </div>
           <button
             type="submit"
