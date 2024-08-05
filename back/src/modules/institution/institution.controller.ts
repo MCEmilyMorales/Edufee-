@@ -45,7 +45,7 @@ export class InstitutionController {
 
   @ApiBearerAuth()
   @Get(':id')
-  getInstitutionByEmail(@Param('email') id: string) {
+  getInstitutionByEmail(@Param('id') id: string) {
     return this.institutionService.getInstitutionById(id);
   }
 

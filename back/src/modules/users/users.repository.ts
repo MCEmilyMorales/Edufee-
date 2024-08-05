@@ -10,12 +10,14 @@ import { createUserDto, EmailUserDto } from './userDtos/createUsers.dto';
 import { updateUserDto } from './userDtos/updateUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import { User } from './users.entity';
+import { SendMailsRepository } from '../send-mails/send-mails.repository';
 
 @Injectable()
 export class UsersRepository {
   constructor(
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
     private readonly jwtService: JwtService,
+    private readonly sendEmailRepository: SendMailsRepository,
   ) {}
 
   async getAll(page: number, limit: number) {
@@ -59,6 +61,11 @@ export class UsersRepository {
     }
     const usernew = await this.usersRepository.save(user);
 
+    await this.sendEmailRepository.sendEmail({
+      name: usernew.name,
+      email: usernew.email,
+    });
+
     return usernew;
   }
 
@@ -85,9 +92,20 @@ export class UsersRepository {
   }
 
   async updateUser(id: string, user: updateUserDto) {
-    await this.usersRepository.update(id, user);
-    const updateUser = await this.usersRepository.findOneBy({ id });
+    const existingUser = await this.usersRepository.findOneBy({ id });
 
-    return updateUser;
+    if (!existingUser) {
+      throw new NotFoundException({
+        status: 'error',
+        code: 404,
+        message: 'El usuario no existe en nuestra base de datos.',
+      });
+    }
+
+    await this.usersRepository.update(id, user);
+
+    // Retorna el usuario actualizado
+    const updatedUser = await this.usersRepository.findOneBy({ id });
+    return updatedUser;
   }
 }

@@ -1,12 +1,13 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { SendMailsService } from './send-mails.service';
+import { SendEmailDto } from './dto/send-mails.dto';
 
 @Controller('send-mails')
 export class SendMailsController {
   constructor(private readonly sendMailsService: SendMailsService) {}
 
   @Post('welcome')
-  async sendWelcomeEmail(@Body() body: { email: string; name: string }) {
+  async sendWelcomeEmail(@Body() body: SendEmailDto) {
     const user = {
       email: body.email,
       name: body.name,
@@ -17,7 +18,7 @@ export class SendMailsController {
     return { message: 'Correo de bienvenida enviado correctamente' };
   }
   @Post('contact')
-  async sendContactEmail(@Body() body: { email: string; name: string }) {
+  async sendContactEmail(@Body() body: SendEmailDto) {
     const user = {
       email: body.email,
       name: body.name,

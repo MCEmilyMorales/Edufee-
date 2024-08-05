@@ -1,5 +1,6 @@
 import { ApiHideProperty, PickType } from '@nestjs/swagger';
 import {
+  IsEmail,
   IsEmpty,
   IsNotEmpty,
   IsOptional,
@@ -18,10 +19,11 @@ export class CreateInstitutionDto {
   name: string;
 
   /**
-   * debe ser un email
+   * Debe ser un email de entre 13 y 30 caracteres
    */
   @IsNotEmpty()
-  @IsString()
+  @IsEmail()
+  @Length(13, 30)
   email: string;
 
   /**

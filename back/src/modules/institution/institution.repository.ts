@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { UpdateInstitutionDto } from './institutionDtos/updateInstitution.dto';
 import { JwtService } from '@nestjs/jwt';
 import { EmailInstitutionDto } from './institutionDtos/createInstitution.dto';
+import { SendMailsRepository } from '../send-mails/send-mails.repository';
 
 @Injectable()
 export class InstitutionRepository {
@@ -16,6 +17,7 @@ export class InstitutionRepository {
     @InjectRepository(Institution)
     private readonly institutionRepository: Repository<Institution>,
     private readonly jwtService: JwtService,
+    private readonly sendEmailRepository: SendMailsRepository,
   ) {}
   async getAllInstitutions(page: number, limit: number) {
     const skip = (page - 1) * limit;
@@ -23,6 +25,8 @@ export class InstitutionRepository {
       take: limit,
       skip: skip,
     });
+    if (!institutions)
+      throw new BadRequestException('No hay instituciones creadas');
     return institutions;
   }
 
@@ -42,9 +46,16 @@ export class InstitutionRepository {
     const dbInstitution = await this.institutionRepository.findOneBy({
       id: newInstitution.id,
     });
-    if (!dbInstitution) throw new NotFoundException();
+    if (!dbInstitution)
+      throw new BadRequestException('Error al crear institución');
 
     const { role, user_id, ...institutionResponse } = dbInstitution;
+
+    await this.sendEmailRepository.sendEmail({
+      name: dbInstitution.name,
+      email: dbInstitution.email,
+    });
+
     return institutionResponse;
   }
 
@@ -75,6 +86,8 @@ export class InstitutionRepository {
     const updatedInstitution = await this.institutionRepository.findOneBy({
       id,
     });
+    if (!updatedInstitution)
+      throw new BadRequestException('Error al actualizar institución');
 
     const { role, ...updateInstitutionResponse } = updatedInstitution;
 
