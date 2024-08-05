@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 
+declare module 'pdfmake/build/vfs_fonts';
+
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export async function POST(req: NextRequest) {
@@ -10,7 +12,7 @@ export async function POST(req: NextRequest) {
     const currentDate = new Date().toLocaleDateString();
 
     // Define PDF content
-    const docDefinition = {
+    const docDefinition: any = {
       content: [
         { text: "Payment Receipt", style: "header" },
         { text: `Date: ${currentDate}`, style: "subheader" },
