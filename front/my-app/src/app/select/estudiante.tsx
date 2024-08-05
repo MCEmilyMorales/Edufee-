@@ -29,9 +29,10 @@ const Estudiante: React.FC = () => {
           text="¡Quiero iniciar!"
           bgColor="#F7FFD0"
           textColor="black"
-          route="/register/student"
+          route="/api/auth/login"
           hoverBgColor="#5b06f9"
           hoverTextColor="white"
+          type="student"
         />
       </section>
     </div>

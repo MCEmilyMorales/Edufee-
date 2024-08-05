@@ -61,6 +61,18 @@ export class User {
   dni?: string;
 
   @ApiProperty({
+    example: 'Calle falsa 123',
+  })
+  @Column({ type: 'varchar', length: 80 })
+  address: string;
+
+  @ApiProperty({
+    example: '123456789',
+  })
+  @Column({ type: 'varchar' })
+  phone: string;
+
+  @ApiProperty({
     description: 'URL de cloudinary',
   })
   @Column({
