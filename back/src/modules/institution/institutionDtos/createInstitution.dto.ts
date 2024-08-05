@@ -1,5 +1,6 @@
 import { ApiHideProperty } from '@nestjs/swagger';
 import {
+  IsEmail,
   IsEmpty,
   IsNotEmpty,
   IsOptional,
@@ -16,6 +17,14 @@ export class createInstitutionDto {
   @IsString()
   @Length(3, 80)
   name: string;
+
+  /**
+   * Debe ser un email de entre 13 y 30 caracteres
+   */
+  @IsNotEmpty()
+  @IsEmail()
+  @Length(13, 30)
+  email: string;
 
   /**
    * Debe ser un string entre 3 y 80 caracteres

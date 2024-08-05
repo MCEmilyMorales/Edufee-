@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { User } from '../users/users.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { PaymentOrder } from '../payment-order/paymentOrder.entity';
+import { IsEmail } from 'class-validator';
 
 @Entity('institutions')
 export class Institution {
@@ -16,6 +17,9 @@ export class Institution {
   })
   @Column({ type: 'varchar', length: 50 })
   name: string;
+
+  @Column({ type: 'varchar', length: 50 })
+  email: string;
 
   @ApiProperty({
     description: 'Número de cuenta / CBU de cuenta',

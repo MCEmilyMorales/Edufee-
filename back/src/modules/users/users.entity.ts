@@ -27,6 +27,9 @@ export class User {
   })
   name: string;
 
+  @Column({ type: 'varchar', length: 50 })
+  email: string;
+
   @ApiProperty({
     description: 'Máximo 50 caracteres',
     example: 'García',
