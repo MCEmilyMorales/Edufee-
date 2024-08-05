@@ -10,12 +10,14 @@ import { createUserDto, EmailUserDto } from './userDtos/createUsers.dto';
 import { updateUserDto } from './userDtos/updateUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import { User } from './users.entity';
+import { SendMailsRepository } from '../send-mails/send-mails.repository';
 
 @Injectable()
 export class UsersRepository {
   constructor(
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
     private readonly jwtService: JwtService,
+    private readonly sendEmailRepository: SendMailsRepository,
   ) {}
 
   async getAll(page: number, limit: number) {
@@ -58,6 +60,11 @@ export class UsersRepository {
       });
     }
     const usernew = await this.usersRepository.save(user);
+
+    await this.sendEmailRepository.sendEmail({
+      name: usernew.name,
+      email: usernew.email,
+    });
 
     return usernew;
   }
