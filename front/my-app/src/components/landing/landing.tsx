@@ -6,7 +6,7 @@ import ButtonPop from "@/components/button-pop/buttonPop";
 export const Landing: React.FC = () => {
   return (
     <main className="relative   min-h-screen flex flex-col items-center  p-4">
-      <div className=" //bg-red-500 mt-16 xl:mt-20 max-w-[1000px] max-h-[1000px] items-center flex justify-center flex-col mb-32">
+      <div className=" //bg-red-500 mt-20 xl:mt-24 max-w-[1000px] max-h-[1000px] items-center flex justify-center flex-col mb-32">
         <div className="relative //bg-black max-w-[750px] max-h-[auto]  xl:w-[750px] xl:h-[400px]  flex flex-row">
           <div className="max-w-[750px] max-h-[400px] bg-green-400 rounded-3xl min-w-[70%">
             <p className=" py-16 sm:text-lg md:text-xl lg:text-3xl xl:text-3xl pl-14 //bg-red-200 max-w-[80%] max-h[100%] ">
@@ -31,7 +31,7 @@ export const Landing: React.FC = () => {
           </div>
         </div>
         <div className="relative h-[200px] w-full //bg-blue-600 flex flex-row p-0">
-          <div className="//bg-blue-100  w-[25%] left-10 top-[-20%] absolute p-0">
+          <div className="//bg-blue-100  w-[25%] lg:left-[10%] left-5  top-[-20%] absolute p-0">
             <Image
               src="/edusmiley.svg"
               alt="Your SVG Description"

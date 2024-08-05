@@ -3,7 +3,7 @@ import BotonLink from "../botonLink/boton";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="w-full bg-[#C9EBFF] fixed bottom-0 text-black h-24 flex items-center justify-between p-6">
+    <footer className="w-full  bg-[#C9EBFF]  text-black h-max flex items-center justify-between p-6 bottom-0">
       <div>
         <p className="text-center font-bold text-lg font-sans">
           Contactanos a traves de:
