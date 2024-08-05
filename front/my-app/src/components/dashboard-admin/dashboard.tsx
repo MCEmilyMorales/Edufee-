@@ -1,84 +1,96 @@
-import Link from 'next/link'
-import React from 'react'
+'use client'
+import React, { useState } from "react";
+import Sidebar, { SidebarItem } from "../sidebarAdmin/page";
+import { User, School } from "lucide-react";
 
-const DashboardAdmin = () => {
-    return (
-        <div className='pt-16 flex'>
-            <div>
-                <div className="ml-48 mt-4">
-                    <input
-                        value={""}
+const StudentsTable = () => {
+  return (
+    <div className="overflow-x-auto">
+      <table className="min-w-full bg-white">
+        <thead>
+          <tr>
+            <th className="px-4 py-2 border">Nombre</th>
+            <th className="px-4 py-2 border">Institucion</th>
+            <th className="px-4 py-2 border">Estado</th>
+            <th className="px-4 py-2 border">Ultimo pago</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Array.from({ length: 6 }).map((_, index) => (
+            <tr key={index} className="text-center">
+              <td className="px-4 py-2 border">Nombre Alumno</td>
+              <td className="px-4 py-2 border">Nombre Institucion</td>
+              <td className="px-4 py-2 border bg-green-200">PAGO/PENDIENTE</td>
+              <td className="px-4 py-2 border">DD/MM/AA</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
-                        className="px-4 py-1 border-2 w-64 border-black rounded-md focus:outline-none"
-                        type="search"
-                        placeholder={"Buscar..."}
-                    />
-                </div>
-                <div className='w-full border ml-48 mt-4'>
-                    <div className='grid grid-cols-4 gap-40'>
-                        <div className='grid grid-flow-row '>
-                            <div className='text-center'>
-                                <h1>Nombre</h1>
-                            </div>
-                            <div className='grid grid-flow-row mt-6'>
-                                <p className='border p-2'>Alumno</p>
-                                <p className='border p-2'>Alumno</p>
-                                <p className='border p-2'>Alumno</p>
-                                <p className='border p-2'>Alumno</p>
-                                <p className='border p-2'>Alumno</p>
-                            </div>
-                        </div>
-                        <div className='grid grid-flow-row '>
-                            <div className='text-center'>
-                                <h1>Institucion</h1>
-                            </div>
-                            <div className='grid grid-flow-row mt-6'>
-                                <p className='border p-2'>Institucion a</p>
-                                <p className='border p-2'>Institucion a</p>
-                                <p className='border p-2'>Institucion a</p>
-                                <p className='border p-2'>Institucion a</p>
-                                <p className='border p-2'>Institucion a</p>
-                            </div>
-                        </div>
-                        <div className='grid grid-flow-row '>
-                            <div className='text-center'>
-                                <h1>Estado</h1>
-                            </div>
-                            <div className='grid grid-flow-row mt-6'>
-                                <p className='border p-2'>Pendiente</p>
-                                <p className='border p-2'>Pendiente</p>
-                                <p className='border p-2'>Pendiente</p>
-                                <p className='border p-2'>Pendiente</p>
-                                <p className='border p-2'>Pendiente</p>
-                            </div>
-                        </div>
-                        <div className='grid grid-flow-row '>
-                            <div className='text-center'>
-                                <h1>Ultimo pago</h1>
-                            </div>
-                            <div className='grid grid-flow-row mt-6'>
-                                <p className='border p-2'>Fecha:</p>
-                                <p className='border p-2'>Fecha:</p>
-                                <p className='border p-2'>Fecha:</p>
-                                <p className='border p-2'>Fecha:</p>
-                                <p className='border p-2'>Fecha:</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <nav className='h-full fixed pl-2 w-36 pt-14'>
-                <ul className='flex flex-col gap-14 '>
-                    <li className='font-bold text-xl  '>
-                        <Link className='border py-2 rounded-xl w-full block text-center' href="/dashboard-admin/dashboard">Alumnos</Link>
-                    </li>
-                    <li className='font-bold text-xl w-full'>
-                        <Link className='border py-2 rounded-xl text-center w-full block' href="/dashboard-admin/estadisticas">Instituciones</Link>
-                    </li>
-                </ul>
-            </nav>
+const InstitutionsTable = () => {
+  return (
+    <div className="overflow-x-auto">
+      <table className="min-w-full bg-white">
+        <thead>
+          <tr>
+            <th className="px-4 py-2 border">Institución</th>
+            <th className="px-4 py-2 border">Estado</th>
+            <th className="px-4 py-2 border">Alumnos</th>
+            <th className="px-4 py-2 border">Último cobro</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Array.from({ length: 6 }).map((_, index) => (
+            <tr key={index} className="text-center">
+              <td className="px-4 py-2 border">Nombre Institución</td>
+              <td className="px-4 py-2 border bg-green-200">PAGO/PENDIENTE</td>
+              <td className="px-4 py-2 border">Número de Alumnos</td>
+              <td className="px-4 py-2 border">DD/MM/AA</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+const App = () => {
+  const [view, setView] = useState("students");
+
+  return (
+    <div className="flex pt-20 h-screen">
+      <Sidebar>
+        <SidebarItem
+          icon={<User />}
+          text="Alumnos"
+          active={view === "students"}
+          onClick={() => setView("students")}
+        />
+        <SidebarItem
+          icon={<School />}
+          text="Instituciones"
+          active={view === "institutions"}
+          onClick={() => setView("institutions")}
+        />
+      </Sidebar>
+      <div className="flex-1 p-4">
+        <div className="flex items-center mb-4">
+          <input
+            type="text"
+            placeholder="Nombre, ID, correo"
+            className="border rounded-lg px-4 py-2 w-full"
+          />
+          <button className="ml-2 p-2 bg-gray-300 rounded-lg hover:bg-gray-400">
+            🔍
+          </button>
         </div>
-    )
-}
+        {view === "students" ? <StudentsTable /> : <InstitutionsTable />}
+      </div>
+    </div>
+  );
+};
 
-export default DashboardAdmin
+export default App;

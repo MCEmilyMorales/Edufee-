@@ -11,12 +11,12 @@ export const registerInstitution = async (formData: FormDataInstitute) => {
       },
       body: JSON.stringify({
         name: formData.nombreInstitucion,
+        email: formData.email,
         accountNumber: formData.numeroCuenta,
         address: formData.direccion,
         phone: formData.telefono,
-        logo: formData.logo,
-        email: formData.email,
-        banner: formData.banner
+        logo: formData.logo.name,
+        banner: formData.banner.name
       }),
     });
 

@@ -8,7 +8,7 @@ import React from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import FormSelect from "@/components/FormSelect";
 
-const StudentForm: React.FC = () => {
+const StudentRegisterForm: React.FC = () => {
   const initialState: FormDataStudent = {
     nombre: "",
     apellido: "",
@@ -21,22 +21,28 @@ const StudentForm: React.FC = () => {
   };
   const router = useRouter()
   const { formData, errors, handleChange, validate } = useFormStudent(initialState);
-  const { user} = useUser()
+  const { user } = useUser()
+
+  console.log(formData)
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    
-    if (validate()) {
+
+    if (validate() && user) {
+
       formData.email = user?.email!;
+      user.name = formData.nombre;
 
       try {
         const response = await registerStudent(formData);
-        console.log("Respuesta del servidor:", response);
-        router.push("/usuario")   
-      } catch(error) {
+        alert("Estudiante creado exitosamente")
+
+        router.push("/student/dashboard")
+      } catch (error) {
+        alert("Ocurrio un error al registrar el usuario")
         console.log(error);
       }
-      
+
     }
   };
 
@@ -69,7 +75,7 @@ const StudentForm: React.FC = () => {
             onChange={handleChange}
             error={errors.dni}
           />
-                    <FormInput
+          <FormInput
             type="text"
             name="direccion"
             placeholder="Dirección"
@@ -85,8 +91,8 @@ const StudentForm: React.FC = () => {
             onChange={handleChange}
             error={errors.telefono}
           />
-          <FormSelect 
-            name="Institucion"
+          <FormSelect
+            name="institucion"
             value={formData.institucion}
             onChange={handleChange}
             options={["Institution A", "Institution B"]}
@@ -102,18 +108,18 @@ const StudentForm: React.FC = () => {
             />
             {errors.fotoPerfil && <p className="text-red-500">{errors.fotoPerfil}</p>}
           </div>
-          
-            <button
-              type="submit"
-              onClick={handleSubmit}
-              className="w-full p-3 bg-[#16ABFF] border-2 border-black text-white rounded-md shadow-lg hover:bg-[#1657FF] transition-colors duration-300 mt-4"
-            >
-              Registrar
-            </button>
+
+          <button
+            type="submit"
+            onClick={handleSubmit}
+            className="w-full p-3 bg-[#16ABFF] border-2 border-black text-white rounded-md shadow-lg hover:bg-[#1657FF] transition-colors duration-300 mt-4"
+          >
+            Registrar
+          </button>
         </form>
       </div>
     </div>
   );
 };
 
-export default StudentForm;
+export default StudentRegisterForm;

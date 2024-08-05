@@ -5,11 +5,16 @@ import { NextResponse } from 'next/server';
 export const GET = handleAuth({
   login: async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        const url = req.url ? new URL(req.url) : undefined;
-        const type = url?.searchParams.get('type');
+      const url = req.url ? new URL(req.url, `http://${req.headers.host}`) : undefined;
+      const type = url?.searchParams.get('type');
 
       if (!type) {
-        return NextResponse.json({ error: 'Type is not defined' }, { status: 400 });
+        return await handleLogin(req, res, {
+          returnTo: "/verify-user",
+          authorizationParams: {
+            screen_hint: 'login'
+          }
+        });
       }
 
       const returnTo = type === 'student' ? '/register/student' : '/register/institution';

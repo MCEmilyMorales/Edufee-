@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { Institution } from '../institution/institution.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { PaymentOrder } from '../payment-order/paymentOrder.entity';
+import { Payment } from '../payment/payment.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -56,9 +56,8 @@ export class User {
   @Column({
     type: 'varchar',
     length: 8,
-    nullable: true,
   })
-  dni?: string;
+  dni: string;
 
   @ApiProperty({
     example: 'Calle falsa 123',
@@ -91,6 +90,6 @@ export class User {
   @ManyToOne(() => Institution, (institution) => institution.user_id)
   institution: Institution;
 
-  @OneToMany(() => PaymentOrder, (paymentOrder) => paymentOrder.user)
-  paymentOrder: PaymentOrder;
+  @OneToMany(() => Payment, (payment) => payment.pdfImage)
+  payments: Payment[];
 }

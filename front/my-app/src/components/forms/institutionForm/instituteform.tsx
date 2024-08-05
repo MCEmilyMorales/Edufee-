@@ -7,32 +7,35 @@ import { useRouter } from "next/navigation";
 import { registerInstitution } from "@/helpers/institution.helper";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
-const InstituteForm: React.FC = () => {
+const InstituteRegisterForm: React.FC = () => {
   const initialState: FormDataInstitute = {
     nombreInstitucion: "",
     direccion: "",
     telefono: "",
     numeroCuenta: "",
     email: "",
-    logo: "",
-    banner: "",
+    logo: new File([], ""),
+    banner: new File([], ""),
   };
   const router = useRouter();
   const { formData, errors, handleChange, validate } =
     useFormInstitute(initialState);
   const { user } = useUser();
 
-  const handleSubmit = async (event: React.FormEvent) => {
+const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    if (validate()) {
+    console.log(formData)
+    if (validate() && user) {
       formData.email = user?.email!;
+      user.name = formData.nombreInstitucion;
 
+      console.log("hola")
       try {
         const response = await registerInstitution(formData);
-        console.log("Respuesta del servidor:", response);
-        router.push("/institucion");
-      } catch (error) {
+        alert(" Institución registrada correctamente")
+        router.push("/institution/dashboard")
+      } catch(error) {
+        alert("Ocurrio un error al registrar una institution")
         console.log(error);
       }
     }
@@ -122,4 +125,4 @@ const InstituteForm: React.FC = () => {
   );
 };
 
-export default InstituteForm;
+export default InstituteRegisterForm;

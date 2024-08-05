@@ -17,6 +17,7 @@
     "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^4.1.0",
     "fs": "^0.0.1-security",
+    "lucide-react": "^0.424.0",
     "my-app": "file:",
     "next": "14.2.5",
     "pdfkit": "^0.15.0",
