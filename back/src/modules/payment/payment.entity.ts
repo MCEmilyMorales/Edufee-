@@ -17,7 +17,12 @@ export class Payment {
   @Column()
   fecha: Date;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: 'URL DEL PDF DE CLOUDINARY',
+  })
+  @Column()
+  pdfImage: string;
+
   @ManyToOne(() => User, (user) => user.payments)
-  pdfImage: User;
+  user: User;
 }

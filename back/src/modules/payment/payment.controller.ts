@@ -1,7 +1,7 @@
 import { Controller, Get, Param, ParseUUIDPipe, Query } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 
-@Controller('payment-detail')
+@Controller('payments')
 export class PaymentDetailController {
   constructor(private readonly paymentService: PaymentService) {}
   @Get('id')
