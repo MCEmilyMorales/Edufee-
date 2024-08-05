@@ -32,7 +32,6 @@ export const useFormStudent = (initialState: FormDataStudent) => {
     if (!formData.nombre) newErrors.nombre = "El nombre es obligatorio";
     if (!formData.apellido) newErrors.apellido = "El apellido es obligatorio";
     if (!formData.dni) newErrors.dni = "El DNI es obligatorio";
-    if (!formData.fotoPerfil) newErrors.fotoPerfil = "La foto de perfil es obligatoria";
 
     setErrors(newErrors);
 

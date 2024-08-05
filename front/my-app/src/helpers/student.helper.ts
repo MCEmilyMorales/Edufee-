@@ -10,18 +10,18 @@ export const registerStudent = async (formData: FormDataStudent) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          nombre: formData.nombre,
-          apellido: formData.apellido,
+          name: formData.nombre,
+          lastname: formData.apellido,
           dni: formData.dni,
-          rol: "",
           email: formData.email,
-          institucion: formData.institucion,
-          telefono: formData.telefono,
-          direccion: formData.direccion,
+          institution: formData.institucion,
+          phone: formData.telefono,
+          address: formData.direccion,
           imgProfile: formData.fotoPerfil.name
         })
       });
       if (!response.ok) {
+        console.log(response)
         throw new Error('Error en el registro');
       }
       return await response.json()

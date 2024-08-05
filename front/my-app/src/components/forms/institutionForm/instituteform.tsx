@@ -14,8 +14,8 @@ const InstituteRegisterForm: React.FC = () => {
     telefono: "",
     numeroCuenta: "",
     email: "",
-    logo: "",
-    banner: "",
+    logo: new File([], ""),
+    banner: new File([], ""),
   };
   const router = useRouter();
   const { formData, errors, handleChange, validate } = useFormInstitute(initialState);
@@ -23,15 +23,18 @@ const InstituteRegisterForm: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    
-    if (validate()) {
+    console.log(formData)
+    if (validate() && user) {
       formData.email = user?.email!;
-
+      user.name = formData.nombreInstitucion;
+      
+      console.log("hola")
       try {
         const response = await registerInstitution(formData);
-        console.log("Respuesta del servidor:", response);
-        router.push("/institucion")   
+        alert(" Institución registrada correctamente")
+        router.push("/institution/dashboard")   
       } catch(error) {
+        alert("Ocurrio un error al registrar una institution")
         console.log(error);
       }
     }
