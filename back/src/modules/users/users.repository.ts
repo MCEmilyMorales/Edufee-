@@ -92,9 +92,20 @@ export class UsersRepository {
   }
 
   async updateUser(id: string, user: updateUserDto) {
-    await this.usersRepository.update(id, user);
-    const updateUser = await this.usersRepository.findOneBy({ id });
+    const existingUser = await this.usersRepository.findOneBy({ id });
 
-    return updateUser;
+    if (!existingUser) {
+      throw new NotFoundException({
+        status: 'error',
+        code: 404,
+        message: 'El usuario no existe en nuestra base de datos.',
+      });
+    }
+
+    await this.usersRepository.update(id, user);
+
+    // Retorna el usuario actualizado
+    const updatedUser = await this.usersRepository.findOneBy({ id });
+    return updatedUser;
   }
 }
