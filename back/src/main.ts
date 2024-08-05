@@ -17,7 +17,11 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
-  app.enableCors();
+  app.enableCors({
+    origin: ['http://localhost:3005', 'https://edufee.vercel.app/'],
+    methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    credentials: true,
+  });
   await app.listen(PORT);
   console.log(`Server listening on http:localhost:${PORT}`);
 }
