@@ -5,6 +5,7 @@ import {
   IsOptional,
   IsString,
   Length,
+  Matches,
 } from 'class-validator';
 
 export class createUserDto {
@@ -39,6 +40,25 @@ export class createUserDto {
   @IsNotEmpty({ message: 'El dni es obligatorio' })
   //@IsOptional()
   dni?: string;
+
+  /**
+   * Debe ser un string entre 3 y 80 caracteres
+   */
+  @IsNotEmpty()
+  @IsString()
+  @Length(3, 80)
+  address: string;
+
+  /**
+   * Debe ser un número entre 3 y 80 caracteres
+   */
+  @Length(3, 15)
+  @IsString()
+  @IsNotEmpty()
+  @Matches(/^\d+$/, {
+    message: 'El número de teléfono solo puede contener dígitos',
+  })
+  phone: string;
 
   @IsEmpty()
   role?: string;
