@@ -12,7 +12,7 @@ if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
 }
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
-export default function Checkout() {
+function CheckoutContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const amountParam = searchParams.get("amount");
@@ -29,37 +29,43 @@ export default function Checkout() {
   }, [amountParam]);
 
   return (
-    <Suspense>
-      <main
-        className="relative overflow-auto font-inter h-screen flex flex-col items-center space-y-8 text-white text-center border
-     bg-gradient-to-tr from-blue-500 to-green-500 pb-32"
-      >
-        <div className="mt-32">
-          <h1 className="text-4xl font-semibold mb-2">Institucion A</h1>
-          <h2 className="text-2xl flex items-center space-x-2">
-            <span className="font-regular font-inter mx-auto">
-              $ {amount.toFixed(2)} pesos
-            </span>
-          </h2>
-          <button
-            onClick={() => router.back()}
-            className="p-2 bg-orange-300 text-black rounded hover:bg-orange-400 mt-8"
-          >
-            Cambiar monto
-          </button>
-        </div>
-
-        <Elements
-          stripe={stripePromise}
-          options={{
-            mode: "payment",
-            amount: convertToSubcurrency(amount),
-            currency: "usd",
-          }}
+    <main
+      className="relative overflow-auto font-inter h-screen flex flex-col items-center space-y-8 text-white text-center border
+   bg-gradient-to-tr from-blue-500 to-green-500 pb-32"
+    >
+      <div className="mt-32">
+        <h1 className="text-4xl font-semibold mb-2">Institucion A</h1>
+        <h2 className="text-2xl flex items-center space-x-2">
+          <span className="font-regular font-inter mx-auto">
+            $ {amount.toFixed(2)} pesos
+          </span>
+        </h2>
+        <button
+          onClick={() => router.back()}
+          className="p-2 bg-orange-300 text-black rounded hover:bg-orange-400 mt-8"
         >
-          <CheckoutPage amount={amount} />
-        </Elements>
-      </main>
+          Cambiar monto
+        </button>
+      </div>
+
+      <Elements
+        stripe={stripePromise}
+        options={{
+          mode: "payment",
+          amount: convertToSubcurrency(amount),
+          currency: "usd",
+        }}
+      >
+        <CheckoutPage amount={amount} />
+      </Elements>
+    </main>
+  );
+}
+
+export default function Checkout() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CheckoutContent />
     </Suspense>
   );
 }
