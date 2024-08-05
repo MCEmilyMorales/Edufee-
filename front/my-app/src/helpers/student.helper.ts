@@ -15,6 +15,9 @@ export const registerStudent = async (formData: FormDataStudent) => {
           dni: formData.dni,
           rol: "",
           email: formData.email,
+          institucion: formData.institucion,
+          telefono: formData.telefono,
+          direccion: formData.direccion,
           imgProfile: formData.fotoPerfil.name
         })
       });
