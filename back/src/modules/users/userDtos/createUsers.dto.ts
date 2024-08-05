@@ -18,6 +18,11 @@ export class createUserDto {
   @Length(3, 50)
   name: string;
 
+  @IsEmail()
+  @IsNotEmpty()
+  @Length(3, 50)
+  email: string;
+
   /**
    * Debe ser un string entre 3 y 50 caracteres
    */

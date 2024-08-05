@@ -25,6 +25,8 @@ export class InstitutionRepository {
       take: limit,
       skip: skip,
     });
+    if (!institutions)
+      throw new BadRequestException('No hay instituciones creadas');
     return institutions;
   }
 
@@ -44,7 +46,8 @@ export class InstitutionRepository {
     const dbInstitution = await this.institutionRepository.findOneBy({
       id: newInstitution.id,
     });
-    if (!dbInstitution) throw new NotFoundException();
+    if (!dbInstitution)
+      throw new BadRequestException('Error al crear institución');
 
     const { role, user_id, ...institutionResponse } = dbInstitution;
 
@@ -83,6 +86,8 @@ export class InstitutionRepository {
     const updatedInstitution = await this.institutionRepository.findOneBy({
       id,
     });
+    if (!updatedInstitution)
+      throw new BadRequestException('Error al actualizar institución');
 
     const { role, ...updateInstitutionResponse } = updatedInstitution;
 
