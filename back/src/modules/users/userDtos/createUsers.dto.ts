@@ -40,8 +40,7 @@ export class createUserDto {
   @IsString()
   @Length(7, 8)
   @IsNotEmpty({ message: 'El dni es obligatorio' })
-  //@IsOptional()
-  dni?: string;
+  dni: string;
 
   /**
    * Debe ser un string entre 3 y 80 caracteres
