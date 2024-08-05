@@ -23,18 +23,23 @@ const StudentRegisterForm: React.FC = () => {
   const { formData, errors, handleChange, validate } = useFormStudent(initialState);
   const { user } = useUser()
 
+  console.log(formData)
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (validate()) {
+    if (validate() && user) {
+
       formData.email = user?.email!;
+      user.name = formData.nombre;
 
       try {
         const response = await registerStudent(formData);
         alert("Estudiante creado exitosamente")
-        console.log("Respuesta del servidor:", response);
+
         router.push("/student/dashboard")
       } catch (error) {
+        alert("Ocurrio un error al registrar el usuario")
         console.log(error);
       }
 
@@ -87,7 +92,7 @@ const StudentRegisterForm: React.FC = () => {
             error={errors.telefono}
           />
           <FormSelect
-            name="Institucion"
+            name="institucion"
             value={formData.institucion}
             onChange={handleChange}
             options={["Institution A", "Institution B"]}
