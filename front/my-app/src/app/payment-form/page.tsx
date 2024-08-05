@@ -27,7 +27,7 @@ export default function FormPage() {
     const parsedAmount = parseFloat(amount);
 
     if (parsedAmount >= 1) {
-      router.push(`/stripeTest?amount=${parsedAmount}`);
+      router.push(`/checkout?amount=${parsedAmount}`);
     } else {
       setError("No se aceptan pagos debajo de $ 1.00");
     }
