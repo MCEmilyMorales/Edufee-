@@ -15,7 +15,7 @@ export class PaymentsRepository {
       skip: (page - 1) * limit,
       take: limit,
     });
-    return { allPayments, page, limit };
+    return allPayments;
   }
 
   async getPaymentById(id: string) {
