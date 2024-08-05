@@ -39,7 +39,10 @@ export default function FormPage() {
   };
 
   return (
-    <main className="relative overflow-auto font-inter h-screen flex flex-col items-center space-y-8 text-white text-center border bg-gradient-to-tr from-blue-500 to-green-500 pb-32">
+    <main
+      className="relative overflow-auto font-inter h-screen flex flex-col items-center space-y-8 text-white text-center border
+     bg-gradient-to-tr from-blue-500 to-green-500  pb-32 "
+    >
       <div className="mt-32 items-center flex flex-col">
         <h1 className="text-4xl font-semibold mb-2">
           <span className="font-bold font-inter">Estudiante</span> {userName}
@@ -49,7 +52,7 @@ export default function FormPage() {
           <span className="font-bold font-inter">{institutionName}</span>
         </h2>
         <form
-          className="flex flex-col items-center space-y-4 mb-8 w-[200px]"
+          className="flex flex-col items-center space-y-4 mb-8 max-w-[200px]"
           onSubmit={handleSubmit}
         >
           <div className="relative w-max">
@@ -64,12 +67,12 @@ export default function FormPage() {
               $
             </span>
           </div>
-          <div className="relative max-w-[200px]">
+          <div className="relative max-w-full">
             <input
               type="text"
               value={reference}
               onChange={handleReferenceChange}
-              className="p-2 border rounded text-gray-800 placeholder-gray-400 max-w-[200px]"
+              className="p-2 border rounded text-gray-800 placeholder-gray-400 max-w-full"
               placeholder="Referencia de pago"
             />
           </div>
