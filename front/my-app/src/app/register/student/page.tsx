@@ -1,1 +1,1 @@
-export { default } from '@/components/forms/userForm/userform'
+export { default } from '@/components/forms/studentForm/userform'

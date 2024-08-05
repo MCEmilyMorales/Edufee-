@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { registerInstitution } from "@/helpers/institution.helper";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
-const InstituteForm: React.FC = () => {
+const InstituteRegisterForm: React.FC = () => {
   const initialState: FormDataInstitute = {
     nombreInstitucion: "",
     direccion: "",
@@ -113,4 +113,4 @@ const InstituteForm: React.FC = () => {
   );
 };
 
-export default InstituteForm;
+export default InstituteRegisterForm;
