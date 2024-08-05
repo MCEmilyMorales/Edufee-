@@ -1,3 +1,4 @@
+import { PickType } from '@nestjs/swagger';
 import {
   IsEmail,
   IsEmpty,
@@ -5,6 +6,7 @@ import {
   IsOptional,
   IsString,
   Length,
+  Matches,
 } from 'class-validator';
 
 export class createUserDto {
@@ -30,13 +32,40 @@ export class createUserDto {
   lastname: string;
 
   /**
+   * Debe ser un email
+   * @example: email@email.com
+   */
+  @IsNotEmpty({ message: 'El email es obligatorio' })
+  @IsEmail()
+  email: string;
+
+  /**
    * Debe ser un string hasta máximo 8 caracteres
    */
-
   @IsString()
   @Length(7, 8)
-  @IsOptional()
+  @IsNotEmpty({ message: 'El dni es obligatorio' })
+  //@IsOptional()
   dni?: string;
+
+  /**
+   * Debe ser un string entre 3 y 80 caracteres
+   */
+  @IsNotEmpty()
+  @IsString()
+  @Length(3, 80)
+  address: string;
+
+  /**
+   * Debe ser un número entre 3 y 80 caracteres
+   */
+  @Length(3, 15)
+  @IsString()
+  @IsNotEmpty()
+  @Matches(/^\d+$/, {
+    message: 'El número de teléfono solo puede contener dígitos',
+  })
+  phone: string;
 
   @IsEmpty()
   role?: string;
@@ -48,3 +77,5 @@ export class createUserDto {
   @Length(3, 130)
   imgProfile?: string;
 }
+
+export class EmailUserDto extends PickType(createUserDto, ['email']) {}

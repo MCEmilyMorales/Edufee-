@@ -15,7 +15,7 @@ interface ButtonProps {
   className?: string;
 }
 
-const ButtonGeneral: React.FC<ButtonProps> = ({
+const ButtonPop: React.FC<ButtonProps> = ({
   text,
   textColor = "black",
   bgColor = "orange",
@@ -45,7 +45,7 @@ const ButtonGeneral: React.FC<ButtonProps> = ({
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <p className="text-base leading-none text-center sm:text-lg md:text-xl lg:text-2xl xl:text-lg tracking-tight font-semibold">
+        <p className="text-base leading-none text-center sm:text-lg md:text-xl lg:text-xl xl:text-lg tracking-tight font-semibold">
           {text}
         </p>
       </div>
@@ -53,4 +53,4 @@ const ButtonGeneral: React.FC<ButtonProps> = ({
   );
 };
 
-export default ButtonGeneral;
+export default ButtonPop;

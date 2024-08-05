@@ -1,6 +1,6 @@
 import React from "react";
-import CardGeneral from "./cards/cardGeneral";
-import ButtonGeneral from "./cards/buttonCard";
+import CardGeneral from "./cardsSelect/cardSelect";
+import ButtonGeneral from "./cardsSelect/buttonCard";
 import Image from "next/image";
 
 const Estudiante: React.FC = () => {
@@ -29,9 +29,10 @@ const Estudiante: React.FC = () => {
           text="¡Quiero iniciar!"
           bgColor="#F7FFD0"
           textColor="black"
-          route="/student"
+          route="/api/auth/login"
           hoverBgColor="#5b06f9"
           hoverTextColor="white"
+          type="student"
         />
       </section>
     </div>

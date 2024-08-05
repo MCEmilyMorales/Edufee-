@@ -1,21 +1,30 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { SendMailsService } from './send-mails.service';
+import { SendEmailDto } from './dto/send-mails.dto';
 
 @Controller('send-mails')
 export class SendMailsController {
   constructor(private readonly sendMailsService: SendMailsService) {}
 
   @Post('welcome')
-  async sendWelcomeEmail(
-    @Body() body: { email: string; name: string; jwt: any },
-  ) {
+  async sendWelcomeEmail(@Body() body: SendEmailDto) {
     const user = {
       email: body.email,
       name: body.name,
     };
-    const jwt = body.jwt;
+    // const jwt = body.jwt;
 
-    await this.sendMailsService.sendEmail(user, jwt);
+    await this.sendMailsService.sendEmail(user);
     return { message: 'Correo de bienvenida enviado correctamente' };
+  }
+  @Post('contact')
+  async sendContactEmail(@Body() body: SendEmailDto) {
+    const user = {
+      email: body.email,
+      name: body.name,
+    };
+    // const jwt = body.jwt;
+    await this.sendMailsService.sendContactEmail(user);
+    return { message: 'Correo de contacto enviado correctamente' };
   }
 }

@@ -2,12 +2,24 @@
 
 import { useState } from 'react';
 
-export const useFormStudent = (initialState: any) => {
+export interface FormDataStudent {
+  nombre: string,
+  apellido: string,
+  dni: string,
+  email: string,
+  telefono: string,
+  direccion: string,
+  institucion: string,
+  fotoPerfil: File,
+}
+
+export const useFormStudent = (initialState: FormDataStudent) => {
   const [formData, setFormData] = useState(initialState);
   const [errors, setErrors] = useState<any>({});
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, files } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    const files = e.target instanceof HTMLInputElement && e.target.type === 'file' ? e.target.files : undefined;
     setFormData((prevFormData: any) => ({
       ...prevFormData,
       [name]: files ? files[0] : value,

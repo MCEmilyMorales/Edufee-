@@ -7,12 +7,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Institution } from './institution.entity';
 import { Repository } from 'typeorm';
 import { UpdateInstitutionDto } from './institutionDtos/updateInstitution.dto';
+import { JwtService } from '@nestjs/jwt';
+import { EmailInstitutionDto } from './institutionDtos/createInstitution.dto';
+import { SendMailsRepository } from '../send-mails/send-mails.repository';
 
 @Injectable()
 export class InstitutionRepository {
   constructor(
     @InjectRepository(Institution)
     private readonly institutionRepository: Repository<Institution>,
+    private readonly jwtService: JwtService,
+    private readonly sendEmailRepository: SendMailsRepository,
   ) {}
   async getAllInstitutions(page: number, limit: number) {
     const skip = (page - 1) * limit;
@@ -45,7 +50,32 @@ export class InstitutionRepository {
       throw new BadRequestException('Error al crear institución');
 
     const { role, user_id, ...institutionResponse } = dbInstitution;
+
+    await this.sendEmailRepository.sendEmail({
+      name: dbInstitution.name,
+      email: dbInstitution.email,
+    });
+
     return institutionResponse;
+  }
+
+  async signIn(emailInstitutionDto: EmailInstitutionDto) {
+    if (!emailInstitutionDto) {
+      throw new BadRequestException('Email es requerido');
+    }
+    const { email } = emailInstitutionDto;
+    const institution = await this.institutionRepository.findOneBy({ email });
+    if (!institution) {
+      throw new BadRequestException('Email de la institucion no creado.');
+    }
+    const payload = {
+      email: institution.email,
+      roles: [institution.role],
+    };
+    console.log('signin de institucion/ repository: ', payload);
+
+    const token = this.jwtService.sign(payload);
+    return { message: 'Institución logueada correctamente', token };
   }
 
   async updateInstitution(id: string, institution: UpdateInstitutionDto) {

@@ -41,6 +41,18 @@ export class User {
   lastname: string;
 
   @ApiProperty({
+    description: 'Email',
+    example: 'email@email.com',
+  })
+  @Column({
+    type: 'varchar',
+    length: 50,
+    nullable: false,
+    unique: true,
+  })
+  email: string;
+
+  @ApiProperty({
     description: 'DNI del usuario',
     example: 12345678,
   })
@@ -50,6 +62,18 @@ export class User {
     nullable: true,
   })
   dni?: string;
+
+  @ApiProperty({
+    example: 'Calle falsa 123',
+  })
+  @Column({ type: 'varchar', length: 80 })
+  address: string;
+
+  @ApiProperty({
+    example: '123456789',
+  })
+  @Column({ type: 'varchar' })
+  phone: string;
 
   @ApiProperty({
     description: 'URL de cloudinary',

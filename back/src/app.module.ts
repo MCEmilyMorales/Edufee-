@@ -9,6 +9,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SendMailsModule } from './modules/send-mails/send-mails.module';
 // import { StripeModule } from './modules/stripe/stripe.module';
 import { FilesModule } from './modules/files/files.module';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -25,6 +27,12 @@ import { FilesModule } from './modules/files/files.module';
     SendMailsModule,
     // StripeModule,
     FilesModule,
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1h' },
+    }),
+    AuthModule,
   ],
   controllers: [],
   providers: [],
