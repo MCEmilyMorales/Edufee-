@@ -10,6 +10,7 @@ import { SendMailsModule } from './modules/send-mails/send-mails.module';
 import { StripeModule } from './modules/stripe/stripe.module';
 import { FilesModule } from './modules/files/files.module';
 import { JwtModule } from '@nestjs/jwt';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { JwtModule } from '@nestjs/jwt';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1h' },
     }),
+    AuthModule,
   ],
   controllers: [],
   providers: [],

@@ -6,6 +6,7 @@ import { FormDataStudent, useFormStudent } from "@/hooks/useFormStudent";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import FormSelect from "@/components/FormSelect";
 
 const StudentForm: React.FC = () => {
   const initialState: FormDataStudent = {
@@ -13,6 +14,9 @@ const StudentForm: React.FC = () => {
     apellido: "",
     dni: "",
     email: "",
+    direccion: "",
+    telefono: "",
+    institucion: "",
     fotoPerfil: new File([], ""),
   };
   const router = useRouter()
@@ -64,6 +68,28 @@ const StudentForm: React.FC = () => {
             value={formData.dni}
             onChange={handleChange}
             error={errors.dni}
+          />
+                    <FormInput
+            type="text"
+            name="direccion"
+            placeholder="Dirección"
+            value={formData.direccion}
+            onChange={handleChange}
+            error={errors.direccion}
+          />
+          <FormInput
+            type="text"
+            name="telefono"
+            placeholder="Teléfono"
+            value={formData.telefono}
+            onChange={handleChange}
+            error={errors.telefono}
+          />
+          <FormSelect 
+            name="Institucion"
+            value={formData.institucion}
+            onChange={handleChange}
+            options={["Institution A", "Institution B"]}
           />
           <div>
             <label htmlFor="photo-profile" className="mt-2 block">Subir foto de perfil</label>

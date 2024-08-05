@@ -1,12 +1,12 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
-  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { createUserDto } from './userDtos/createUsers.dto';
+import { createUserDto, EmailUserDto } from './userDtos/createUsers.dto';
 import { updateUserDto } from './userDtos/updateUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import { User } from './users.entity';
@@ -35,24 +35,53 @@ export class UsersRepository {
   }
 
   async signUp(user: createUserDto) {
+    const { email, dni } = user;
+    const existsEmail = await this.usersRepository.findOneBy({
+      email,
+    });
+    if (existsEmail) {
+      throw new ConflictException({
+        status: 'error',
+        code: 409,
+        message: 'El correo electrónico ya existe en nuestra base de datos.',
+        details: { field: 'email', value: email },
+      });
+    }
+    const existsDni = await this.usersRepository.findOneBy({
+      dni,
+    });
+    if (existsDni) {
+      throw new ConflictException({
+        status: 'error',
+        code: 409,
+        message: 'El dni ya existe en nuestra base de datos.',
+      });
+    }
     const usernew = await this.usersRepository.save(user);
 
     return usernew;
   }
 
-  async signIn(id: string) {
-    if (!id) {
+  async signIn(emailUserDto: EmailUserDto) {
+    if (!emailUserDto) {
       throw new BadRequestException('Email es requerido');
     }
-
-    const emailUser = await this.usersRepository.findOneBy({ id: id });
-    console.log('Email encontrado:', emailUser);
+    const { email } = emailUserDto;
+    const emailUser = await this.usersRepository.findOneBy({
+      email,
+    });
 
     if (!emailUser) {
-      throw new BadRequestException('No se encontro el usuario con ese email');
+      throw new BadRequestException(
+        'No se encontro el estudiante con ese email',
+      );
     }
-
-    return emailUser;
+    const payload = {
+      email: emailUser.email,
+      roles: [emailUser.role],
+    };
+    const token = this.jwtService.sign(payload);
+    return { message: 'Estudiante logueado correctamente', token };
   }
 
   async updateUser(id: string, user: updateUserDto) {
