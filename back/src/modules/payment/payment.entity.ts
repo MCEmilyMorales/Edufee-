@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
-import { PaymentOrder } from '../payment-order/paymentOrder.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { User } from '../users/users.entity';
 
 @Entity({ name: 'payments' })
 export class Payment {
@@ -17,6 +17,7 @@ export class Payment {
   @Column()
   fecha: Date;
 
-  @OneToOne(() => PaymentOrder, (paymentOrder) => paymentOrder.id)
-  paymentOrder_id: PaymentOrder;
+  @ApiProperty()
+  @ManyToOne(() => User, (user) => user.payments)
+  pdfImage: User;
 }
