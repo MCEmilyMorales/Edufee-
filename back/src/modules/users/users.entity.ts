@@ -56,9 +56,8 @@ export class User {
   @Column({
     type: 'varchar',
     length: 8,
-    nullable: true,
   })
-  dni?: string;
+  dni: string;
 
   @ApiProperty({
     example: 'Calle falsa 123',
