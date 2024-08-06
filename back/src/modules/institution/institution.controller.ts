@@ -21,7 +21,6 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/enums';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { ApproveInstitutionDto } from './institutionDtos/approveInstitution.dto';
 
 @ApiTags('Institucion')
 @Controller('institution')
@@ -66,6 +65,7 @@ export class InstitutionController {
     return this.institutionService.updateInstitution(id, institution);
   }
 
+  @ApiBearerAuth()
   @Put('approve/:id')
   approveInstitution(@Param('id') id: string) {
     return this.institutionService.approveInstitution(id);

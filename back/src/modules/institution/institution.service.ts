@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InstitutionRepository } from './institution.repository';
 import { Institution } from './institution.entity';
 import { UpdateInstitutionDto } from './institutionDtos/updateInstitution.dto';
-import { ApproveInstitutionDto } from './institutionDtos/approveInstitution.dto';
 
 @Injectable()
 export class InstitutionService {
