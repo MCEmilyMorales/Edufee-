@@ -10,6 +10,7 @@ import { UpdateInstitutionDto } from './institutionDtos/updateInstitution.dto';
 import { JwtService } from '@nestjs/jwt';
 import { EmailInstitutionDto } from './institutionDtos/createInstitution.dto';
 import { SendMailsRepository } from '../send-mails/send-mails.repository';
+import { ApproveInstitutionDto } from './institutionDtos/approveInstitution.dto';
 
 @Injectable()
 export class InstitutionRepository {
@@ -49,6 +50,7 @@ export class InstitutionRepository {
     if (!dbInstitution)
       throw new BadRequestException('Error al crear institución');
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { role, user_id, ...institutionResponse } = dbInstitution;
 
     await this.sendEmailRepository.sendEmail({
@@ -89,8 +91,21 @@ export class InstitutionRepository {
     if (!updatedInstitution)
       throw new BadRequestException('Error al actualizar institución');
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { role, ...updateInstitutionResponse } = updatedInstitution;
 
     return updateInstitutionResponse;
+  }
+
+  async approveInstitution(id: string) {
+    const institution = await this.institutionRepository.findOneBy({ id });
+    if (!institution) {
+      throw new NotFoundException(
+        `Este ID: ${id} no corresponde a una institución.`,
+      );
+    }
+    institution.isActive = true;
+    const response = await this.institutionRepository.save(institution);
+    return response;
   }
 }

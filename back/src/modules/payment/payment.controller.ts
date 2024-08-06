@@ -1,4 +1,12 @@
-import { Controller, Get, Param, ParseUUIDPipe, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { PaymentService } from './payment.service';
 
 @Controller('payments')
@@ -15,5 +23,11 @@ export class PaymentDetailController {
     @Query('limit') limit: string = '5',
   ) {
     return this.paymentService.getAllPayments(Number(page), Number(limit));
+  }
+
+  @Post()
+  handleTest(@Body() body: any) {
+    console.log('Received data:', body); // Aquí se imprime cualquier dato recibido
+    return { status: 'success', data: body }; // Devuelve los datos recibidos como respuesta
   }
 }

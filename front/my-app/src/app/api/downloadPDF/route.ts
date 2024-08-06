@@ -2,13 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 
-declare module 'pdfmake/build/vfs_fonts';
+declare module "pdfmake/build/vfs_fonts";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export async function POST(req: NextRequest) {
   try {
-    const { amount, institution, studentName } = await req.json();
+    // Parse the request body to get amount, institution, studentName, and reference
+    const { amount, institution, studentName, reference } = await req.json();
     const currentDate = new Date().toLocaleDateString();
 
     // Define PDF content
@@ -19,6 +20,7 @@ export async function POST(req: NextRequest) {
         { text: `Student: ${studentName}`, style: "subheader" },
         { text: `Amount: $${amount}`, style: "subheader" },
         { text: `Institution: ${institution}`, style: "subheader" },
+        { text: `Reference: ${reference}`, style: "subheader" }, // Include reference in the PDF
         { text: "", margin: [0, 20] },
         {
           text: `Edufee ${new Date().getFullYear()}`,

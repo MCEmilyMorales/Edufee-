@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InstitutionRepository } from './institution.repository';
 import { Institution } from './institution.entity';
 import { UpdateInstitutionDto } from './institutionDtos/updateInstitution.dto';
+import { ApproveInstitutionDto } from './institutionDtos/approveInstitution.dto';
 
 @Injectable()
 export class InstitutionService {
@@ -17,11 +18,12 @@ export class InstitutionService {
   signUp(institution: Partial<Institution>) {
     return this.institutionRepository.signUp(institution);
   }
-  signIn(emailInstitutionDto){
-    return this.institutionRepository.signIn(emailInstitutionDto)
-  }
 
   updateInstitution(id: string, institution: UpdateInstitutionDto) {
     return this.institutionRepository.updateInstitution(id, institution);
+  }
+
+  approveInstitution(id: string) {
+    return this.institutionRepository.approveInstitution(id);
   }
 }
