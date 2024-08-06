@@ -9,7 +9,6 @@ import { Institution } from './institution.entity';
 import { Repository } from 'typeorm';
 import { UpdateInstitutionDto } from './institutionDtos/updateInstitution.dto';
 import { SendMailsRepository } from '../send-mails/send-mails.repository';
-import { ApproveInstitutionDto } from './institutionDtos/approveInstitution.dto';
 import { User } from '../users/users.entity';
 
 @Injectable()

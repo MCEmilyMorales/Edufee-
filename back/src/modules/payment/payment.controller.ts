@@ -8,6 +8,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { PaymentService } from './payment.service';
+import { PaymentDto } from './payment.dto';
 
 @Controller('payments')
 export class PaymentDetailController {
@@ -29,5 +30,10 @@ export class PaymentDetailController {
   handleTest(@Body() body: any) {
     console.log('Received data:', body); // Aquí se imprime cualquier dato recibido
     return { status: 'success', data: body }; // Devuelve los datos recibidos como respuesta
+  }
+
+  @Post('register')
+  async registerPayment(@Body() paymentDto: PaymentDto) {
+    return this.paymentService.registerPayment(paymentDto);
   }
 }
