@@ -59,6 +59,25 @@ export class InstitutionRepository {
     return institutionResponse;
   }
 
+  async signIn(emailInstitutionDto: EmailInstitutionDto) {
+    if (!emailInstitutionDto) {
+      throw new BadRequestException('Email es requerido');
+    }
+    const { email } = emailInstitutionDto;
+    const institution = await this.institutionRepository.findOneBy({ email });
+    if (!institution) {
+      throw new BadRequestException('Email de la institucion no creado.');
+    }
+    const payload = {
+      email: institution.email,
+      roles: [institution.role],
+    };
+    console.log('signin de institucion/ repository: ', payload);
+
+    const token = this.jwtService.sign(payload);
+    return { message: 'Institución logueada correctamente', token };
+  }
+
   async updateInstitution(id: string, institution: UpdateInstitutionDto) {
     if (!id || !institution) throw new BadRequestException();
 
@@ -74,4 +93,6 @@ export class InstitutionRepository {
 
     return updateInstitutionResponse;
   }
+
+  async toAdmin(updateInstitutionDto: UpdateInstitutionDto) {}
 }
