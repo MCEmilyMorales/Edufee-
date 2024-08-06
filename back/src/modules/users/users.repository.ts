@@ -96,7 +96,7 @@ export class UsersRepository {
     };
   }
 
-  async updateUser(id: string, user: updateUserDto) {
+  async updateUser(id: string, user: Partial<updateUserDto>) {
     const existingUser = await this.usersRepository.findOneBy({ id });
 
     if (!existingUser) {
