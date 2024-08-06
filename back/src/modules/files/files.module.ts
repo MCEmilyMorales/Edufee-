@@ -8,10 +8,16 @@ import { FilesInstitutionService } from './filesInstitution.service';
 import { FilesInstitutionController } from './filesInsitution.controller';
 
 import { FilesRepository } from './files.repository';
+import { CloudinaryConfig } from 'src/config/cloudinary';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Institution])],
-  providers: [FilesUserService, FilesInstitutionService, FilesRepository],
+  providers: [
+    FilesUserService,
+    FilesInstitutionService,
+    FilesRepository,
+    CloudinaryConfig,
+  ],
   controllers: [FilesUserController, FilesInstitutionController],
 })
 export class FilesModule {}
