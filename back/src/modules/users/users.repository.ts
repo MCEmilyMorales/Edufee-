@@ -1,12 +1,11 @@
 import {
-  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { createUserDto, EmailUserDto } from './userDtos/createUsers.dto';
+import { createUserDto } from './userDtos/createUsers.dto';
 import { updateUserDto } from './userDtos/updateUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import { User } from './users.entity';
