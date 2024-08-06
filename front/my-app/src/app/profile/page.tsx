@@ -38,7 +38,7 @@ export default function ProfileClient() {
         <div className='w-fit rounded-full'>
           <Image
             className='rounded-full'
-            src={""}
+            src={userData.imgProfile ?? user.picture!}
             alt={userData.name + " " + userData.lastname}
             width={100}
             height={100} />

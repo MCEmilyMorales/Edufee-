@@ -14,7 +14,7 @@ export const registerStudent = async (formData: FormDataStudent) => {
           lastname: formData.apellido,
           dni: formData.dni,
           email: formData.email,
-          institution: formData.institucion,
+          institutionName: formData.institucion,
           phone: formData.telefono,
           address: formData.direccion,
           imgProfile: formData.fotoPerfil.name

@@ -33,7 +33,7 @@ const handleSubmit = async (event: React.FormEvent) => {
       try {
         const response = await registerInstitution(formData);
         alert(" Institución registrada correctamente")
-        router.push("/institution/dashboard")
+        router.push("/verificacionInstitucion")
       } catch(error) {
         alert("Ocurrio un error al registrar una institution")
         console.log(error);

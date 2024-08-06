@@ -19,7 +19,7 @@ const StudentRegisterForm: React.FC = () => {
     email: "",
     direccion: "",
     telefono: "",
-    institucion: "",
+    institucion: "Institucion A",
     fotoPerfil: new File([], ""),
   };
   const router = useRouter()
@@ -56,6 +56,7 @@ const StudentRegisterForm: React.FC = () => {
       <div className="w-full max-w-md p-8 bg-[#FFDA16] border-2 border-black shadow-lg rounded-[2em] flex flex-col items-center">
         <h2 className="text-2xl font-bold mb-4">Registro de Estudiante</h2>
         <form className="w-full space-y-4" onSubmit={handleSubmit}>
+          <label></label>
           <FormInput
             type="text"
             name="nombre"

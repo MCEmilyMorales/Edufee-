@@ -37,12 +37,6 @@ const ContactForm: React.FC = () => {
             onChange={handleChange}
             error={errors.email}
           />
-          <FormSelect
-            name="rol"
-            value={formData.rol}
-            onChange={handleChange}
-            options={["Estudiante", "Institución", "Invitado"]}
-          />
           <FormTextArea
             name="mensaje"
             placeholder="Mensaje"

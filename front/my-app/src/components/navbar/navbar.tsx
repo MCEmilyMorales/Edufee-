@@ -46,7 +46,6 @@ const Navbar = () => {
     };
   }, [open]);
 
-  console.log("diego puto")
 
   return (
     <div className='h-16 bg-white w-full fixed z-50'>
