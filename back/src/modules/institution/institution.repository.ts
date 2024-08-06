@@ -52,10 +52,10 @@ export class InstitutionRepository {
       this.userRepository.findOneBy({ email }),
     ]);
     if (existEmailInstitution) {
-      throw new ConflictException();
+      throw new ConflictException('Email de institución.');
     }
     if (existEmailUser) {
-      throw new ConflictException();
+      throw new ConflictException('Email de user.');
     }
 
     const newInstitution = await this.institutionRepository.save(institution);
