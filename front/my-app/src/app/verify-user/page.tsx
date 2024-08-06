@@ -3,8 +3,11 @@
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
+import { tokenStore } from '@/store/tokenStore'
 
 const LayerAuth = () => {
+
+    const setToken = tokenStore((state) => state.setToken);
     const router = useRouter()
     const { user, isLoading, error } = useUser()
 
@@ -24,11 +27,11 @@ const LayerAuth = () => {
                         })
                     })
                     const data = await response.json();
-
                     if (response.ok) {
                         console.log(data)
                         const payload = JSON.parse(atob(data.token.split('.')[1]));
-                        
+                        // console.log(payload.id)
+                        // setToken(payload.id);
                         if (payload.roles.includes('student')) {
                             router.push('/student/dashboard');
                         } else if (payload.roles.includes('institution')) {
@@ -38,6 +41,7 @@ const LayerAuth = () => {
                         } else {
                             console.error('Error en la autenticación:', data.message);
                         }
+                        
                     }
                 } catch (error) {
                     console.error('Error verificando usuario:', error);

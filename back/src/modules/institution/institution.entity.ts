@@ -54,7 +54,7 @@ export class Institution {
     nullable: true,
   })
   logo?: string;
-
+  k;
   @ApiProperty({
     description: 'URL de cloudinary',
   })
@@ -71,10 +71,10 @@ export class Institution {
   role: string;
 
   @ApiProperty({
-    description: 'Toda institución podrá convertirse en un Admin',
+    description: 'Toda institución deberá esperar que su cuenta sea aprobada',
   })
   @Column({ default: false })
-  isAdmin: boolean;
+  isActive: boolean;
 
   @OneToMany(() => User, (user) => user.institution)
   user_id: User[];

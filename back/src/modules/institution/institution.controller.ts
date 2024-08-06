@@ -12,6 +12,7 @@ import {
 import { InstitutionService } from './institution.service';
 import {
   CreateInstitutionDto,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   EmailInstitutionDto,
 } from './institutionDtos/createInstitution.dto';
 import { UpdateInstitutionDto } from './institutionDtos/updateInstitution.dto';
@@ -20,6 +21,7 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/enums';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { ApproveInstitutionDto } from './institutionDtos/approveInstitution.dto';
 
 @ApiTags('Institucion')
 @Controller('institution')
@@ -62,5 +64,10 @@ export class InstitutionController {
     @Body() institution: UpdateInstitutionDto,
   ) {
     return this.institutionService.updateInstitution(id, institution);
+  }
+
+  @Put('approve/:id')
+  approveInstitution(@Param('id') id: string) {
+    return this.institutionService.approveInstitution(id);
   }
 }
