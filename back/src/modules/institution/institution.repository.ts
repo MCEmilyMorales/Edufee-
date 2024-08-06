@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -7,16 +8,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Institution } from './institution.entity';
 import { Repository } from 'typeorm';
 import { UpdateInstitutionDto } from './institutionDtos/updateInstitution.dto';
-import { JwtService } from '@nestjs/jwt';
-import { EmailInstitutionDto } from './institutionDtos/createInstitution.dto';
 import { SendMailsRepository } from '../send-mails/send-mails.repository';
+import { User } from '../users/users.entity';
 
 @Injectable()
 export class InstitutionRepository {
   constructor(
     @InjectRepository(Institution)
     private readonly institutionRepository: Repository<Institution>,
-    private readonly jwtService: JwtService,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
     private readonly sendEmailRepository: SendMailsRepository,
   ) {}
   async getAllInstitutions(page: number, limit: number) {
@@ -41,6 +42,21 @@ export class InstitutionRepository {
 
   async signUp(institution: Partial<Institution>) {
     if (!institution) throw new BadRequestException();
+    //el email existe en alguna otra tabla?
+    const { email } = institution;
+    const [existEmailInstitution, existEmailUser] = await Promise.all([
+      this.institutionRepository.findOneBy({
+        email,
+      }),
+      this.userRepository.findOneBy({ email }),
+    ]);
+    if (existEmailInstitution) {
+      throw new ConflictException();
+    }
+    if (existEmailUser) {
+      throw new ConflictException();
+    }
+
     const newInstitution = await this.institutionRepository.save(institution);
 
     const dbInstitution = await this.institutionRepository.findOneBy({
@@ -56,26 +72,10 @@ export class InstitutionRepository {
       email: dbInstitution.email,
     });
 
-    return institutionResponse;
-  }
-
-  async signIn(emailInstitutionDto: EmailInstitutionDto) {
-    if (!emailInstitutionDto) {
-      throw new BadRequestException('Email es requerido');
-    }
-    const { email } = emailInstitutionDto;
-    const institution = await this.institutionRepository.findOneBy({ email });
-    if (!institution) {
-      throw new BadRequestException('Email de la institucion no creado.');
-    }
-    const payload = {
-      email: institution.email,
-      roles: [institution.role],
+    return {
+      message: 'Institución registrada exitosamente. ',
+      institutionResponse,
     };
-    console.log('signin de institucion/ repository: ', payload);
-
-    const token = this.jwtService.sign(payload);
-    return { message: 'Institución logueada correctamente', token };
   }
 
   async updateInstitution(id: string, institution: UpdateInstitutionDto) {

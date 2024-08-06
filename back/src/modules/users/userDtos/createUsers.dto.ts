@@ -74,6 +74,10 @@ export class createUserDto {
   @IsOptional()
   @Length(3, 130)
   imgProfile?: string;
+
+  @IsNotEmpty()
+  @IsString()
+  institutionName: string;
 }
 
 export class EmailUserDto extends PickType(createUserDto, ['email']) {}
