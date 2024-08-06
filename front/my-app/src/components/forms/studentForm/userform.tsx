@@ -7,8 +7,11 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import FormSelect from "@/components/FormSelect";
+import { tokenStore } from "@/store/tokenStore";
 
 const StudentRegisterForm: React.FC = () => {
+  const token = tokenStore((state) => state.token);
+  const SetToken = tokenStore((state) => state.setToken);
   const initialState: FormDataStudent = {
     nombre: "",
     apellido: "",
@@ -35,6 +38,8 @@ const StudentRegisterForm: React.FC = () => {
 
       try {
         const response = await registerStudent(formData);
+        console.log(response)
+        SetToken(response.id)
         alert("Estudiante creado exitosamente")
 
         router.push("/student/dashboard")
