@@ -62,4 +62,9 @@ export class UpdateInstitutionDto {
   @ApiHideProperty()
   @IsEmpty()
   role?: string;
+
+  @IsOptional()
+  @ApiHideProperty()
+  @IsEmpty()
+  isAdmin: boolean;
 }

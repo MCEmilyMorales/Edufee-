@@ -70,6 +70,12 @@ export class Institution {
   })
   role: string;
 
+  @ApiProperty({
+    description: 'Toda institución podrá convertirse en un Admin',
+  })
+  @Column({ default: false })
+  isAdmin: boolean;
+
   @OneToMany(() => User, (user) => user.institution)
   user_id: User[];
 }

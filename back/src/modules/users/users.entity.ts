@@ -87,6 +87,12 @@ export class User {
   @Column({ type: 'varchar', length: 50, default: 'student' })
   role: string;
 
+  @ApiProperty({
+    description: 'Indica si un usuario es Admin',
+  })
+  @Column({ type: 'varchar', length: 50, default: false })
+  isAdmin: boolean;
+
   @ManyToOne(() => Institution, (institution) => institution.user_id)
   institution: Institution;
 
