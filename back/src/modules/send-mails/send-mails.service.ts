@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { SendMailsRepository } from './send-mails.repository';
 import { SendEmailDto } from './dto/welcome-mails.dto';
+import { ContactEmailDto } from './dto/contact-mails';
 
 @Injectable()
 export class SendMailsService {
@@ -9,7 +10,7 @@ export class SendMailsService {
   sendEmail(user: SendEmailDto): Promise<void> {
     return this.sendMailsRepository.sendEmail(user);
   }
-  sendContactEmail(user: SendEmailDto): Promise<void> {
+  sendContactEmail(user: ContactEmailDto): Promise<void> {
     return this.sendMailsRepository.sendContactEmail(user);
   }
 }
