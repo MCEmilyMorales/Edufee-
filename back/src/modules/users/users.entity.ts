@@ -90,7 +90,7 @@ export class User {
   @ApiProperty({
     description: 'Indica si un usuario es Admin',
   })
-  @Column({ type: 'varchar', length: 50, default: false })
+  @Column({ type: 'boolean', default: false })
   isAdmin: boolean;
 
   @ManyToOne(() => Institution, (institution) => institution.user_id)

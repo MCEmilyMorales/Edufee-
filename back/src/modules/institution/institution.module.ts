@@ -5,9 +5,10 @@ import { InstitutionRepository } from './institution.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Institution } from './institution.entity';
 import { SendMailsRepository } from '../send-mails/send-mails.repository';
+import { User } from '../users/users.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Institution])],
+  imports: [TypeOrmModule.forFeature([Institution, User])],
   controllers: [InstitutionController],
   providers: [InstitutionService, InstitutionRepository, SendMailsRepository],
 })

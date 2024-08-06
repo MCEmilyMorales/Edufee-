@@ -7,15 +7,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { createUserDto } from './userDtos/createUsers.dto';
 import { updateUserDto } from './userDtos/updateUser.dto';
-import { JwtService } from '@nestjs/jwt';
 import { User } from './users.entity';
 import { SendMailsRepository } from '../send-mails/send-mails.repository';
+import { Institution } from '../institution/institution.entity';
 
 @Injectable()
 export class UsersRepository {
   constructor(
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
-    private readonly jwtService: JwtService,
+    @InjectRepository(Institution)
+    private readonly institutionRepository: Repository<Institution>,
+
     private readonly sendEmailRepository: SendMailsRepository,
   ) {}
 
@@ -36,36 +38,62 @@ export class UsersRepository {
   }
 
   async signUp(user: createUserDto) {
-    const { email, dni } = user;
-    const existsEmail = await this.usersRepository.findOneBy({
+    const { email, dni, institutionName } = user;
+    //busco la institution por nombre en su tabla
+    const institution = await this.institutionRepository.findOneBy({
+      name: institutionName,
+    });
+    if (!institution) {
+      throw new NotFoundException('Institución no encontrada. ');
+    }
+    //verifico que el email no exista en institution
+    const existEmailInstitution = await this.institutionRepository.findOneBy({
       email,
     });
+    if (existEmailInstitution) {
+      throw new ConflictException();
+    }
+    //ej de paralizacion
+    const [existsEmail, existsDni] = await Promise.all([
+      this.usersRepository.findOneBy({
+        email,
+      }),
+      this.usersRepository.findOneBy({
+        dni,
+      }),
+    ]);
+
+    const handleConflictException = (field: string, value: any) => {
+      throw new ConflictException({
+        status: 'error',
+        code: 409,
+        message: `El ${field} ya existe en nuestra base de datos.`,
+        details: { field, value },
+      });
+    };
+
     if (existsEmail) {
-      throw new ConflictException({
-        status: 'error',
-        code: 409,
-        message: 'El correo electrónico ya existe en nuestra base de datos.',
-        details: { field: 'email', value: email },
-      });
+      handleConflictException('email', email);
     }
-    const existsDni = await this.usersRepository.findOneBy({
-      dni,
-    });
+
     if (existsDni) {
-      throw new ConflictException({
-        status: 'error',
-        code: 409,
-        message: 'El dni ya existe en nuestra base de datos.',
-      });
+      handleConflictException('dni', dni);
     }
-    const usernew = await this.usersRepository.save(user);
+
+    const usernew = this.usersRepository.create({ ...user, institution });
+
+    const savedUser = await this.usersRepository.save(usernew);
+    console.log(savedUser);
 
     await this.sendEmailRepository.sendEmail({
-      name: usernew.name,
-      email: usernew.email,
+      name: savedUser.name,
+      email: savedUser.email,
     });
-
-    return usernew;
+    const { isAdmin, ...rest } = savedUser;
+    return {
+      message: 'Estudiante registrado exitosamente.',
+      data: rest,
+    };
   }
 
   async updateUser(id: string, user: updateUserDto) {
