@@ -13,10 +13,10 @@ import { UsersService } from './users.service';
 
 import { createUserDto, EmailUserDto } from './userDtos/createUsers.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { updateUserDto } from './userDtos/updateUser.dto';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/enums';
 import { RolesGuard } from 'src/guards/roles.guard';
+import { updateUserDto } from './userDtos/updateUser.dto';
 
 @ApiTags('Estudiantes')
 @Controller('users')
@@ -49,7 +49,7 @@ export class UsersController {
   @ApiBearerAuth()
   @Put(':id')
   updateUser(
-    @Param(`id`, ParseUUIDPipe) id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() user: updateUserDto,
   ) {
     return this.usersService.updateUser(id, user);

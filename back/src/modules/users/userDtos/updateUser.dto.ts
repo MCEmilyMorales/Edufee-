@@ -10,7 +10,7 @@ export class updateUserDto {
   /**
    * Debe ser un string de entre 3 y 50 caracteres
    */
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @Length(3, 50)
   name: string;
@@ -18,7 +18,7 @@ export class updateUserDto {
   /**
    * Debe ser un string entre 3 y 50 caracteres
    */
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @Length(3, 50)
   lastname: string;
@@ -28,7 +28,7 @@ export class updateUserDto {
    * @example: email@email.com
    */
   @IsEmail()
-  @IsNotEmpty()
+  @IsOptional()
   email: string;
 
   /**
