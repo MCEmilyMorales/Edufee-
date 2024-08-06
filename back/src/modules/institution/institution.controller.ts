@@ -56,12 +56,6 @@ export class InstitutionController {
   }
 
   @ApiBearerAuth()
-  @Post('signin')
-  async signIn(@Body() emailInstitutionDto: EmailInstitutionDto) {
-    return this.institutionService.signIn(emailInstitutionDto);
-  }
-
-  @ApiBearerAuth()
   @Put(':id')
   updateInstitution(
     @Param('id', ParseUUIDPipe) id: string,

@@ -20,10 +20,6 @@ export class UsersService {
     return this.usersRepository.signUp(user);
   }
 
-  signIn(emailUserDto: EmailUserDto) {
-    return this.usersRepository.signIn(emailUserDto);
-  }
-
   updateUser(id: string, user: updateUserDto) {
     return this.usersRepository.updateUser(id, user);
   }

@@ -47,12 +47,6 @@ export class UsersController {
   }
 
   @ApiBearerAuth()
-  @Post('signin')
-  signIn(@Body() emailUserDto: EmailUserDto) {
-    return this.usersService.signIn(emailUserDto);
-  }
-
-  @ApiBearerAuth()
   @Put(':id')
   updateUser(
     @Param(`id`, ParseUUIDPipe) id: string,
