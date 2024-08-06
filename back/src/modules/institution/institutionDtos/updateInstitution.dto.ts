@@ -65,6 +65,5 @@ export class UpdateInstitutionDto {
 
   @IsOptional()
   @ApiHideProperty()
-  @IsEmpty()
-  isAdmin: boolean;
+  isActive: boolean;
 }

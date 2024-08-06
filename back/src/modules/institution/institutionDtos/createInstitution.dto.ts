@@ -74,7 +74,7 @@ export class CreateInstitutionDto {
 
   @IsEmpty()
   @ApiHideProperty()
-  isAdmin: boolean;
+  isActive: boolean;
 }
 
 export class EmailInstitutionDto extends PickType(CreateInstitutionDto, [

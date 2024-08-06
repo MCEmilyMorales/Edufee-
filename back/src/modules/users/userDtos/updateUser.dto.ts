@@ -46,7 +46,4 @@ export class updateUserDto {
   @IsOptional()
   @Length(3, 130)
   imgProfile?: string;
-
-  @IsOptional()
-  isAdmin: boolean;
 }
