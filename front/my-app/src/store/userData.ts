@@ -7,7 +7,7 @@ interface Data {
     email?: string,
     dni?: number,
     address?: string,
-    phone?: number,
+    phone?: string,
     imgProfile?: string | null,
     role?: string,
 }
