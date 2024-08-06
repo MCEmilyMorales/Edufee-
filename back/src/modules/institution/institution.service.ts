@@ -17,9 +17,6 @@ export class InstitutionService {
   signUp(institution: Partial<Institution>) {
     return this.institutionRepository.signUp(institution);
   }
-  signIn(emailInstitutionDto){
-    return this.institutionRepository.signIn(emailInstitutionDto)
-  }
 
   updateInstitution(id: string, institution: UpdateInstitutionDto) {
     return this.institutionRepository.updateInstitution(id, institution);
