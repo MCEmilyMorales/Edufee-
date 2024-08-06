@@ -69,28 +69,6 @@ export class UsersRepository {
     return usernew;
   }
 
-  async signIn(emailUserDto: EmailUserDto) {
-    if (!emailUserDto) {
-      throw new BadRequestException('Email es requerido');
-    }
-    const { email } = emailUserDto;
-    const emailUser = await this.usersRepository.findOneBy({
-      email,
-    });
-
-    if (!emailUser) {
-      throw new BadRequestException(
-        'No se encontro el estudiante con ese email',
-      );
-    }
-    const payload = {
-      email: emailUser.email,
-      roles: [emailUser.role],
-    };
-    const token = this.jwtService.sign(payload);
-    return { message: 'Estudiante logueado correctamente', token };
-  }
-
   async updateUser(id: string, user: updateUserDto) {
     const existingUser = await this.usersRepository.findOneBy({ id });
 

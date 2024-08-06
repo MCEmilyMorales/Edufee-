@@ -62,4 +62,8 @@ export class UpdateInstitutionDto {
   @ApiHideProperty()
   @IsEmpty()
   role?: string;
+
+  @IsOptional()
+  @ApiHideProperty()
+  isActive: boolean;
 }
