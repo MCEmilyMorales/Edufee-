@@ -58,6 +58,7 @@ const Navbar = () => {
             <ul className='flex items-center gap-8 pr-40 text-black'>
               <BotonLink link="/instituciones" text="Instituciones" />
               <BotonLink link="/alumnos" text="Alumnos" />
+              <BotonLink link="/contact-us" text="Contact us" />
               <div className='text-black flex items-center'>
                 <div className='w-8 h-8 mr-2'>
                   <img src={user.picture!} alt="" className='text-black rounded-sm' />
@@ -156,6 +157,7 @@ const Navbar = () => {
             <ul className='flex gap-8 pr-40 text-black'>
               <BotonLink link="/instituciones" text="Instituciones" />
               <BotonLink link="/alumnos" text="Alumnos" />
+              <BotonLink link="/contact-us" text="Contact us" />
               <BotonLink link="/api/auth/login" text="Iniciar Sesion" />
             </ul>
           </nav>
