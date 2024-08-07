@@ -134,4 +134,17 @@ export class UsersRepository {
 
     return response;
   }
+
+  async changeStatus(id: string, status: boolean) {
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException(
+        `Este ID: ${id} no corresponde a una institución`,
+      );
+    }
+    user.status = status;
+
+    const response = await this.usersRepository.save(user);
+    return response;
+  }
 }
