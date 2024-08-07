@@ -104,7 +104,7 @@ export class InstitutionRepository {
         `Este ID: ${id} no corresponde a una institución.`,
       );
     }
-    if (!status) throw new BadRequestException();
+    // if (!status) throw new BadRequestException();
     institution.isActive = status;
   
     await this.sendEmailRepository.sendApprovalEmail(institution);
