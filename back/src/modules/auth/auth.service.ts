@@ -26,7 +26,7 @@ export class AuthService {
         roles: [user.role],
       };
       const token = this.jwtService.sign(payload);
-      return { message: 'Estudiante logueado', token };
+      return { message: `${user.role} logueado`, token };
     }
 
     const institution = await this.institucionRepository.findOneBy({ email });
@@ -37,7 +37,7 @@ export class AuthService {
         roles: [institution.role],
       };
       const token = this.jwtService.sign(payload);
-      return { message: 'Institución logueada', token };
+      return { message: `${user.role} logueado`, token };
     }
 
     return { message: 'Usuario no encontrado' };

@@ -14,18 +14,39 @@ export const registerStudent = async (formData: FormDataStudent) => {
           lastname: formData.apellido,
           dni: formData.dni,
           email: formData.email,
-          institution: formData.institucion,
+          institutionName: formData.institucion,
           phone: formData.telefono,
           address: formData.direccion,
-          imgProfile: formData.fotoPerfil.name
+          imgProfile: null
         })
       });
       if (!response.ok) {
         console.log(response)
         throw new Error('Error en el registro');
       }
-      return await response.json()
+      const data = await response.json();
+      const studentId = data.data.id;
+      return studentId;
     } catch (error: any) {
         throw new Error(error.message);
     }
   };
+  export const uploadStudentImageProfile = async (studentId: string, file: File) => {
+    const formData = new FormData()
+    formData.append('file', file as File)
+    
+    try {
+      const response = await fetch(`${apiUrl}/files/uploadUserImage/${studentId}`,{
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al subir la imagen');
+      }
+      const data = await response.json();
+      console.log("Student profile image uploaded successfully", data);
+    } catch(error: any) {
+      throw new Error(error.message);
+    }
+  }

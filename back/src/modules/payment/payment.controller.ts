@@ -11,11 +11,12 @@ import {
 import { PaymentService } from './payment.service';
 import { PaymentDto } from './payment.dto';
 import { Roles } from 'src/decorators/roles.decorator';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Role } from 'src/enums/enums';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { RolesGuard } from 'src/guards/roles.guard';
 
+@ApiTags('Payments')
 @Controller('payments')
 export class PaymentDetailController {
   constructor(private readonly paymentService: PaymentService) {}
@@ -39,11 +40,11 @@ export class PaymentDetailController {
     return this.paymentService.getAllPayments(Number(page), Number(limit));
   }
 
-  @Post()
-  handleTest(@Body() body: any) {
-    console.log('Received data:', body); // Aquí se imprime cualquier dato recibido
-    return { status: 'success', data: body }; // Devuelve los datos recibidos como respuesta
-  }
+  // @Post()
+  // handleTest(@Body() body: any) {
+  //   console.log('Received data:', body); // Aquí se imprime cualquier dato recibido
+  //   return { status: 'success', data: body }; // Devuelve los datos recibidos como respuesta
+  // }
 
   @Post('register')
   async registerPayment(@Body() paymentDto: PaymentDto) {
