@@ -1,7 +1,8 @@
-'use client'
-import React, { useState } from "react";
+'use client';
+import React, { useEffect, useState } from "react";
 import Sidebar, { SidebarItem } from "../sidebarAdmin/page";
-import { User, School } from "lucide-react";
+import { User, School, CheckSquare } from "lucide-react";
+import { InstitutionsData } from "@/store/institutionsData";
 
 const StudentsTable = () => {
   return (
@@ -20,7 +21,7 @@ const StudentsTable = () => {
             <tr key={index} className="text-center">
               <td className="px-4 py-2 border">Nombre Alumno</td>
               <td className="px-4 py-2 border">Nombre Institucion</td>
-              <td className="px-4 py-2 border bg-green-200">PAGO/PENDIENTE</td>
+              <td className="px-4 py-2 border bg-green-200">Verificado / Pendiente</td>
               <td className="px-4 py-2 border">DD/MM/AA</td>
             </tr>
           ))}
@@ -31,6 +32,14 @@ const StudentsTable = () => {
 };
 
 const InstitutionsTable = () => {
+  const institutions = InstitutionsData((state) => state.institutions);
+  const getInsti = InstitutionsData((state) => state.getInstitutions);
+  console.log(institutions);
+
+  useEffect(() => {
+    getInsti();
+  }, [getInsti]);
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white">
@@ -38,17 +47,60 @@ const InstitutionsTable = () => {
           <tr>
             <th className="px-4 py-2 border">Institución</th>
             <th className="px-4 py-2 border">Estado</th>
-            <th className="px-4 py-2 border">Alumnos</th>
+            <th className="px-4 py-2 border">Dirección fiscal</th>
             <th className="px-4 py-2 border">Último cobro</th>
           </tr>
         </thead>
         <tbody>
-          {Array.from({ length: 6 }).map((_, index) => (
-            <tr key={index} className="text-center">
-              <td className="px-4 py-2 border">Nombre Institución</td>
-              <td className="px-4 py-2 border bg-green-200">PAGO/PENDIENTE</td>
-              <td className="px-4 py-2 border">Número de Alumnos</td>
-              <td className="px-4 py-2 border">DD/MM/AA</td>
+          {institutions.map((institution) => (
+            <tr key={institution.id} className="text-center">
+              <td className="px-4 py-2 border">{institution.name}</td>
+              <td className={`px-4 py-2 border ${institution.isActive === true ? "bg-green-200" : "bg-red-200"}`}>{institution.isActive === true ? "Aprobado" : "Rechazado"}</td>
+              <td className="px-4 py-2 border">{institution.address}</td>
+              <td className="px-4 py-2 border">{institution.name}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+const ApproveInstitutions = () => {
+  const institutions = InstitutionsData((state) => state.institutions);
+  const updateInstitutionStatus = InstitutionsData((state) => state.updateInstitutionStatus);
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="min-w-full bg-white">
+        <thead>
+          <tr>
+            <th className="px-4 py-2 border">Nombre de la institución</th>
+            <th className="px-4 py-2 border">ID de institución</th>
+            <th className="px-4 py-2 border">Dirección fiscal</th>
+            <th className="px-4 py-2 border">Cuenta bancaria</th>
+            <th className="px-4 py-2 border">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {institutions.map((institution) => (
+            <tr key={institution.id} className="text-center">
+              <td className="px-4 py-2 border">{institution.name}</td>
+              <td className="px-4 py-2 border">{institution.id}</td>
+              <td className="px-4 py-2 border">{institution.address}</td>
+              <td className="px-4 py-2 border">{institution.accountNumber}</td>
+              <td className="px-4 py-2 border">
+                <button
+                  onClick={() => updateInstitutionStatus(institution.id!, true)}
+                  className="px-2 py-1 bg-green-500 text-white rounded"
+                >
+                  Aprobar
+                </button>
+                <button
+                  onClick={() => updateInstitutionStatus(institution.id!, false)}
+                  className="px-2 py-1 bg-red-500 text-white rounded ml-2"> Rechazar
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -59,6 +111,11 @@ const InstitutionsTable = () => {
 
 const App = () => {
   const [view, setView] = useState("students");
+  const getInstitutions = InstitutionsData((state) => state.getInstitutions);
+
+  useEffect(() => {
+    getInstitutions();
+  }, [getInstitutions]);
 
   return (
     <div className="flex pt-20 h-screen">
@@ -75,6 +132,12 @@ const App = () => {
           active={view === "institutions"}
           onClick={() => setView("institutions")}
         />
+        <SidebarItem
+          icon={<CheckSquare />}
+          text="Aprobar Instituciones"
+          active={view === "approve"}
+          onClick={() => setView("approve")}
+        />
       </Sidebar>
       <div className="flex-1 p-4">
         <div className="flex items-center mb-4">
@@ -87,7 +150,13 @@ const App = () => {
             🔍
           </button>
         </div>
-        {view === "students" ? <StudentsTable /> : <InstitutionsTable />}
+        {view === "students" ? (
+          <StudentsTable />
+        ) : view === "institutions" ? (
+          <InstitutionsTable />
+        ) : (
+          <ApproveInstitutions />
+        )}
       </div>
     </div>
   );

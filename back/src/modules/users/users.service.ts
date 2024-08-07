@@ -27,4 +27,8 @@ export class UsersService {
   toRoleAdmin(id: string): Promise<User> {
     return this.usersRepository.toRoleAdmin(id);
   }
+
+  changeStatus(id: string, status: boolean) {
+    return this.usersRepository.changeStatus(id, status);
+  }
 }

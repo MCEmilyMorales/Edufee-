@@ -22,8 +22,8 @@ export class InstitutionService {
     return this.institutionRepository.updateInstitution(id, institution);
   }
 
-  approveInstitution(id: string) {
-    return this.institutionRepository.approveInstitution(id);
+  approveInstitution(id: string, status: boolean) {
+    return this.institutionRepository.approveInstitution(id, status);
   }
 
   toRoleAdmin(id: string): Promise<Institution> {
