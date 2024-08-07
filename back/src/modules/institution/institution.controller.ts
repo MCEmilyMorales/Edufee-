@@ -21,16 +21,13 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/enums';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { ApproveInstitutionDto } from './institutionDtos/approveInstitution.dto';
+import { Institution } from './institution.entity';
 
 @ApiTags('Institucion')
 @Controller('institution')
 export class InstitutionController {
   constructor(private readonly institutionService: InstitutionService) {}
 
-  @ApiBearerAuth()
-  @Roles(Role.student)
-  @UseGuards(AuthGuard, RolesGuard)
   @Get()
   getAllInstitutions(
     @Query('page') page: string,
@@ -45,19 +42,22 @@ export class InstitutionController {
       );
   }
 
+  @Roles(Role.admin)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiBearerAuth()
   @Get(':id')
-  getInstitutionByEmail(@Param('id') id: string) {
+  getInstitutionById(@Param('id') id: string) {
     return this.institutionService.getInstitutionById(id);
   }
 
-  @ApiBearerAuth()
   @Post('signup')
   signUp(@Body() institution: CreateInstitutionDto) {
     return this.institutionService.signUp(institution);
   }
 
   @ApiBearerAuth()
+  @Roles(Role.institution, Role.admin)
+  @UseGuards(AuthGuard, RolesGuard)
   @Put(':id')
   updateInstitution(
     @Param('id', ParseUUIDPipe) id: string,
@@ -66,8 +66,17 @@ export class InstitutionController {
     return this.institutionService.updateInstitution(id, institution);
   }
 
+  @ApiBearerAuth()
+  @Roles(Role.admin)
+  @UseGuards(AuthGuard, RolesGuard)
   @Put('approve/:id')
   approveInstitution(@Param('id') id: string) {
     return this.institutionService.approveInstitution(id);
+  }
+
+  @Put('asignAdmin/:id')
+  async toRoleAdmin(@Param('id') id: string): Promise<Institution> {
+    console.log('Controller: toRoleAdmin called with id:', id);
+    return this.institutionService.toRoleAdmin(id);
   }
 }

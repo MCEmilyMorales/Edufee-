@@ -9,8 +9,8 @@ import { Institution } from './institution.entity';
 import { Repository } from 'typeorm';
 import { UpdateInstitutionDto } from './institutionDtos/updateInstitution.dto';
 import { SendMailsRepository } from '../send-mails/send-mails.repository';
-import { ApproveInstitutionDto } from './institutionDtos/approveInstitution.dto';
 import { User } from '../users/users.entity';
+import { Role } from 'src/enums/enums';
 
 @Injectable()
 export class InstitutionRepository {
@@ -106,6 +106,21 @@ export class InstitutionRepository {
     }
     institution.isActive = true;
     const response = await this.institutionRepository.save(institution);
+    return response;
+  }
+
+  async toRoleAdmin(id: string): Promise<Institution> {
+    console.log('Repository: toRoleAdmin called with id:', id);
+    const institution = await this.institutionRepository.findOneBy({ id });
+    if (!institution) {
+      throw new NotFoundException(
+        `Este ID: ${id} no corresponde a una institución.`,
+      );
+    }
+    institution.role = Role.admin;
+    console.log('Antes de guardar:', institution);
+    const response = await this.institutionRepository.save(institution);
+    console.log('Después de guardar:', response);
     return response;
   }
 }

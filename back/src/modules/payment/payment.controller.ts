@@ -6,17 +6,31 @@ import {
   ParseUUIDPipe,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { PaymentService } from './payment.service';
+import { PaymentDto } from './payment.dto';
+import { Roles } from 'src/decorators/roles.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { Role } from 'src/enums/enums';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { RolesGuard } from 'src/guards/roles.guard';
 
 @Controller('payments')
 export class PaymentDetailController {
   constructor(private readonly paymentService: PaymentService) {}
+
+  @ApiBearerAuth()
+  @Roles(Role.admin, Role.student, Role.institution)
+  @UseGuards(AuthGuard, RolesGuard)
   @Get('id')
   getPaymentById(@Param('id', ParseUUIDPipe) id: string) {
     return this.paymentService.getPaymentById(id);
   }
 
+  @ApiBearerAuth()
+  @Roles(Role.admin, Role.student, Role.institution)
+  @UseGuards(AuthGuard, RolesGuard)
   @Get()
   getAllPayments(
     @Query('page') page: string = '1',
@@ -29,5 +43,10 @@ export class PaymentDetailController {
   handleTest(@Body() body: any) {
     console.log('Received data:', body); // Aquí se imprime cualquier dato recibido
     return { status: 'success', data: body }; // Devuelve los datos recibidos como respuesta
+  }
+
+  @Post('register')
+  async registerPayment(@Body() paymentDto: PaymentDto) {
+    return this.paymentService.registerPayment(paymentDto);
   }
 }

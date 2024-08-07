@@ -6,6 +6,7 @@ import {
   Length,
   Matches,
 } from 'class-validator';
+import { Role } from 'src/enums/enums';
 
 export class UpdateInstitutionDto {
   /**
@@ -61,7 +62,7 @@ export class UpdateInstitutionDto {
   @IsOptional()
   @ApiHideProperty()
   @IsEmpty()
-  role?: string;
+  role?: Role;
 
   @IsOptional()
   @ApiHideProperty()

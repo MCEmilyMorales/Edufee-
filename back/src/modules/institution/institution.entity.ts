@@ -1,6 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { User } from '../users/users.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Payment } from '../payment/payment.entity';
+import { Role } from 'src/enums/enums';
 
 @Entity('institutions')
 export class Institution {
@@ -66,9 +68,9 @@ export class Institution {
       'Siempre que se cree una entidad tendrá el rol institution por defecto',
   })
   @Column({
-    default: 'institution',
+    default: Role.institution,
   })
-  role: string;
+  role: Role;
 
   @ApiProperty({
     description: 'Toda institución deberá esperar que su cuenta sea aprobada',
@@ -78,4 +80,7 @@ export class Institution {
 
   @OneToMany(() => User, (user) => user.institution)
   user_id: User[];
+
+  @OneToMany(() => Payment, (payment) => payment.institution)
+  payments: Payment[];
 }
