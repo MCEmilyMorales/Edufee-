@@ -1,6 +1,6 @@
 'use client'
 
-import FormInput from "@/components/FormInputStudent";
+import FormInput from "@/components/FormInput";
 import { registerStudent } from "@/helpers/student.helper";
 import { FormDataStudent, useFormStudent } from "@/hooks/useFormStudent";
 import { useRouter } from "next/navigation";
