@@ -1,7 +1,7 @@
 'use client';
 
 import React from "react";
-import FormInput from "@/components/FormInputStudent";
+import FormInput from "@/components/FormInput";
 import FormTextArea from "@/components/FormTextArea";
 import { FormDataContactUs, useContactForm } from "@/hooks/useContactForm";
 

@@ -8,13 +8,13 @@ export interface FormDataInstitute {
   telefono: string;
   numeroCuenta: string;
   email: string,
-  logo: File;
-  banner: File;
+  logo: File | null;
+  banner: File | null;
 }
 
 export const useFormInstitute = (initialState: FormDataInstitute) => {
   const [formData, setFormData] = useState<FormDataInstitute>(initialState);
-  const [errors, setErrors] = useState<any>(initialState);
+  const [errors, setErrors] = useState<any>({});
 
   const validate = () => {
     const newErrors: any = {};

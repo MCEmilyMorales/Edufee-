@@ -15,20 +15,42 @@ export const registerInstitution = async (formData: FormDataInstitute) => {
         accountNumber: formData.numeroCuenta,
         address: formData.direccion,
         phone: formData.telefono,
-        logo: formData.logo.name,
-        banner: formData.banner.name
+        logo: null,
+        banner: null
       }),
     });
 
     if (!response.ok) {
       throw new Error('Error en el registro');
     }
-
-    return await response.json();
+    const data = await response.json();
+    const institutionId = data.institutionResponse.id;
+    return institutionId;
   } catch (error: any) {
     throw new Error(error.message);
   }
 };
+export const uploadLogoBanner = async (formDataInstitute: FormDataInstitute, institutionId: string) => {
+  const formData = new FormData();
+
+  if (formDataInstitute.logo) {
+    formData.append('logo', formDataInstitute.logo);
+  }
+  if (formDataInstitute.banner) {
+    formData.append('banner', formDataInstitute.banner);
+  }
+
+  try {
+    const response = await fetch(`${apiUrl}/files/uploadInstitutionImages/${institutionId}`, {
+      method: 'POST',
+      body: formData
+    })
+    const data = await response.json();
+    console.log("Institution images uploaded successfully", data);
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+}
 
 export const getInstitutionsNames = async () => {
   try {
