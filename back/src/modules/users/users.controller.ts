@@ -28,7 +28,7 @@ export class UsersController {
   @ApiBearerAuth()
   @Get()
   @Roles(Role.admin)
-  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard,RolesGuard)
   getAll(
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '5',
