@@ -83,13 +83,13 @@ export class UsersRepository {
     const usernew = this.usersRepository.create({ ...user, institution });
 
     const savedUser = await this.usersRepository.save(usernew);
-    console.log(savedUser);
 
     await this.sendEmailRepository.sendEmail({
       name: savedUser.name,
       email: savedUser.email,
     });
-    const { isAdmin, ...rest } = savedUser;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { role, ...rest } = savedUser;
     return {
       message: 'Estudiante registrado exitosamente.',
       data: rest,

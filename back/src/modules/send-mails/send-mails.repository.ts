@@ -56,6 +56,18 @@ export class SendMailsRepository {
         </div>
       `,
     });
+    await transporter.sendMail({
+      from: '"Edufee" <paymyacademic@gmail.com>', // Cambia el remitente
+      to: 'paymyacademic@gmail.com', // Asegúrate de que aquí esté tu correo
+      subject: 'Nuevo mensaje de contacto', // Asunto del correo
+      html: `
+      <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+        <h2 style="color: #FFA500;">se requiere evaluacion de la institucion <span style="color: #FFD700;">${user.name}</span></h2>
+        <p><strong>Email:</strong> ${user.email}</p>
+       
+      </div>
+      `,
+    });
   }
   async sendContactEmail(user: ContactEmailDto): Promise<void> {
     // Enviar correo de agradecimiento al usuario

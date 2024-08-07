@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 
-import { createUserDto, EmailUserDto } from './userDtos/createUsers.dto';
+import { createUserDto } from './userDtos/createUsers.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/enums';
