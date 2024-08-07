@@ -13,4 +13,10 @@ export class SendMailsService {
   sendContactEmail(user: ContactEmailDto): Promise<void> {
     return this.sendMailsRepository.sendContactEmail(user);
   }
+  sendReviewEmail(user: any): Promise<void> {
+    return this.sendMailsRepository.sendReviewEmail(user);
+  }
+  sendApprovalEmail(user: any): Promise<void> {
+    return this.sendMailsRepository.sendApprovalEmail(user);
+  }
 }

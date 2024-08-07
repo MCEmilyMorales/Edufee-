@@ -36,7 +36,7 @@ const CheckoutPage: React.FC<{ amount: number; reference?: string }> = ({
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `http://www.localhost:3000/payment-success?amount=${amount}&reference=${encodeURIComponent(
+        return_url: `http://localhost:3000/payment-success?amount=${amount}&reference=${encodeURIComponent(
           reference || ""
         )}`,
       },

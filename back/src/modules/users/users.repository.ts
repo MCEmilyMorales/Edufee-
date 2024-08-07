@@ -23,11 +23,14 @@ export class UsersRepository {
   ) {}
 
   async getAll(page: number, limit: number) {
-    const allUser = await this.usersRepository.find({
-      skip: (page - 1) * limit,
-      take: limit,
-    });
-    return { allUser, page, limit };
+    const [allUser, count] = await Promise.all([
+      this.usersRepository.find({
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      this.usersRepository.count(),
+    ]);
+    return { allUser, count, page, limit };
   }
 
   async getId(id: string) {
@@ -87,7 +90,6 @@ export class UsersRepository {
     const usernew = this.usersRepository.create({ ...user, institution });
 
     const savedUser = await this.usersRepository.save(usernew);
-    console.log(savedUser);
 
     await this.sendEmailRepository.sendEmail({
       name: savedUser.name,
