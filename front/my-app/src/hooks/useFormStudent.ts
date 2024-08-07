@@ -1,5 +1,6 @@
 'use client'
 
+import { uploadStudentImageProfile } from '@/helpers/student.helper';
 import { useState } from 'react';
 
 export interface FormDataStudent {
@@ -9,22 +10,34 @@ export interface FormDataStudent {
   email: string,
   telefono: string,
   direccion: string,
-  institucion: string,
-  fotoPerfil: File,
+  institucion: string
 }
 
 export const useFormStudent = (initialState: FormDataStudent) => {
   const [formData, setFormData] = useState(initialState);
   const [errors, setErrors] = useState<any>({});
+  const [file, setFile] = useState<File | null>(null);
+
+  console.log("FOto de perfil", file)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    const files = e.target instanceof HTMLInputElement && e.target.type === 'file' ? e.target.files : undefined;
     setFormData((prevFormData: any) => ({
       ...prevFormData,
-      [name]: files ? files[0] : value,
+      [name]: value,
     }));
   };
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+    }
+  };
+  const handleSubmitStudentImageProfile = async(userId: string) => {
+    if (file) {
+      await uploadStudentImageProfile(userId, file);
+    }
+  }
 
   const validate = () => {
     const newErrors: any = {};
@@ -44,6 +57,9 @@ export const useFormStudent = (initialState: FormDataStudent) => {
     formData,
     errors,
     handleChange,
+    handleFileChange,
+    handleSubmitStudentImageProfile,
     validate,
+    setFormData,
   };
 };

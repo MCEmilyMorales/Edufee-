@@ -29,3 +29,17 @@ export const registerInstitution = async (formData: FormDataInstitute) => {
     throw new Error(error.message);
   }
 };
+
+export const getInstitutionsNames = async () => {
+  try {
+    const response = await fetch(`${apiUrl}/institution`);
+    if (!response.ok) {
+      throw new Error('Error al obtener las instituciones');
+    }
+    const institutions = await response.json();
+    const institutionsNames = institutions.map((inst: { name: string }) => inst.name);
+    return institutionsNames;
+  } catch (error) {
+    throw error;
+  }
+}
