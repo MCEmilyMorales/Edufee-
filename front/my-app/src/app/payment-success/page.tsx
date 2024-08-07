@@ -1,9 +1,8 @@
 "use client";
-
 import { Suspense, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { DataUser } from "../../store/userData";
 
-// Fallback component to show while loading
 function LoadingFallback() {
   return (
     <div className="flex items-center justify-center">
@@ -25,9 +24,9 @@ function PaymentContent() {
   const router = useRouter();
   const amount = searchParams.get("amount") || "0";
   const reference = searchParams.get("reference") || "";
-
+  const getData = DataUser((state) => state.getDataUser);
+  const userData = DataUser((state) => state.userData);
   const [loading, setLoading] = useState(false);
-  const studentName = "Estudiante";
 
   const handleDownloadPDF = async () => {
     setLoading(true);
@@ -40,7 +39,7 @@ function PaymentContent() {
         body: JSON.stringify({
           amount,
           institution: "Institucion A",
-          studentName,
+          studentName: userData.name,
           reference,
         }),
       });
@@ -70,7 +69,9 @@ function PaymentContent() {
   return (
     <main className="relative overflow-auto font-inter h-screen flex flex-col items-center space-y-8 text-white text-center border bg-gradient-to-tr from-blue-500 to-green-500 pb-32">
       <div className="mt-32 p-4 flex flex-col items-center">
-        <h1 className="text-4xl font-extrabold mb-2">Gracias, {studentName}</h1>
+        <h1 className="text-4xl font-extrabold mb-2">
+          Gracias, {userData.name}
+        </h1>
         <div className="bg-white p-2 rounded-md text-blue-600 mt-5 text-4xl font-bold">
           Pago enviado a Institucion A por: ${amount}
         </div>
