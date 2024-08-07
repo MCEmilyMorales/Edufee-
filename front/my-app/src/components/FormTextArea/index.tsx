@@ -4,13 +4,15 @@ interface FormTextAreaProps {
   name: string;
   placeholder: string;
   value: string;
+  label: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   error?: string;
 }
 
-const FormTextArea: React.FC<FormTextAreaProps> = ({ name, placeholder, value, onChange, error }) => {
+const FormTextArea: React.FC<FormTextAreaProps> = ({ name, placeholder, label,value, onChange, error }) => {
   return (
     <div>
+      <label htmlFor={name} className="block font-bold">{label}</label>
       <textarea
         name={name}
         placeholder={placeholder}
