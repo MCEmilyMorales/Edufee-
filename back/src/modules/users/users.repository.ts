@@ -10,6 +10,7 @@ import { updateUserDto } from './userDtos/updateUser.dto';
 import { User } from './users.entity';
 import { SendMailsRepository } from '../send-mails/send-mails.repository';
 import { Institution } from '../institution/institution.entity';
+import { Role } from 'src/enums/enums';
 
 @Injectable()
 export class UsersRepository {
@@ -112,5 +113,19 @@ export class UsersRepository {
     // Retorna el usuario actualizado
     const updatedUser = await this.usersRepository.findOneBy({ id });
     return updatedUser;
+  }
+
+  async toRoleAdmin(id: string): Promise<User> {
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException(
+        `Este ID: ${id} no corresponde a un estudiante.`,
+      );
+    }
+    user.role = Role.admin;
+
+    const response = await this.usersRepository.save(user);
+
+    return response;
   }
 }

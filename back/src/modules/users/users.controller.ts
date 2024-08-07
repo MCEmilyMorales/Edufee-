@@ -17,6 +17,8 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/enums';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { updateUserDto } from './userDtos/updateUser.dto';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { User } from './users.entity';
 
 @ApiTags('Estudiantes')
 @Controller('users')
@@ -25,7 +27,7 @@ export class UsersController {
 
   @ApiBearerAuth()
   @Get()
-  @Roles(Role.admin || Role.institution)
+  @Roles(Role.admin)
   @UseGuards(RolesGuard)
   getAll(
     @Query('page') page: string = '1',
@@ -35,23 +37,31 @@ export class UsersController {
   }
 
   @ApiBearerAuth()
+  @Roles(Role.admin, Role.student)
+  @UseGuards(AuthGuard, RolesGuard)
   @Get(':id')
   getId(@Param('id') id: string) {
     return this.usersService.getId(id);
   }
 
-  @ApiBearerAuth()
   @Post('signup')
   signUp(@Body() user: createUserDto) {
     return this.usersService.signUp(user);
   }
 
   @ApiBearerAuth()
+  @Roles(Role.admin, Role.student)
+  @UseGuards(AuthGuard, RolesGuard)
   @Put(':id')
   updateUser(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() user: updateUserDto,
   ) {
     return this.usersService.updateUser(id, user);
+  }
+
+  @Put('asignAdmin/:id')
+  async toRoleAdmin(@Param('id') id: string): Promise<User> {
+    return this.usersService.toRoleAdmin(id);
   }
 }

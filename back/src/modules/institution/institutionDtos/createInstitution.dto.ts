@@ -8,6 +8,7 @@ import {
   Length,
   Matches,
 } from 'class-validator';
+import { Role } from 'src/enums/enums';
 
 export class CreateInstitutionDto {
   /**
@@ -70,7 +71,7 @@ export class CreateInstitutionDto {
 
   @ApiHideProperty()
   @IsEmpty()
-  role?: string;
+  role?: Role;
 
   @IsEmpty()
   @ApiHideProperty()

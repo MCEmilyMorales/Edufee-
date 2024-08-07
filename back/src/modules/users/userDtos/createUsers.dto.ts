@@ -8,6 +8,7 @@ import {
   Length,
   Matches,
 } from 'class-validator';
+import { Role } from 'src/enums/enums';
 
 export class createUserDto {
   /**
@@ -62,7 +63,7 @@ export class createUserDto {
   phone: string;
 
   @IsEmpty()
-  role?: string;
+  role?: Role;
 
   /**
    * url de la imágen subida a cloudinary
