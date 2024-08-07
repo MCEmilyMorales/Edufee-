@@ -30,7 +30,7 @@ const LayerAuth = () => {
                     if (response.ok) {
                         console.log(data)
                         const payload = JSON.parse(atob(data.token.split('.')[1]));
-                        console.log(data.token);
+                        console.log(payload.roles);
                         setToken(data.token);
                         if (payload.roles.includes('student')) {
                             router.push('/student/dashboard');
