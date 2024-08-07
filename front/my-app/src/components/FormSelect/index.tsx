@@ -3,13 +3,17 @@ import React from "react";
 interface FormSelectProps {
   name: string;
   value: string;
+  label: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   options: string[];
 }
 
-const FormSelect: React.FC<FormSelectProps> = ({ name, value, onChange, options }) => {
+const FormSelect: React.FC<FormSelectProps> = ({ name, value,label, onChange, options }) => {
   return (
     <div>
+      <label htmlFor={name} className="block font-bold">
+        {label}
+      </label>
       <select
         name={name}
         value={value}

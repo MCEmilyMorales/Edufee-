@@ -42,7 +42,7 @@ export default function ProfileClient() {
           <label className="text-black text-lg pt-5">Cambiar imagen:</label>
           <input
             accept=".jpg,.jpeg,.png,.gif,.webp,.avif"
-
+            placeholder='imagen'
             className="text-black  py-5"
             type="file"
           />

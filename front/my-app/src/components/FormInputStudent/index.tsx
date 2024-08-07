@@ -3,14 +3,16 @@ import React from 'react';
 interface FormInputProps {
   type: string;
   name: string;
+  label: string;
   placeholder: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error: string;
 }
 
-const FormInput: React.FC<FormInputProps> = ({ type, name, placeholder, value, onChange, error }) => (
+const FormInput: React.FC<FormInputProps> = ({ type, name,label, placeholder, value, onChange, error }) => (
   <div>
+    <label htmlFor={name} className="block font-bold">{label}</label>
     <input
       type={type}
       name={name}

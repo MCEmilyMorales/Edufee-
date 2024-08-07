@@ -46,6 +46,7 @@ const Navbar = () => {
     };
   }, [open]);
 
+
   return (
     <div className='h-16 bg-white w-full fixed z-50'>
       {

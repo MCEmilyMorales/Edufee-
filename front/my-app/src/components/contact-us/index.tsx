@@ -2,7 +2,6 @@
 
 import React from "react";
 import FormInput from "@/components/FormInputStudent";
-import FormSelect from "@/components/FormSelect";
 import FormTextArea from "@/components/FormTextArea";
 import { FormDataContactUs, useContactForm } from "@/hooks/useContactForm";
 
@@ -24,6 +23,7 @@ const ContactForm: React.FC = () => {
           <FormInput
             type="text"
             name="nombre"
+            label="Nombre"
             placeholder="Nombre"
             value={formData.nombre}
             onChange={handleChange}
@@ -32,16 +32,11 @@ const ContactForm: React.FC = () => {
           <FormInput
             type="email"
             name="email"
+            label="Email"
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
             error={errors.email}
-          />
-          <FormSelect
-            name="rol"
-            value={formData.rol}
-            onChange={handleChange}
-            options={["Estudiante", "Institución", "Invitado"]}
           />
           <FormTextArea
             name="mensaje"
