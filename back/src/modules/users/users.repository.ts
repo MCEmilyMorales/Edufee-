@@ -31,7 +31,10 @@ export class UsersRepository {
   }
 
   async getId(id: string) {
-    const getId = await this.usersRepository.findOneBy({ id });
+    const getId = await this.usersRepository.findOne({
+      where: { id },
+      relations: { institution: true },
+    });
     if (!getId) {
       throw new NotFoundException('Usuario con Id no encontrado.');
     }
@@ -84,7 +87,6 @@ export class UsersRepository {
     const usernew = this.usersRepository.create({ ...user, institution });
 
     const savedUser = await this.usersRepository.save(usernew);
-    console.log(savedUser);
 
     await this.sendEmailRepository.sendEmail({
       name: savedUser.name,
