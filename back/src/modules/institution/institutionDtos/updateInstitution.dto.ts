@@ -15,7 +15,7 @@ export class UpdateInstitutionDto {
   @IsOptional()
   @IsString()
   @Length(3, 80)
-  name: string;
+  name?: string;
 
   /**
    * Debe ser un string entre 3 y 80 caracteres
@@ -23,7 +23,7 @@ export class UpdateInstitutionDto {
   @IsOptional()
   @IsString()
   @Length(3, 80)
-  accountNumber: string;
+  accountNumber?: string;
 
   /**
    * Debe ser un string entre 3 y 80 caracteres
@@ -31,7 +31,7 @@ export class UpdateInstitutionDto {
   @IsOptional()
   @IsString()
   @Length(3, 80)
-  address: string;
+  address?: string;
 
   /**
    * Debe ser un número entre 3 y 80 caracteres
@@ -42,7 +42,7 @@ export class UpdateInstitutionDto {
   @Matches(/^\d+$/, {
     message: 'El número de teléfono solo puede contener dígitos',
   })
-  phone: string;
+  phone?: string;
   /**
    * Imágen de enre 3 y 130 caracteres
    */
@@ -59,7 +59,6 @@ export class UpdateInstitutionDto {
   // @Length(3, 130)
   banner?: string;
 
-  @IsOptional()
   @ApiHideProperty()
   @IsEmpty()
   role?: Role;
