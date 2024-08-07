@@ -27,9 +27,6 @@ import { AuthGuard } from 'src/guards/auth.guard';
 export class InstitutionController {
   constructor(private readonly institutionService: InstitutionService) {}
 
-  @ApiBearerAuth()
-  @Roles(Role.student)
-  @UseGuards(AuthGuard, RolesGuard)
   @Get()
   getAllInstitutions(
     @Query('page') page: string,
@@ -46,7 +43,7 @@ export class InstitutionController {
 
   @ApiBearerAuth()
   @Get(':id')
-  getInstitutionByEmail(@Param('id') id: string) {
+  getInstitutionById(@Param('id') id: string) {
     return this.institutionService.getInstitutionById(id);
   }
 
