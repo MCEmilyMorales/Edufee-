@@ -69,7 +69,7 @@ export class InstitutionRepository {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { role, user_id, ...institutionResponse } = dbInstitution;
 
-    await this.sendEmailRepository.sendEmail({
+    await this.sendEmailRepository.sendReviewEmail({
       name: dbInstitution.name,
       email: dbInstitution.email,
     });
@@ -105,7 +105,15 @@ export class InstitutionRepository {
       );
     }
     institution.isActive = true;
+
+    // Log para verificar que llegamos aquí
+    console.log(`Aprobando institución: ${institution.name}`);
+
+    // Enviar correo de aprobación
+    await this.sendEmailRepository.sendApprovalEmail(institution);
+
     const response = await this.institutionRepository.save(institution);
+
     return response;
   }
 

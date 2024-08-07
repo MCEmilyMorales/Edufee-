@@ -29,4 +29,26 @@ export class SendMailsController {
     await this.sendMailsService.sendContactEmail(user);
     return { message: 'Correo de contacto enviado correctamente' };
   }
+
+  @Post('review')
+  async sendReviewEmail(@Body() body: any) {
+    const user = {
+      email: body.email,
+      name: body.name,
+    };
+    // const jwt = body.jwt;
+    await this.sendMailsService.sendReviewEmail(user);
+    return { message: 'Correo de review enviado correctamente' };
+  }
+
+  @Post('approval')
+  async sendApprovalEmail(@Body() body: any) {
+    const user = {
+      email: body.email,
+      name: body.name,
+    };
+    // const jwt = body.jwt;
+    await this.sendMailsService.sendApprovalEmail(user);
+    return { message: 'Correo de aprobacion enviado correctamente' };
+  }
 }
