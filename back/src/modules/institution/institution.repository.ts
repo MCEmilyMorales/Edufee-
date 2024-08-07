@@ -97,14 +97,15 @@ export class InstitutionRepository {
     return updateInstitutionResponse;
   }
 
-  async approveInstitution(id: string) {
+  async approveInstitution(id: string, status: boolean) {
     const institution = await this.institutionRepository.findOneBy({ id });
     if (!institution) {
       throw new NotFoundException(
         `Este ID: ${id} no corresponde a una institución.`,
       );
     }
-    institution.isActive = true;
+    if (!status) throw new BadRequestException();
+    institution.isActive = status;
     const response = await this.institutionRepository.save(institution);
     return response;
   }
