@@ -43,7 +43,6 @@ export class InstitutionRepository {
 
   async signUp(institution: Partial<Institution>) {
     if (!institution) throw new BadRequestException();
-    //el email existe en alguna otra tabla?
     const { email } = institution;
     const [existEmailInstitution, existEmailUser] = await Promise.all([
       this.institutionRepository.findOneBy({
@@ -104,13 +103,13 @@ export class InstitutionRepository {
         `Este ID: ${id} no corresponde a una institución.`,
       );
     }
-    // if (!status) throw new BadRequestException();
     institution.isActive = status;
-  
-    await this.sendEmailRepository.sendApprovalEmail(institution);
 
     const response = await this.institutionRepository.save(institution);
 
+    if (status) {
+      await this.sendEmailRepository.sendApprovalEmail(institution);
+    }
     return response;
   }
 

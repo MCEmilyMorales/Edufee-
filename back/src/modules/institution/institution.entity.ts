@@ -56,7 +56,7 @@ export class Institution {
     nullable: true,
   })
   logo?: string;
-  k;
+
   @ApiProperty({
     description: 'URL de cloudinary',
   })
