@@ -8,6 +8,7 @@ import {
 import { Institution } from '../institution/institution.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Payment } from '../payment/payment.entity';
+import { Role } from 'src/enums/enums';
 
 @Entity({ name: 'users' })
 export class User {
@@ -84,14 +85,8 @@ export class User {
   @ApiProperty({
     description: 'role de usuario',
   })
-  @Column({ type: 'varchar', length: 50, default: 'student' })
-  role: string;
-
-  @ApiProperty({
-    description: 'Indica si un usuario es Admin',
-  })
-  @Column({ type: 'boolean', default: false })
-  isAdmin: boolean;
+  @Column({ type: 'varchar', length: 50, default: Role.student })
+  role: Role;
 
   @ManyToOne(() => Institution, (institution) => institution.user_id)
   institution: Institution;

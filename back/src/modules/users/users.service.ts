@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 
 import { updateUserDto } from './userDtos/updateUser.dto';
-import { EmailUserDto } from './userDtos/createUsers.dto';
+import { User } from './users.entity';
 
 @Injectable()
 export class UsersService {
@@ -22,5 +22,9 @@ export class UsersService {
 
   updateUser(id: string, user: updateUserDto) {
     return this.usersRepository.updateUser(id, user);
+  }
+
+  toRoleAdmin(id: string): Promise<User> {
+    return this.usersRepository.toRoleAdmin(id);
   }
 }
