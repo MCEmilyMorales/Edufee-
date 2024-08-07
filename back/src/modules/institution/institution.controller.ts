@@ -70,8 +70,8 @@ export class InstitutionController {
   @Roles(Role.admin)
   @UseGuards(AuthGuard, RolesGuard)
   @Put('approve/:id')
-  approveInstitution(@Param('id') id: string) {
-    return this.institutionService.approveInstitution(id);
+  approveInstitution(@Param('id') id: string, @Body('status') status: boolean) {
+    return this.institutionService.approveInstitution(id, status);
   }
 
   @Put('asignAdmin/:id')
