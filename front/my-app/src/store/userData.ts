@@ -26,16 +26,17 @@ export const DataUser = create<UserState>((set) => ({
                 throw new Error('No hay token');
             }
             const dataToken = JSON.parse(store);
-
             const token = dataToken.state?.token
-
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            console.log(payload.id)
             console.log("llega esto del token",token)
 
-            const response = await fetch(`http://localhost:3005/users/${token}`,
+            const response = await fetch(`http://localhost:3005/users/${payload.id}`,
                 {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer: ${token}`
                     },
                 }
             );
