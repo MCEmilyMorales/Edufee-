@@ -25,6 +25,7 @@ export class SendMailsRepository {
   }
 
   async sendReviewEmail(user: any): Promise<void> {
+    // Enviar correo al usuario informándole que su cuenta está en revisión
     await transporter.sendMail({
       from: '"Edufee" <paymyacademic@gmail.com>',
       to: user.email,
@@ -36,6 +37,20 @@ export class SendMailsRepository {
           <p>Si tienes alguna pregunta, no dudes en contactarnos respondiendo a este correo.</p>
           <p>¡Gracias!</p>
           <p>El equipo de Edufee 🧡</p>
+        </div>
+      `,
+    });
+
+    // Enviar correo a tu dirección para informarte sobre la revisión
+    await transporter.sendMail({
+      from: '"Edufee" <paymyacademic@gmail.com>',
+      to: 'paymyacademic@gmail.com', // Tu correo
+      subject: 'Evaluación de cuenta requerida',
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+          <h2 style="color: #FFA500;">Se requiere evaluación de la cuenta de <span style="color: #FFD700;">${user.name}</span></h2>
+          <p><strong>Email:</strong> ${user.email}</p>
+          <p>La cuenta de esta institución está en revisión. Por favor, procede con la evaluación.</p>
         </div>
       `,
     });
@@ -54,6 +69,19 @@ export class SendMailsRepository {
           <p>¡Gracias!</p>
           <p>El equipo de Edufee 🧡</p>
         </div>
+      `,
+    });
+
+    await transporter.sendMail({
+      from: '"Edufee" <paymyacademic@gmail.com>', // Cambia el remitente
+      to: 'paymyacademic@gmail.com', // Asegúrate de que aquí esté tu correo
+      subject: 'Nuevo mensaje de contacto', // Asunto del correo
+      html: `
+      <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+        <h2 style="color: #FFA500;">se requiere evaluacion de la institucion <span style="color: #FFD700;">${user.name}</span></h2>
+        <p><strong>Email:</strong> ${user.email}</p>
+       
+      </div>
       `,
     });
   }

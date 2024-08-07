@@ -1,19 +1,20 @@
 "use client";
-
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import CheckoutPage from "../../components/checkoutPage/CheckoutPage";
 import convertToSubcurrency from "../../../lib/convertToSubcurrency";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import { DataUser } from "../../store/userData";
 
-// Ensure the Stripe public key is defined
-if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
-  throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined");
-}
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string
+);
 
 function CheckoutContent() {
+  const getData = DataUser((state) => state.getDataUser);
+  const userData = DataUser((state) => state.userData);
+  const nombreCompleto = `${userData.name} ${userData.lastname}`;
   const searchParams = useSearchParams();
   const router = useRouter();
   const amountParam = searchParams.get("amount");
@@ -49,12 +50,18 @@ function CheckoutContent() {
   }, [amount]);
 
   return (
-    <main
-      className="relative overflow-auto font-inter h-screen flex flex-col items-center space-y-8 text-white text-center border
-   bg-gradient-to-tr from-blue-500 to-green-500 pb-32"
-    >
+    <main className="relative overflow-auto font-inter h-screen flex flex-col items-center space-y-8 text-white text-center border bg-gradient-to-tr from-blue-500 to-green-500 pb-32">
       <div className="mt-32">
-        <h1 className="text-4xl font-semibold mb-2">Institucion A</h1>
+        <h1 className="text-4xl font-semibold mb-2">
+          <span className="font-bold font-inter">Estudiante </span>
+          {nombreCompleto}
+        </h1>
+        <h1 className="text-4xl font-semibold mb-2">
+          a la institucion:{" "}
+          {userData.institution
+            ? userData.institution.name
+            : "Institución no disponible"}
+        </h1>
         <h2 className="text-2xl flex items-center space-x-2">
           <span className="font-regular font-inter mx-auto">
             $ {amount.toFixed(2)} pesos

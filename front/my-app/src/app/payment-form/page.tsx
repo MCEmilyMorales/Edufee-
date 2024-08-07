@@ -1,15 +1,19 @@
 "use client";
+
 import { useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { DataUser } from "../../store/userData";
 
 export default function FormPage() {
   const [amount, setAmount] = useState<string>("");
   const [reference, setReference] = useState<string>("");
   const [error, setError] = useState<string>("");
   const router = useRouter();
-  const institutionName = "Nombre de la Institución";
-  const userName = "Nombre del Estudiante";
 
+  const getData = DataUser((state) => state.getDataUser);
+  const userData = DataUser((state) => state.userData);
+
+  const nombreCompleto = `${userData.name} ${userData.lastname}`;
   const handleAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     if (/^\d*\.?\d*$/.test(value)) {
@@ -39,17 +43,20 @@ export default function FormPage() {
   };
 
   return (
-    <main
-      className="relative overflow-auto font-inter h-screen flex flex-col items-center space-y-8 text-white text-center border
-     bg-gradient-to-tr from-blue-500 to-green-500  pb-32 "
-    >
+    <main className="relative overflow-auto font-inter h-screen flex flex-col items-center space-y-8 text-white text-center border bg-gradient-to-tr from-blue-500 to-green-500 pb-32">
       <div className="mt-32 items-center flex flex-col">
         <h1 className="text-4xl font-semibold mb-2">
-          <span className="font-bold font-inter">Estudiante</span> {userName}
+          <span className="font-bold font-inter">Estudiante</span>{" "}
+          {nombreCompleto} {userData.name}
         </h1>
         <h2 className="text-2xl mb-4 flex-wrap max-w-[400px]">
-          Ingrese el monto a pagar y referencia única de pago para:{" "}
-          <span className="font-bold font-inter">{institutionName}</span>
+          Ingrese el monto a pagar y referencia única de pago para la
+          institucion:{" "}
+          <span className="font-bold font-inter">
+            {userData.institution
+              ? userData.institution.name
+              : "Institución no disponible"}
+          </span>
         </h2>
         <form
           className="flex flex-col items-center space-y-4 mb-8 max-w-[200px]"
