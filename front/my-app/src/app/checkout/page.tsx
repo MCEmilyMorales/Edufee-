@@ -57,10 +57,7 @@ function CheckoutContent() {
           {nombreCompleto}
         </h1>
         <h1 className="text-4xl font-semibold mb-2">
-          a la institucion:{" "}
-          {userData.institution
-            ? userData.institution.name
-            : "Institución no disponible"}
+          a la institucion: {userData.institution?.name}
         </h1>
         <h2 className="text-2xl flex items-center space-x-2">
           <span className="font-regular font-inter mx-auto">

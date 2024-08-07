@@ -2,6 +2,7 @@
 import { Suspense, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { DataUser } from "../../store/userData";
+import { tokenStore } from "@/store/tokenStore";
 
 function LoadingFallback() {
   return (
@@ -26,6 +27,11 @@ function PaymentContent() {
   const reference = searchParams.get("reference") || "";
   const getData = DataUser((state) => state.getDataUser);
   const userData = DataUser((state) => state.userData);
+  const token = tokenStore((state) => state.token);
+  console.log(token);
+  const payload = JSON.parse(atob(token.split(".")[1]));
+  const userID = payload.id as string;
+  const cantidad = amount;
   const [loading, setLoading] = useState(false);
 
   const handleDownloadPDF = async () => {
@@ -35,10 +41,11 @@ function PaymentContent() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          //Authorization: Bearer: ${token},
         },
         body: JSON.stringify({
           amount,
-          institution: "Institucion A",
+          institution: userData.institution?.name,
           studentName: userData.name,
           reference,
         }),
@@ -55,10 +62,44 @@ function PaymentContent() {
       link.download = "receipt.pdf";
       link.click();
       window.URL.revokeObjectURL(url);
+
+      // Call function to register payment after PDF download
+      await handleRegisterPayment();
     } catch (error) {
       console.error("Error downloading PDF:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRegisterPayment = async () => {
+    try {
+      const response = await fetch("http://localhost:3005/payments/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Uncomment if you need to include the token for authentication
+          // Authorization: Bearer ${token},
+        },
+        body: JSON.stringify({
+          amount: parseInt(amount, 10),
+          institution: userData.institution?.name,
+          studentName: userData.name,
+          reference,
+          pdfImage: userData.name,
+          userId: userID,
+          institutionId: userData.institution?.id,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to register payment");
+      }
+
+      // Handle response if needed
+      console.log("Payment registered successfully");
+    } catch (error) {
+      console.error("Error registering payment:", error);
     }
   };
 
@@ -73,7 +114,13 @@ function PaymentContent() {
           Gracias, {userData.name}
         </h1>
         <div className="bg-white p-2 rounded-md text-blue-600 mt-5 text-4xl font-bold">
-          Pago enviado a Institucion A por: ${amount}
+          Pago enviado a{" "}
+          <span className="font-bold font-inter">
+            {userData.institution
+              ? userData.institution.name
+              : "Institución no disponible"}
+          </span>{" "}
+          por: ${amount}
         </div>
         <button
           onClick={handleDownloadPDF}
