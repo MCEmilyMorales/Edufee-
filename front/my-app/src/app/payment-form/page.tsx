@@ -47,15 +47,13 @@ export default function FormPage() {
       <div className="mt-32 items-center flex flex-col">
         <h1 className="text-4xl font-semibold mb-2">
           <span className="font-bold font-inter">Estudiante</span>{" "}
-          {nombreCompleto} {userData.name}
+          {nombreCompleto}
         </h1>
         <h2 className="text-2xl mb-4 flex-wrap max-w-[400px]">
           Ingrese el monto a pagar y referencia única de pago para la
           institucion:{" "}
           <span className="font-bold font-inter">
-            {userData.institution
-              ? userData.institution.name
-              : "Institución no disponible"}
+            {userData.institution?.name}
           </span>
         </h2>
         <form

@@ -1,6 +1,20 @@
 import { create } from "zustand";
 
+interface institutionData {
+  accountNumber?: string;
+  address?: string;
+  banner?: string;
+  email?: string;
+  id?: string;
+  isActive?: boolean;
+  logo?: string;
+  name?: string;
+  phone?: string;
+  role?: string;
+}
+
 interface Data {
+  userId?: string; // Add this line
   name?: string;
   lastname?: string;
   email?: string;
@@ -9,7 +23,7 @@ interface Data {
   phone?: string;
   imgProfile?: string | null;
   role?: string;
-  institution?: string;
+  institution?: institutionData;
 }
 
 interface UserState {
