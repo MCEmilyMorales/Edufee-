@@ -28,6 +28,7 @@ export class UsersRepository {
       this.usersRepository.find({
         skip: (page - 1) * limit,
         take: limit,
+        relations: { institution: true },
       }),
       this.usersRepository.count(),
     ]);
