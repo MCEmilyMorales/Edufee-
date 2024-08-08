@@ -16,6 +16,8 @@
     "@splinetool/runtime": "^1.9.3",
     "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^4.1.0",
+    "cloudinary": "^2.4.0",
+    "formidable": "^3.5.1",
     "fs": "^0.0.1-security",
     "lucide-react": "^0.424.0",
     "my-app": "file:",
