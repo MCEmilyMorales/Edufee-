@@ -65,6 +65,9 @@ export class createUserDto {
   @IsEmpty()
   role?: Role;
 
+  @IsEmpty()
+  status: boolean;
+
   /**
    * url de la imágen subida a cloudinary
    */

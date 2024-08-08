@@ -1,5 +1,8 @@
 import { create } from "zustand";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+
 interface institutionData {
   accountNumber?: string;
   address?: string;
@@ -14,25 +17,44 @@ interface institutionData {
 }
 
 interface Data {
-  userId?: string; // Add this line
+  userId?: string;
   name?: string;
   lastname?: string;
   email?: string;
   dni?: number;
   address?: string;
   phone?: string;
+  status?: string;
   imgProfile?: string | null;
   role?: string;
   institution?: institutionData;
 }
+interface AllData {
+  allUser: {
+    id?: string;
+    name?: string;
+    lastname?: string;
+    email?: string;
+    dni?: string;
+    address?: string;
+    phone?: string;
+    imgProfile?: string | null;
+    role?: string;
+    status?: string;
+  }[];
+}
+
 
 interface UserState {
-  userData: Data;
+  userData: Data[];
+  AllData: AllData[]
   getDataUser: () => Promise<void>;
+  getAllData: () => Promise<void>;
 }
 
 export const DataUser = create<UserState>((set) => ({
-  userData: {},
+  userData: [],
+  AllData: [],
   async getDataUser() {
     try {
       const store = localStorage.getItem("user");
@@ -46,7 +68,7 @@ export const DataUser = create<UserState>((set) => ({
       console.log("llega esto del token", token);
 
       const response = await fetch(
-        `http://localhost:3005/users/${payload.id}`,
+        `${apiUrl}/users/${payload.id}`,
         {
           method: "GET",
           headers: {
@@ -56,9 +78,32 @@ export const DataUser = create<UserState>((set) => ({
         }
       );
       const data = await response.json();
-      set({ userData: data });
+      console.log(data);
+      set({ userData: Array.isArray(data) ? data : [data] });
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   },
+  getAllData: async () => {
+    try {
+      const store = localStorage.getItem("user");
+      if (!store) {
+        throw new Error("No hay token");
+      }
+      const dataToken = JSON.parse(store);
+      const token = dataToken.state?.token;
+      const response = await fetch(`${apiUrl}/users`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer: ${token}`,
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+      set({ AllData: Array.isArray(data) ? data : [data] });
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  }
 }));

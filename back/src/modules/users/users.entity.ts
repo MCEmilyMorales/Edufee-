@@ -88,6 +88,12 @@ export class User {
   @Column({ type: 'varchar', length: 50, default: Role.student })
   role: Role;
 
+  @ApiProperty({
+    description: 'El usuario puede ser baneado y desbaneado',
+  })
+  @Column({ type: 'varchar', length: 50, default: true })
+  status: boolean;
+
   @ManyToOne(() => Institution, (institution) => institution.user_id)
   institution: Institution;
 
