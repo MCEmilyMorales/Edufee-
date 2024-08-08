@@ -96,21 +96,21 @@ export class InstitutionRepository {
     return updateInstitutionResponse;
   }
 
-  async approveInstitution(id: string, status: boolean) {
-    const institution = await this.institutionRepository.findOneBy({ id });
-    if (!institution) {
-      throw new NotFoundException(
-        `Este ID: ${id} no corresponde a una institución.`,
-      );
-    }
-    institution.isActive = status;
+  // async approveInstitution(id: string, status: boolean) {
+  //   const institution = await this.institutionRepository.findOneBy({ id });
+  //   if (!institution) {
+  //     throw new NotFoundException(
+  //       `Este ID: ${id} no corresponde a una institución.`,
+  //     );
+  //   }
+  //   institution.isActive = status;
 
-    const response = await this.institutionRepository.save(institution);
+  //   const response = await this.institutionRepository.save(institution);
 
-    await this.sendEmailRepository.sendApprovalEmail(institution);
+  //   await this.sendEmailRepository.sendApprovalEmail(institution);
 
-    return response;
-  }
+  //   return response;
+  // }
 
   async toRoleAdmin(id: string): Promise<Institution> {
     console.log('Repository: toRoleAdmin called with id:', id);

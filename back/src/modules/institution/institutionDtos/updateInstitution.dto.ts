@@ -7,6 +7,7 @@ import {
   Matches,
 } from 'class-validator';
 import { Role } from 'src/enums/enums';
+import { InstitutionRole } from 'src/enums/institution.enum';
 
 export class UpdateInstitutionDto {
   /**
@@ -65,5 +66,5 @@ export class UpdateInstitutionDto {
 
   @IsOptional()
   @ApiHideProperty()
-  isActive: boolean;
+  isActive: InstitutionRole;
 }

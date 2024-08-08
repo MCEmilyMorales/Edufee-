@@ -27,7 +27,7 @@ export class UsersController {
 
   @ApiBearerAuth()
   @Get()
-  @Roles(Role.admin)
+  @Roles(Role.admin, Role.student)
   @UseGuards(AuthGuard, RolesGuard)
   getAll(
     @Query('page') page: string = '1',
