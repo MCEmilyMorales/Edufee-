@@ -11,6 +11,7 @@ import { UpdateInstitutionDto } from './institutionDtos/updateInstitution.dto';
 import { SendMailsRepository } from '../send-mails/send-mails.repository';
 import { User } from '../users/users.entity';
 import { Role } from 'src/enums/enums';
+import { InstitutionRole } from 'src/enums/institution.enum';
 
 @Injectable()
 export class InstitutionRepository {
@@ -96,13 +97,18 @@ export class InstitutionRepository {
     return updateInstitutionResponse;
   }
 
+<<<<<<< HEAD
   async approveInstitution(id: string, status: boolean) {
+=======
+  async approveInstitution(id: string, status: InstitutionRole) {
+>>>>>>> 038e2e8cb3b4c60efbfee3b158d4b40eb6f84613
     const institution = await this.institutionRepository.findOneBy({ id });
     if (!institution) {
       throw new NotFoundException(
         `Este ID: ${id} no corresponde a una institución.`,
       );
     }
+<<<<<<< HEAD
     // if (!status) throw new BadRequestException();
     institution.isActive = status;
   
@@ -112,6 +118,17 @@ export class InstitutionRepository {
 
   //   return response;
   // }
+=======
+    if (status === InstitutionRole.aproved) {
+      institution.isActive = InstitutionRole.aproved;
+      await this.sendEmailRepository.sendApprovalEmail(institution);
+    } else if (status === InstitutionRole.denied) {
+      institution.isActive = InstitutionRole.denied;
+    }
+    const response = await this.institutionRepository.save(institution);
+    return response;
+  }
+>>>>>>> 038e2e8cb3b4c60efbfee3b158d4b40eb6f84613
 
   async toRoleAdmin(id: string): Promise<Institution> {
     console.log('Repository: toRoleAdmin called with id:', id);

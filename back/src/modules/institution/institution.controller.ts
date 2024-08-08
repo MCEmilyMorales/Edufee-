@@ -66,11 +66,22 @@ export class InstitutionController {
     return this.institutionService.updateInstitution(id, institution);
   }
 
+<<<<<<< HEAD
   // @ApiBearerAuth()
   // @Roles(Role.admin)
   // @UseGuards(AuthGuard, RolesGuard)
   @Put('approve/:id')
   approveInstitution(@Param('id') id: string, @Body('status') status: boolean) {
+=======
+  @ApiBearerAuth()
+  @Roles(Role.admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  @Put('approve/:id')
+  approveInstitution(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body('status') status: InstitutionRole,
+  ) {
+>>>>>>> 038e2e8cb3b4c60efbfee3b158d4b40eb6f84613
     return this.institutionService.approveInstitution(id, status);
   }
 
