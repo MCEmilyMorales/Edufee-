@@ -28,7 +28,7 @@ const StudentsTable = () => {
         </thead>
         <tbody>
           {dataUser[0]?.allUser?.map((user) => (
-            <tr className="text-center">
+            <tr key={user.id}  className="text-center">
               <td className="px-4 py-2 border">{user.name}</td>
               <td className="px-4 py-2 border">{user.phone}</td>
               <td className={`px-4 py-2 border ${user.status === 'true' ? "bg-green-200" : "bg-red-200"}`}>{user.status === 'true' ? "Aprobado" : "Rechazado"}</td>

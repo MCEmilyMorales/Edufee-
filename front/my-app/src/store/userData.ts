@@ -17,6 +17,7 @@ interface institutionData {
 }
 
 interface Data {
+  id?: string;
   userId?: string;
   name?: string;
   lastname?: string;
