@@ -14,6 +14,19 @@ export default function FormPage() {
   const userData = DataUser((state) => state.userData);
 
   const nombreCompleto = `${userData.name} ${userData.lastname}`;
+
+  // Function to generate a unique reference number
+  const generateUniqueReference = () => {
+    const timestamp = Date.now().toString(36); // Convert timestamp to base-36 string
+    const randomValue = Math.random().toString(36).substr(2, 6); // Generate a random base-36 string
+    return `${timestamp}-${randomValue}`;
+  };
+
+  // Set a unique reference number when the form is loaded
+  useState(() => {
+    setReference(generateUniqueReference());
+  }, []);
+
   const handleAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     if (/^\d*\.?\d*$/.test(value)) {
@@ -50,8 +63,7 @@ export default function FormPage() {
           {nombreCompleto}
         </h1>
         <h2 className="text-2xl mb-4 flex-wrap max-w-[400px]">
-          Ingrese el monto a pagar y referencia única de pago para la
-          institucion:{" "}
+          Ingrese el monto a pagar para la institucion:{" "}
           <span className="font-bold font-inter">
             {userData.institution?.name}
           </span>
@@ -73,12 +85,14 @@ export default function FormPage() {
             </span>
           </div>
           <div className="relative max-w-full">
+            <p>Referencia unica de pago</p>
             <input
               type="text"
               value={reference}
               onChange={handleReferenceChange}
               className="p-2 border rounded text-gray-800 placeholder-gray-400 max-w-full"
               placeholder="Referencia de pago"
+              disabled
             />
           </div>
           {error && (
