@@ -8,6 +8,7 @@ import {
   Put,
   ParseUUIDPipe,
   UseGuards,
+  Delete,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 
@@ -27,7 +28,7 @@ export class UsersController {
 
   @ApiBearerAuth()
   @Get()
-  @Roles(Role.admin)
+  @Roles(Role.admin, Role.student)
   @UseGuards(AuthGuard, RolesGuard)
   getAll(
     @Query('page') page: string = '1',
@@ -60,16 +61,30 @@ export class UsersController {
     return this.usersService.updateUser(id, user);
   }
 
+  @ApiBearerAuth()
+  @Roles(Role.admin)
+  @UseGuards(AuthGuard, RolesGuard)
   @Put('asignAdmin/:id')
   async toRoleAdmin(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
     return this.usersService.toRoleAdmin(id);
   }
 
+  @ApiBearerAuth()
+  @Roles(Role.admin, Role.student)
+  @UseGuards(AuthGuard, RolesGuard)
   @Put('changeStatus/:id')
   async changeStatus(
     @Param('id', ParseUUIDPipe) id: string,
     @Body('status') status: boolean,
   ): Promise<User> {
     return this.usersService.changeStatus(id, status);
+  }
+
+  // @ApiBearerAuth()
+  // @Roles(Role.admin, Role.student)
+  // @UseGuards(AuthGuard, RolesGuard)
+  @Delete('delete/:id')
+  async deleteUser(@Param('id', ParseUUIDPipe) id: string) {
+    return this.usersService.deleteUser(id);
   }
 }

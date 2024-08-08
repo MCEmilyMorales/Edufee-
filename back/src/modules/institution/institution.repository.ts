@@ -11,6 +11,7 @@ import { UpdateInstitutionDto } from './institutionDtos/updateInstitution.dto';
 import { SendMailsRepository } from '../send-mails/send-mails.repository';
 import { User } from '../users/users.entity';
 import { Role } from 'src/enums/enums';
+import { InstitutionRole } from 'src/enums/institution.enum';
 
 @Injectable()
 export class InstitutionRepository {
@@ -96,19 +97,20 @@ export class InstitutionRepository {
     return updateInstitutionResponse;
   }
 
-  async approveInstitution(id: string, status: boolean) {
+  async approveInstitution(id: string, status: InstitutionRole) {
     const institution = await this.institutionRepository.findOneBy({ id });
     if (!institution) {
       throw new NotFoundException(
         `Este ID: ${id} no corresponde a una institución.`,
       );
     }
-    institution.isActive = status;
-
+    if (status === InstitutionRole.aproved) {
+      institution.isActive = InstitutionRole.aproved;
+      await this.sendEmailRepository.sendApprovalEmail(institution);
+    } else if (status === InstitutionRole.denied) {
+      institution.isActive = InstitutionRole.denied;
+    }
     const response = await this.institutionRepository.save(institution);
-
-    await this.sendEmailRepository.sendApprovalEmail(institution);
-
     return response;
   }
 

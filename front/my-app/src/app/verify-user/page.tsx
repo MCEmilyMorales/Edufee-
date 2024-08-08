@@ -4,6 +4,8 @@ import { useUser } from '@auth0/nextjs-auth0/client'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { tokenStore } from '@/store/tokenStore'
+import Cookies from 'js-cookie';
+
 
 const LayerAuth = () => {
 
@@ -32,6 +34,7 @@ const LayerAuth = () => {
                         const payload = JSON.parse(atob(data.token.split('.')[1]));
                         console.log(payload.roles);
                         setToken(data.token);
+                        Cookies.set('authToken', data.token, { expires: 7, secure: true, sameSite: 'strict' });
                         if (payload.roles.includes('student')) {
                             router.push('/student/dashboard');
                         } else if (payload.roles.includes('institution')) {

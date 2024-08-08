@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InstitutionRepository } from './institution.repository';
 import { Institution } from './institution.entity';
 import { UpdateInstitutionDto } from './institutionDtos/updateInstitution.dto';
+import { InstitutionRole } from 'src/enums/institution.enum';
 
 @Injectable()
 export class InstitutionService {
@@ -22,7 +23,7 @@ export class InstitutionService {
     return this.institutionRepository.updateInstitution(id, institution);
   }
 
-  approveInstitution(id: string, status: boolean) {
+  approveInstitution(id: string, status: InstitutionRole) {
     return this.institutionRepository.approveInstitution(id, status);
   }
 

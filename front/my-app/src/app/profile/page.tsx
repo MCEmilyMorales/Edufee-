@@ -1,13 +1,17 @@
 'use client';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Image from 'next/image'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import swal from 'sweetalert';
 import { DataUser } from '@/store/userData';
+import { uploadImage } from '@/helpers/uploadImage';
+import { title } from 'process';
+
 
 
 export default function ProfileClient() {
+  const [file, setFile] = useState<File | null>(null);
   const getUser = DataUser((state) => state.getDataUser);
   const userData = DataUser((state) => state.userData);
   const { user, error, isLoading, } = useUser();
@@ -19,12 +23,33 @@ export default function ProfileClient() {
 
   console.log(userData)
 
-  // useEffect(() => {
-  //   if (userData.name === undefined) {
-  //     swal("Error", "Debes iniciar sesión para ver tu perfil", "error");
-  //     // router.push('/api/auth/login')
-  //   }
-  // }, [userData])
+
+  const handleViewFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      setFile(file);
+      console.log(file)
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(file)
+    console.log(userData.id)
+    if (file) {
+      const data = await uploadImage(file, userData.id!);
+      if (data.ok) {
+        swal({
+          title: "Imagen subida correctamente",
+          text: "Tu imagen de perfil ha sido actualizada",
+          icon: "success",
+          timer: 4000,
+        })
+        getUser()
+
+      }
+    }
+  }
 
   if (isLoading) return <div className='text-black text-3xl absolute top-1/2 left-1/2 translate-x-0 -translate-y-1/2'>Loading...</div>;
 
@@ -33,14 +58,16 @@ export default function ProfileClient() {
 
   return (
     <div className="h-screen pt-20 flex justify-center gap-12 pb-10 bg-gradient-radial from-[#e0f5f3] to-[#ffffff]">
-      <form className="flex flex-col bg-white rounded-xl shadow-lg" >
+      <form className="flex flex-col bg-white rounded-xl shadow-lg" onSubmit={handleSubmit}>
         <h1 className="text-3xl text-black font-medium pt-4 px-4 pb-6">
           Cambiar foto de perfil
         </h1>
         <div className="flex flex-col p-5">
-          <img src={userData.imgProfile!} alt="imagen" className="flex mx-auto w-36 h-36 rounded-full" />
+          <img src={userData.imgProfile! ? userData.imgProfile! : user?.picture!} alt="imagen" className="flex mx-auto w-36 h-36 rounded-full" />
           <label className="text-black text-lg pt-5">Cambiar imagen:</label>
           <input
+            onChange={handleViewFile}
+            name="file"
             accept=".jpg,.jpeg,.png,.gif,.webp,.avif"
             placeholder='imagen'
             className="text-black  py-5"
@@ -55,7 +82,7 @@ export default function ProfileClient() {
         <p className="text-black text-sm font-light px-3">Puedes cambiar tus datos personales</p>
         <div className="py-11">
           <div className="grid grid-cols-3 gap-4">
-          <div className="p-3">
+            <div className="p-3">
               <label className="text-black text-lg">Correo:</label>
               <input
                 name="email"

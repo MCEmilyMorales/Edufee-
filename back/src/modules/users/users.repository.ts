@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -27,6 +28,7 @@ export class UsersRepository {
       this.usersRepository.find({
         skip: (page - 1) * limit,
         take: limit,
+        relations: { institution: true },
       }),
       this.usersRepository.count(),
     ]);
@@ -139,12 +141,26 @@ export class UsersRepository {
     const user = await this.usersRepository.findOneBy({ id });
     if (!user) {
       throw new NotFoundException(
-        `Este ID: ${id} no corresponde a una institución`,
+        `Este ID: ${id} no corresponde a un estudiante`,
       );
     }
     user.status = status;
 
     const response = await this.usersRepository.save(user);
     return response;
+  }
+
+  async deleteUser(id: string) {
+    try {
+      const user = await this.usersRepository.findOneBy({ id });
+      if (!user)
+        throw new BadRequestException(`Usuario con ID: ${id} no existente.`);
+
+      await this.usersRepository.remove(user);
+
+      return 'Usuario eliminado con éxito';
+    } catch (error) {
+      throw new Error(`Error al eliminar usuario. ${error}`);
+    }
   }
 }
