@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -81,51 +82,85 @@ export class InstitutionRepository {
   }
 
   async updateInstitution(id: string, institution: UpdateInstitutionDto) {
-    if (!id || !institution) throw new BadRequestException();
+    try {
+      if (!id || !institution) throw new BadRequestException();
 
-    await this.institutionRepository.update(id, institution);
+      await this.institutionRepository.update(id, institution);
 
-    const updatedInstitution = await this.institutionRepository.findOneBy({
-      id,
-    });
-    if (!updatedInstitution)
-      throw new BadRequestException('Error al actualizar institución');
+      const updatedInstitution = await this.institutionRepository.findOneBy({
+        id,
+      });
+      if (!updatedInstitution)
+        throw new BadRequestException('Error al actualizar institución');
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { role, ...updateInstitutionResponse } = updatedInstitution;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { role, ...updateInstitutionResponse } = updatedInstitution;
 
-    return updateInstitutionResponse;
+      return updateInstitutionResponse;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Error al intentar actualizar institución`,
+      );
+    }
   }
 
   async approveInstitution(id: string, status: InstitutionRole) {
-    const institution = await this.institutionRepository.findOneBy({ id });
-    if (!institution) {
-      throw new NotFoundException(
-        `Este ID: ${id} no corresponde a una institución.`,
-      );
+    try {
+      const institution = await this.institutionRepository.findOneBy({ id });
+      if (!institution) {
+        throw new NotFoundException(
+          `Este ID: ${id} no corresponde a una institución.`,
+        );
+      }
+
+      if (
+        status !== InstitutionRole.aproved &&
+        status !== InstitutionRole.denied
+      ) {
+        throw new BadRequestException(`Status debe ser aproved o denied`);
+      }
+
+      if (status === InstitutionRole.aproved) {
+        institution.isActive = InstitutionRole.aproved;
+        await this.sendEmailRepository.sendApprovalEmail(institution);
+      } else if (status === InstitutionRole.denied) {
+        institution.isActive = InstitutionRole.denied;
+        await this.sendEmailRepository.sendRejectionEmail(institution);
+      }
+
+      const response = await this.institutionRepository.save(institution);
+      return response;
+    } catch (error) {
+      if (
+        error instanceof NotFoundException ||
+        error instanceof BadRequestException
+      ) {
+        throw error;
+      } else {
+        throw new InternalServerErrorException(
+          `Error al intentar aprobar la institución.`,
+        );
+      }
     }
-    if (status === InstitutionRole.aproved) {
-      institution.isActive = InstitutionRole.aproved;
-      await this.sendEmailRepository.sendApprovalEmail(institution);
-    } else if (status === InstitutionRole.denied) {
-      institution.isActive = InstitutionRole.denied;
-    }
-    const response = await this.institutionRepository.save(institution);
-    return response;
   }
 
   async toRoleAdmin(id: string): Promise<Institution> {
-    console.log('Repository: toRoleAdmin called with id:', id);
-    const institution = await this.institutionRepository.findOneBy({ id });
-    if (!institution) {
-      throw new NotFoundException(
-        `Este ID: ${id} no corresponde a una institución.`,
+    try {
+      const institution = await this.institutionRepository.findOneBy({ id });
+      if (!institution) {
+        throw new NotFoundException(
+          `Este ID: ${id} no corresponde a una institución.`,
+        );
+      }
+      institution.role = Role.admin;
+
+      const response = await this.institutionRepository.save(institution);
+
+      return response;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Error al intentar hacer Admin a una institución.`,
       );
     }
-    institution.role = Role.admin;
-    console.log('Antes de guardar:', institution);
-    const response = await this.institutionRepository.save(institution);
-    console.log('Después de guardar:', response);
-    return response;
   }
 }
