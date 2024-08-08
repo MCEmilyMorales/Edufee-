@@ -106,7 +106,8 @@ export class InstitutionRepository {
     }
     // if (!status) throw new BadRequestException();
     institution.isActive = status;
-  
+    console.log(institution.isActive);
+
     await this.sendEmailRepository.sendApprovalEmail(institution);
 
     const response = await this.institutionRepository.save(institution);

@@ -17,7 +17,7 @@ export class AuthService {
 
   async findUserByEmail(emailUserDto: EmailUserDto) {
     const { email } = emailUserDto;
-    let user = await this.userRepository.findOneBy({ email });
+    const user = await this.userRepository.findOneBy({ email });
 
     if (user) {
       const payload = {

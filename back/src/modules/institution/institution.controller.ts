@@ -66,9 +66,9 @@ export class InstitutionController {
     return this.institutionService.updateInstitution(id, institution);
   }
 
-  @ApiBearerAuth()
-  @Roles(Role.admin)
-  @UseGuards(AuthGuard, RolesGuard)
+  // @ApiBearerAuth()
+  // @Roles(Role.admin)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Put('approve/:id')
   approveInstitution(@Param('id') id: string, @Body('status') status: boolean) {
     return this.institutionService.approveInstitution(id, status);
