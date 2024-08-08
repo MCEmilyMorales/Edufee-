@@ -21,7 +21,7 @@ interface InstitucionState {
     institutionData: InstiData[];
     getInstitutions: () => Promise<void>;
     updateInstitutionStatus: (id: string, status: boolean) => Promise<void>;
-    getInstitutionData: (id: string) => Promise<void>;
+    getInstitutionData: () => Promise<void>;
 }
 
 
@@ -75,9 +75,17 @@ export const InstitutionsData = create<InstitucionState>((set) => ({
             console.error("Error fetching user data:", error);
         }
     },
-    async getInstitutionData(id: string) {
+    async getInstitutionData() {
         try {
-            const response = await fetch(`${apiUrl}/institution/${id}`, {
+            const store = localStorage.getItem("user");
+            if (!store) {
+                throw new Error("No hay token");
+            }
+            const dataToken = JSON.parse(store);
+            const token = dataToken.state?.token;
+            const payload = JSON.parse(atob(token.split(".")[1]));
+            console.log(payload.id);
+            const response = await fetch(`${apiUrl}/institution/${payload.id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
