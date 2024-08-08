@@ -31,6 +31,8 @@ function PaymentContent() {
 
   const paymentRegisteredRef = useRef(false);
   const registrationInProgressRef = useRef(false);
+  const pdfUploadedRef = useRef(false);
+  const uploadInProgressRef = useRef(false);
 
   let userID = "";
   try {
@@ -72,7 +74,7 @@ function PaymentContent() {
               institution: userData.institution?.name,
               studentName: userData.name,
               reference,
-              pdfImage: userData.name,
+              pdfImage: reference,
               userId: userID,
               institutionId: userData.institution?.id,
             }),
@@ -94,6 +96,22 @@ function PaymentContent() {
     };
 
     const uploadPDFToCloudinary = async (pdfBlob: Blob) => {
+      if (pdfUploadedRef.current || uploadInProgressRef.current) {
+        return;
+      }
+
+      uploadInProgressRef.current = true;
+
+      const uploadId = `${userID}-${amount}-${reference}`;
+      const hasUploaded = localStorage.getItem(uploadId);
+
+      if (hasUploaded === "true") {
+        console.log("PDF already uploaded");
+        pdfUploadedRef.current = true;
+        uploadInProgressRef.current = false;
+        return;
+      }
+
       const formData = new FormData();
       formData.append("file", pdfBlob);
       formData.append(
@@ -101,13 +119,7 @@ function PaymentContent() {
         process.env.NEXT_CLOUDINARY_UPLOAD_PRESET || "ml_default"
       );
 
-      const uploadId = `${userID}-${amount}-${reference}`;
-      const hasUploaded = localStorage.getItem(uploadId);
-
-      if (hasUploaded === "true") {
-        console.log("PDF already uploaded");
-        return;
-      }
+      formData.append("public_id", reference);
 
       try {
         const response = await fetch(
@@ -124,8 +136,11 @@ function PaymentContent() {
 
         console.log("PDF uploaded to Cloudinary successfully");
         localStorage.setItem(uploadId, "true");
+        pdfUploadedRef.current = true;
       } catch (error) {
         console.error("Error uploading PDF to Cloudinary:", error);
+      } finally {
+        uploadInProgressRef.current = false;
       }
     };
 
@@ -138,8 +153,8 @@ function PaymentContent() {
           },
           body: JSON.stringify({
             amount,
-            institution: userData.institution?.name,
-            studentName: userData.name,
+            institution: userData.institution?.name || "miCasaSuCasa",
+            studentName: userData.name || "Yo",
             reference,
           }),
         });
@@ -149,16 +164,17 @@ function PaymentContent() {
         }
 
         const blob = await response.blob();
-        await uploadPDFToCloudinary(blob);
+        await Promise.all([registerPayment(), uploadPDFToCloudinary(blob)]);
       } catch (error) {
         console.error("Error handling PDF:", error);
       } finally {
         setLoading(false);
       }
     };
-
-    registerPayment();
+    //console.log(userData.institution?.name);
+    //console.log(userData.name);
     generateAndUploadPDF();
+    registerPayment();
   }, [amount, reference, userData, userID, token]);
 
   const handleDownloadPDF = async () => {
