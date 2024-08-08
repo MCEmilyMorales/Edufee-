@@ -107,9 +107,8 @@ export class InstitutionRepository {
 
     const response = await this.institutionRepository.save(institution);
 
-    if (status) {
-      await this.sendEmailRepository.sendApprovalEmail(institution);
-    }
+    await this.sendEmailRepository.sendApprovalEmail(institution);
+
     return response;
   }
 
