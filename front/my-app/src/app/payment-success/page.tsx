@@ -29,8 +29,8 @@ function PaymentContent() {
   const token = tokenStore((state) => state.token);
   const [loading, setLoading] = useState(false);
 
-  const paymentRegisteredRef = useRef(false); // Use a ref to track if payment has been registered
-  const registrationInProgressRef = useRef(false); // Ref to track if registration is in progress
+  const paymentRegisteredRef = useRef(false);
+  const registrationInProgressRef = useRef(false);
 
   let userID = "";
   try {
@@ -45,19 +45,16 @@ function PaymentContent() {
   useEffect(() => {
     const registerPayment = async () => {
       if (paymentRegisteredRef.current || registrationInProgressRef.current) {
-        return; // Exit if payment has already been registered or is in progress
+        return;
       }
 
-      registrationInProgressRef.current = true; // Mark registration as in progress
+      registrationInProgressRef.current = true;
 
-      // Generate a unique identifier for this payment
       const transactionId = `${userID}-${amount}-${reference}`;
-
-      // Check localStorage for existing registration status
       const hasRegistered = localStorage.getItem(transactionId);
       if (hasRegistered === "true") {
         console.log("Payment already registered");
-        paymentRegisteredRef.current = true; // Mark as registered
+        paymentRegisteredRef.current = true;
         registrationInProgressRef.current = false;
         return;
       }
@@ -69,7 +66,6 @@ function PaymentContent() {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              // Authorization: `Bearer ${token}`, // Uncomment if needed
             },
             body: JSON.stringify({
               amount: parseInt(amount, 10),
@@ -87,19 +83,82 @@ function PaymentContent() {
           throw new Error("Failed to register payment");
         }
 
-        // Set flag in localStorage with unique identifier to indicate payment has been registered
         localStorage.setItem(transactionId, "true");
-        paymentRegisteredRef.current = true; // Mark as registered
+        paymentRegisteredRef.current = true;
         console.log("Payment registered successfully");
       } catch (error) {
         console.error("Error registering payment:", error);
       } finally {
-        registrationInProgressRef.current = false; // Reset registration status
+        registrationInProgressRef.current = false;
       }
     };
 
-    // Call registerPayment only once
+    const uploadPDFToCloudinary = async (pdfBlob: Blob) => {
+      const formData = new FormData();
+      formData.append("file", pdfBlob);
+      formData.append(
+        "upload_preset",
+        process.env.NEXT_CLOUDINARY_UPLOAD_PRESET || "ml_default"
+      );
+
+      const uploadId = `${userID}-${amount}-${reference}`;
+      const hasUploaded = localStorage.getItem(uploadId);
+
+      if (hasUploaded === "true") {
+        console.log("PDF already uploaded");
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          "https://api.cloudinary.com/v1_1/daqlqr2wv/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to upload PDF to Cloudinary");
+        }
+
+        console.log("PDF uploaded to Cloudinary successfully");
+        localStorage.setItem(uploadId, "true");
+      } catch (error) {
+        console.error("Error uploading PDF to Cloudinary:", error);
+      }
+    };
+
+    const generateAndUploadPDF = async () => {
+      try {
+        const response = await fetch("/api/downloadPDF", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            amount,
+            institution: userData.institution?.name,
+            studentName: userData.name,
+            reference,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to generate PDF");
+        }
+
+        const blob = await response.blob();
+        await uploadPDFToCloudinary(blob);
+      } catch (error) {
+        console.error("Error handling PDF:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     registerPayment();
+    generateAndUploadPDF();
   }, [amount, reference, userData, userID, token]);
 
   const handleDownloadPDF = async () => {
@@ -109,7 +168,6 @@ function PaymentContent() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${token}`, // Uncomment if needed
         },
         body: JSON.stringify({
           amount,
