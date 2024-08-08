@@ -57,6 +57,9 @@ export const InstitutionsData = create<InstitucionState>((set) => ({
                 body: JSON.stringify({ status }),
             });
             const data = await response.json();
+            if (response.ok) {
+                alert("")
+            }
             console.log(data);
         } catch (error) {
             console.error("Error fetching user data:", error);
