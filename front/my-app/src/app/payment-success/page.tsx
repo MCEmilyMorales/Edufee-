@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { DataUser } from "../../store/userData";
 import { tokenStore } from "@/store/tokenStore";
@@ -25,14 +25,82 @@ function PaymentContent() {
   const router = useRouter();
   const amount = searchParams.get("amount") || "0";
   const reference = searchParams.get("reference") || "";
-  const getData = DataUser((state) => state.getDataUser);
   const userData = DataUser((state) => state.userData);
   const token = tokenStore((state) => state.token);
-  console.log(token);
-  const payload = JSON.parse(atob(token.split(".")[1]));
-  const userID = payload.id as string;
-  const cantidad = amount;
   const [loading, setLoading] = useState(false);
+
+  const paymentRegisteredRef = useRef(false); // Use a ref to track if payment has been registered
+  const registrationInProgressRef = useRef(false); // Ref to track if registration is in progress
+
+  let userID = "";
+  try {
+    if (token) {
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      userID = payload.id as string;
+    }
+  } catch (error) {
+    console.error("Failed to decode token:", error);
+  }
+
+  useEffect(() => {
+    const registerPayment = async () => {
+      if (paymentRegisteredRef.current || registrationInProgressRef.current) {
+        return; // Exit if payment has already been registered or is in progress
+      }
+
+      registrationInProgressRef.current = true; // Mark registration as in progress
+
+      // Generate a unique identifier for this payment
+      const transactionId = `${userID}-${amount}-${reference}`;
+
+      // Check localStorage for existing registration status
+      const hasRegistered = localStorage.getItem(transactionId);
+      if (hasRegistered === "true") {
+        console.log("Payment already registered");
+        paymentRegisteredRef.current = true; // Mark as registered
+        registrationInProgressRef.current = false;
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          "http://localhost:3005/payments/register",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              // Authorization: `Bearer ${token}`, // Uncomment if needed
+            },
+            body: JSON.stringify({
+              amount: parseInt(amount, 10),
+              institution: userData.institution?.name,
+              studentName: userData.name,
+              reference,
+              pdfImage: userData.name,
+              userId: userID,
+              institutionId: userData.institution?.id,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to register payment");
+        }
+
+        // Set flag in localStorage with unique identifier to indicate payment has been registered
+        localStorage.setItem(transactionId, "true");
+        paymentRegisteredRef.current = true; // Mark as registered
+        console.log("Payment registered successfully");
+      } catch (error) {
+        console.error("Error registering payment:", error);
+      } finally {
+        registrationInProgressRef.current = false; // Reset registration status
+      }
+    };
+
+    // Call registerPayment only once
+    registerPayment();
+  }, [amount, reference, userData, userID, token]);
 
   const handleDownloadPDF = async () => {
     setLoading(true);
@@ -41,7 +109,7 @@ function PaymentContent() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          //Authorization: Bearer: ${token},
+          // Authorization: `Bearer ${token}`, // Uncomment if needed
         },
         body: JSON.stringify({
           amount,
@@ -62,44 +130,10 @@ function PaymentContent() {
       link.download = "receipt.pdf";
       link.click();
       window.URL.revokeObjectURL(url);
-
-      // Call function to register payment after PDF download
-      await handleRegisterPayment();
     } catch (error) {
       console.error("Error downloading PDF:", error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleRegisterPayment = async () => {
-    try {
-      const response = await fetch("http://localhost:3005/payments/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // Uncomment if you need to include the token for authentication
-          // Authorization: Bearer ${token},
-        },
-        body: JSON.stringify({
-          amount: parseInt(amount, 10),
-          institution: userData.institution?.name,
-          studentName: userData.name,
-          reference,
-          pdfImage: userData.name,
-          userId: userID,
-          institutionId: userData.institution?.id,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to register payment");
-      }
-
-      // Handle response if needed
-      console.log("Payment registered successfully");
-    } catch (error) {
-      console.error("Error registering payment:", error);
     }
   };
 
