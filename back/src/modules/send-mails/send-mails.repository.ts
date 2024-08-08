@@ -77,20 +77,26 @@ export class SendMailsRepository {
         </div>
       `,
     });
+  }
 
+  async sendRejectionEmail(user: any): Promise<void> {
     await transporter.sendMail({
-      from: '"Edufee" <paymyacademic@gmail.com>', // Cambia el remitente
-      to: 'paymyacademic@gmail.com', // Asegúrate de que aquí esté tu correo
-      subject: 'Nuevo mensaje de contacto', // Asunto del correo
+      from: '"Edufee" <paymyacademic@gmail.com>',
+      to: user.email,
+      subject: 'Notificación de rechazo de cuenta',
       html: `
-      <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
-        <h2 style="color: #FFA500;">se requiere evaluacion de la institucion <span style="color: #FFD700;">${user.name}</span></h2>
-        <p><strong>Email:</strong> ${user.email}</p>
-       
-      </div>
+        <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+          <h2 style="color: #FF4500;">Estimado/a <span style="color: #FFD700;">${user.name}</span>,</h2>
+          <p>Tu solicitud de cuenta ha sido rechazada. Lamentamos no poder aprobar tu cuenta en este momento.</p>
+          <p>Si deseas obtener más información sobre las razones de esta decisión o si consideras que ha sido un error, no dudes en ponerte en contacto con nosotros respondiendo a este correo.</p>
+          <p>Agradecemos tu interés en nuestros servicios y te deseamos lo mejor.</p>
+          <p>¡Gracias!</p>
+          <p>El equipo de Edufee 🧡</p>
+        </div>
       `,
     });
   }
+
   async sendContactEmail(user: ContactEmailDto): Promise<void> {
     // Enviar correo de agradecimiento al usuario
     await transporter.sendMail({
@@ -108,6 +114,7 @@ export class SendMailsRepository {
       `,
     });
 
+    // Enviar correo a tu dirección informando sobre el nuevo mensaje de contacto
     await transporter.sendMail({
       from: '"Edufee" <paymyacademic@gmail.com>', // Cambia el remitente
       to: 'paymyacademic@gmail.com', // Asegúrate de que aquí esté tu correo
