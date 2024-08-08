@@ -31,4 +31,8 @@ export class UsersService {
   changeStatus(id: string, status: boolean) {
     return this.usersRepository.changeStatus(id, status);
   }
+
+  deleteUser(id: string) {
+    return this.usersRepository.deleteUser(id);
+  }
 }

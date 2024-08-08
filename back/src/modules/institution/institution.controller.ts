@@ -22,12 +22,16 @@ import { Role } from 'src/enums/enums';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Institution } from './institution.entity';
+import { InstitutionRole } from 'src/enums/institution.enum';
 
 @ApiTags('Institucion')
 @Controller('institution')
 export class InstitutionController {
   constructor(private readonly institutionService: InstitutionService) {}
 
+  @Roles(Role.admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  @ApiBearerAuth()
   @Get()
   getAllInstitutions(
     @Query('page') page: string,
@@ -72,7 +76,7 @@ export class InstitutionController {
   @Put('approve/:id')
   approveInstitution(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body('status') status: boolean,
+    @Body('status') status: InstitutionRole,
   ) {
     return this.institutionService.approveInstitution(id, status);
   }
