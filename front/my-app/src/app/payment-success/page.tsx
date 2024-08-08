@@ -1,4 +1,5 @@
 "use client";
+
 import { Suspense, useEffect, useState, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { DataUser } from "../../store/userData";
@@ -45,6 +46,11 @@ function PaymentContent() {
   }
 
   useEffect(() => {
+    if (!userData.name || !userData.institution?.name) {
+      console.error("User data is missing.");
+      return;
+    }
+
     const registerPayment = async () => {
       if (paymentRegisteredRef.current || registrationInProgressRef.current) {
         return;
@@ -93,6 +99,7 @@ function PaymentContent() {
       } finally {
         registrationInProgressRef.current = false;
       }
+      registerPayment();
     };
 
     const uploadPDFToCloudinary = async (pdfBlob: Blob) => {
@@ -118,10 +125,14 @@ function PaymentContent() {
         "upload_preset",
         process.env.NEXT_CLOUDINARY_UPLOAD_PRESET || "ml_default"
       );
-
       formData.append("public_id", reference);
 
       try {
+        formData.append(
+          "context",
+          `name=${userData.name},institution=${userData.institution?.name}`
+        );
+
         const response = await fetch(
           "https://api.cloudinary.com/v1_1/daqlqr2wv/upload",
           {
@@ -171,10 +182,8 @@ function PaymentContent() {
         setLoading(false);
       }
     };
-    //console.log(userData.institution?.name);
-    //console.log(userData.name);
+
     generateAndUploadPDF();
-    registerPayment();
   }, [amount, reference, userData, userID, token]);
 
   const handleDownloadPDF = async () => {
@@ -219,14 +228,12 @@ function PaymentContent() {
     <main className="relative overflow-auto font-inter h-screen flex flex-col items-center space-y-8 text-white text-center border bg-gradient-to-tr from-blue-500 to-green-500 pb-32">
       <div className="mt-32 p-4 flex flex-col items-center">
         <h1 className="text-4xl font-extrabold mb-2">
-          Gracias, {userData.name}
+          Gracias, {userData.name || "Usuario"}
         </h1>
         <div className="bg-white p-2 rounded-md text-blue-600 mt-5 text-4xl font-bold">
           Pago enviado a{" "}
           <span className="font-bold font-inter">
-            {userData.institution
-              ? userData.institution.name
-              : "Institución no disponible"}
+            {userData.institution?.name || "Institución no disponible"}
           </span>{" "}
           por: ${amount}
         </div>

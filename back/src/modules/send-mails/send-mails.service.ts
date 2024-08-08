@@ -19,7 +19,4 @@ export class SendMailsService {
   sendApprovalEmail(user: any): Promise<void> {
     return this.sendMailsRepository.sendApprovalEmail(user);
   }
-  sendRejectionEmail(user: any): Promise<void> {
-    return this.sendMailsRepository.sendRejectionEmail(user);
-  }
 }
