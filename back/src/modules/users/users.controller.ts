@@ -8,7 +8,6 @@ import {
   Put,
   ParseUUIDPipe,
   UseGuards,
-  Delete,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 
@@ -80,10 +79,10 @@ export class UsersController {
     return this.usersService.changeStatus(id, status);
   }
 
-  // @ApiBearerAuth()
-  // @Roles(Role.admin, Role.student)
-  // @UseGuards(AuthGuard, RolesGuard)
-  @Delete('delete/:id')
+  @ApiBearerAuth()
+  @Roles(Role.admin, Role.student)
+  @UseGuards(AuthGuard, RolesGuard)
+  @Put('delete/:id')
   async deleteUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.deleteUser(id);
   }

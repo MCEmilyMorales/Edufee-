@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -48,21 +49,21 @@ export class UsersRepository {
 
   async signUp(user: createUserDto) {
     const { email, dni, institutionName } = user;
-    //busco la institution por nombre en su tabla
+
     const institution = await this.institutionRepository.findOneBy({
       name: institutionName,
     });
     if (!institution) {
       throw new NotFoundException('Institución no encontrada. ');
     }
-    //verifico que el email no exista en institution
+
     const existEmailInstitution = await this.institutionRepository.findOneBy({
       email,
     });
     if (existEmailInstitution) {
       throw new ConflictException();
     }
-    //ej de paralizacion
+
     const [existsEmail, existsDni] = await Promise.all([
       this.usersRepository.findOneBy({
         email,
@@ -118,7 +119,6 @@ export class UsersRepository {
 
     await this.usersRepository.update(id, user);
 
-    // Retorna el usuario actualizado
     const updatedUser = await this.usersRepository.findOneBy({ id });
     return updatedUser;
   }
@@ -155,12 +155,25 @@ export class UsersRepository {
       const user = await this.usersRepository.findOneBy({ id });
       if (!user)
         throw new BadRequestException(`Usuario con ID: ${id} no existente.`);
+      const randomString = Math.random().toString(36).substring(2, 10);
+      const randomEmail = `deleted_${randomString}@example.com`;
+      const randomDni = `${Math.floor(10000000 + Math.random() * 90000000)}`;
+      user.name = 'xxxx';
+      user.lastname = 'xxxx';
+      user.email = randomEmail;
+      user.dni = randomDni;
+      user.address = 'xxxx';
+      user.phone = 'xxxx';
+      user.imgProfile = 'xxxx';
+      user.status = false;
 
-      await this.usersRepository.remove(user);
+      await this.usersRepository.save(user);
 
       return 'Usuario eliminado con éxito';
     } catch (error) {
-      throw new Error(`Error al eliminar usuario. ${error}`);
+      throw new InternalServerErrorException(
+        `Error al eliminar usuario. ${error}`,
+      );
     }
   }
 }
