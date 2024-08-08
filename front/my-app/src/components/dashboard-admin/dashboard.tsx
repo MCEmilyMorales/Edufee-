@@ -3,8 +3,18 @@ import React, { useEffect, useState } from "react";
 import Sidebar, { SidebarItem } from "../sidebarAdmin/page";
 import { User, School, CheckSquare } from "lucide-react";
 import { InstitutionsData } from "@/store/institutionsData";
+import { DataUser } from "@/store/userData";
 
 const StudentsTable = () => {
+  const getData = DataUser((state) => state.getAllData);
+  const dataUser = DataUser((state) => state.AllData);
+
+  useEffect(() => {
+    getData();
+  }, [getData]);
+
+  console.log(dataUser);
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white">
@@ -13,16 +23,16 @@ const StudentsTable = () => {
             <th className="px-4 py-2 border">Nombre</th>
             <th className="px-4 py-2 border">Institucion</th>
             <th className="px-4 py-2 border">Estado</th>
-            <th className="px-4 py-2 border">Ultimo pago</th>
+            <th className="px-4 py-2 border">DNI</th>
           </tr>
         </thead>
         <tbody>
-          {Array.from({ length: 6 }).map((_, index) => (
-            <tr key={index} className="text-center">
-              <td className="px-4 py-2 border">Nombre Alumno</td>
-              <td className="px-4 py-2 border">Nombre Institucion</td>
-              <td className="px-4 py-2 border bg-green-200">Verificado / Pendiente</td>
-              <td className="px-4 py-2 border">DD/MM/AA</td>
+          {dataUser[0]?.allUser?.map((user) => (
+            <tr className="text-center">
+              <td className="px-4 py-2 border">{user.name}</td>
+              <td className="px-4 py-2 border">{user.phone}</td>
+              <td className={`px-4 py-2 border ${user.status === 'true' ? "bg-green-200" : "bg-red-200"}`}>{user.status === 'true' ? "Aprobado" : "Rechazado"}</td>
+              <td className="px-4 py-2 border">{user.dni}</td>
             </tr>
           ))}
         </tbody>
