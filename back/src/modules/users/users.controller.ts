@@ -27,7 +27,7 @@ export class UsersController {
 
   @ApiBearerAuth()
   @Get()
-  @Roles(Role.admin)
+  @Roles(Role.admin, Role.student)
   @UseGuards(AuthGuard, RolesGuard)
   getAll(
     @Query('page') page: string = '1',
@@ -61,7 +61,15 @@ export class UsersController {
   }
 
   @Put('asignAdmin/:id')
-  async toRoleAdmin(@Param('id') id: string): Promise<User> {
+  async toRoleAdmin(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
     return this.usersService.toRoleAdmin(id);
+  }
+
+  @Put('changeStatus/:id')
+  async changeStatus(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body('status') status: boolean,
+  ): Promise<User> {
+    return this.usersService.changeStatus(id, status);
   }
 }

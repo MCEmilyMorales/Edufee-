@@ -9,6 +9,7 @@ import {
   Matches,
 } from 'class-validator';
 import { Role } from 'src/enums/enums';
+import { InstitutionRole } from 'src/enums/institution.enum';
 
 export class CreateInstitutionDto {
   /**
@@ -75,7 +76,7 @@ export class CreateInstitutionDto {
 
   @IsEmpty()
   @ApiHideProperty()
-  isActive: boolean;
+  isActive: InstitutionRole;
 }
 
 export class EmailInstitutionDto extends PickType(CreateInstitutionDto, [

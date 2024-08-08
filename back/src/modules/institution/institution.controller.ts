@@ -10,11 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { InstitutionService } from './institution.service';
-import {
-  CreateInstitutionDto,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  EmailInstitutionDto,
-} from './institutionDtos/createInstitution.dto';
+import { CreateInstitutionDto } from './institutionDtos/createInstitution.dto';
 import { UpdateInstitutionDto } from './institutionDtos/updateInstitution.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
@@ -22,12 +18,16 @@ import { Role } from 'src/enums/enums';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Institution } from './institution.entity';
+import { InstitutionRole } from 'src/enums/institution.enum';
 
 @ApiTags('Institucion')
 @Controller('institution')
 export class InstitutionController {
   constructor(private readonly institutionService: InstitutionService) {}
 
+  @Roles(Role.admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  @ApiBearerAuth()
   @Get()
   getAllInstitutions(
     @Query('page') page: string,
@@ -75,7 +75,9 @@ export class InstitutionController {
   }
 
   @Put('asignAdmin/:id')
-  async toRoleAdmin(@Param('id') id: string): Promise<Institution> {
+  async toRoleAdmin(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<Institution> {
     console.log('Controller: toRoleAdmin called with id:', id);
     return this.institutionService.toRoleAdmin(id);
   }

@@ -3,6 +3,7 @@ import { User } from '../users/users.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Payment } from '../payment/payment.entity';
 import { Role } from 'src/enums/enums';
+import { InstitutionRole } from 'src/enums/institution.enum';
 
 @Entity('institutions')
 export class Institution {
@@ -56,7 +57,7 @@ export class Institution {
     nullable: true,
   })
   logo?: string;
-  k;
+
   @ApiProperty({
     description: 'URL de cloudinary',
   })
@@ -75,8 +76,8 @@ export class Institution {
   @ApiProperty({
     description: 'Toda institución deberá esperar que su cuenta sea aprobada',
   })
-  @Column({ default: false })
-  isActive: boolean;
+  @Column({ default: 'pending' })
+  isActive: InstitutionRole;
 
   @OneToMany(() => User, (user) => user.institution)
   user_id: User[];

@@ -37,7 +37,7 @@ export class AuthService {
         roles: [institution.role],
       };
       const token = this.jwtService.sign(payload);
-      return { message: `${user.role} logueado`, token };
+      return { message: `${institution.role} logueado`, token };
     }
 
     return { message: 'Usuario no encontrado' };

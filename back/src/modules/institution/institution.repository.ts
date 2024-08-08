@@ -43,7 +43,6 @@ export class InstitutionRepository {
 
   async signUp(institution: Partial<Institution>) {
     if (!institution) throw new BadRequestException();
-    //el email existe en alguna otra tabla?
     const { email } = institution;
     const [existEmailInstitution, existEmailUser] = await Promise.all([
       this.institutionRepository.findOneBy({
@@ -106,14 +105,13 @@ export class InstitutionRepository {
     }
     // if (!status) throw new BadRequestException();
     institution.isActive = status;
-    console.log(institution.isActive);
-
+  
     await this.sendEmailRepository.sendApprovalEmail(institution);
 
-    const response = await this.institutionRepository.save(institution);
+  //   await this.sendEmailRepository.sendApprovalEmail(institution);
 
-    return response;
-  }
+  //   return response;
+  // }
 
   async toRoleAdmin(id: string): Promise<Institution> {
     console.log('Repository: toRoleAdmin called with id:', id);

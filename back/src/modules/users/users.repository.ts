@@ -27,6 +27,7 @@ export class UsersRepository {
       this.usersRepository.find({
         skip: (page - 1) * limit,
         take: limit,
+        relations: { institution: true },
       }),
       this.usersRepository.count(),
     ]);
@@ -132,6 +133,19 @@ export class UsersRepository {
 
     const response = await this.usersRepository.save(user);
 
+    return response;
+  }
+
+  async changeStatus(id: string, status: boolean) {
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException(
+        `Este ID: ${id} no corresponde a una institución`,
+      );
+    }
+    user.status = status;
+
+    const response = await this.usersRepository.save(user);
     return response;
   }
 }
