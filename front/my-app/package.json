@@ -16,7 +16,11 @@
     "@splinetool/runtime": "^1.9.3",
     "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^4.1.0",
+    "cloudinary": "^2.4.0",
+    "formidable": "^3.5.1",
     "fs": "^0.0.1-security",
+    "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.424.0",
     "my-app": "file:",
     "next": "14.2.5",
@@ -30,6 +34,8 @@
     "zustand": "^4.5.4"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20",
     "@types/pdfkit": "^0.13.4",
     "@types/pdfmake": "^0.2.9",

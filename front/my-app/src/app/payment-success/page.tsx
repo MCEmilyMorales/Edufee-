@@ -1,4 +1,5 @@
 "use client";
+
 import { Suspense, useEffect, useState, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { DataUser } from "../../store/userData";
@@ -31,6 +32,8 @@ function PaymentContent() {
 
   const paymentRegisteredRef = useRef(false);
   const registrationInProgressRef = useRef(false);
+  const pdfUploadedRef = useRef(false);
+  const uploadInProgressRef = useRef(false);
 
   let userID = "";
   try {
@@ -43,6 +46,11 @@ function PaymentContent() {
   }
 
   useEffect(() => {
+    if (!userData.name || !userData.institution?.name) {
+      console.error("User data is missing.");
+      return;
+    }
+
     const registerPayment = async () => {
       if (paymentRegisteredRef.current || registrationInProgressRef.current) {
         return;
@@ -72,7 +80,7 @@ function PaymentContent() {
               institution: userData.institution?.name,
               studentName: userData.name,
               reference,
-              pdfImage: userData.name,
+              pdfImage: reference,
               userId: userID,
               institutionId: userData.institution?.id,
             }),
@@ -91,25 +99,40 @@ function PaymentContent() {
       } finally {
         registrationInProgressRef.current = false;
       }
+      registerPayment();
     };
 
     const uploadPDFToCloudinary = async (pdfBlob: Blob) => {
-      const formData = new FormData();
-      formData.append("file", pdfBlob);
-      formData.append(
-        "upload_preset",
-        process.env.NEXT_CLOUDINARY_UPLOAD_PRESET || "ml_default"
-      );
+      if (pdfUploadedRef.current || uploadInProgressRef.current) {
+        return;
+      }
+
+      uploadInProgressRef.current = true;
 
       const uploadId = `${userID}-${amount}-${reference}`;
       const hasUploaded = localStorage.getItem(uploadId);
 
       if (hasUploaded === "true") {
         console.log("PDF already uploaded");
+        pdfUploadedRef.current = true;
+        uploadInProgressRef.current = false;
         return;
       }
 
+      const formData = new FormData();
+      formData.append("file", pdfBlob);
+      formData.append(
+        "upload_preset",
+        process.env.NEXT_CLOUDINARY_UPLOAD_PRESET || "ml_default"
+      );
+      formData.append("public_id", reference);
+
       try {
+        formData.append(
+          "context",
+          `name=${userData.name},institution=${userData.institution?.name}`
+        );
+
         const response = await fetch(
           "https://api.cloudinary.com/v1_1/daqlqr2wv/upload",
           {
@@ -124,8 +147,11 @@ function PaymentContent() {
 
         console.log("PDF uploaded to Cloudinary successfully");
         localStorage.setItem(uploadId, "true");
+        pdfUploadedRef.current = true;
       } catch (error) {
         console.error("Error uploading PDF to Cloudinary:", error);
+      } finally {
+        uploadInProgressRef.current = false;
       }
     };
 
@@ -138,8 +164,8 @@ function PaymentContent() {
           },
           body: JSON.stringify({
             amount,
-            institution: userData.institution?.name,
-            studentName: userData.name,
+            institution: userData.institution?.name || "miCasaSuCasa",
+            studentName: userData.name || "Yo",
             reference,
           }),
         });
@@ -149,7 +175,7 @@ function PaymentContent() {
         }
 
         const blob = await response.blob();
-        await uploadPDFToCloudinary(blob);
+        await Promise.all([registerPayment(), uploadPDFToCloudinary(blob)]);
       } catch (error) {
         console.error("Error handling PDF:", error);
       } finally {
@@ -157,7 +183,6 @@ function PaymentContent() {
       }
     };
 
-    registerPayment();
     generateAndUploadPDF();
   }, [amount, reference, userData, userID, token]);
 
@@ -203,14 +228,12 @@ function PaymentContent() {
     <main className="relative overflow-auto font-inter h-screen flex flex-col items-center space-y-8 text-white text-center border bg-gradient-to-tr from-blue-500 to-green-500 pb-32">
       <div className="mt-32 p-4 flex flex-col items-center">
         <h1 className="text-4xl font-extrabold mb-2">
-          Gracias, {userData.name}
+          Gracias, {userData.name || "Usuario"}
         </h1>
         <div className="bg-white p-2 rounded-md text-blue-600 mt-5 text-4xl font-bold">
           Pago enviado a{" "}
           <span className="font-bold font-inter">
-            {userData.institution
-              ? userData.institution.name
-              : "Institución no disponible"}
+            {userData.institution?.name || "Institución no disponible"}
           </span>{" "}
           por: ${amount}
         </div>
