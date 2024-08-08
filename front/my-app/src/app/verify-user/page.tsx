@@ -48,7 +48,6 @@ const LayerAuth = () => {
                     router.push('/select');
                 }
             }
-
             checkUser()
         }
 
