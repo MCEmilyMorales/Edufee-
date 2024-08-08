@@ -14,7 +14,6 @@ const VerificationPage = () => {
             height={100}
           />
         </div>
-
         <h1 className="text-xl font-semibold mb-4 text-gray-700">
           Tu cuenta está siendo verificada
         </h1>
