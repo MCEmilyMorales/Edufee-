@@ -46,7 +46,7 @@ interface AllData {
 
 
 interface UserState {
-  userData: Data[];
+  userData: Data;
   AllData: AllData[]
   getDataUser: () => Promise<void>;
   getAllData: () => Promise<void>;
@@ -79,7 +79,7 @@ export const DataUser = create<UserState>((set) => ({
       );
       const data = await response.json();
       console.log(data);
-      set({ userData: Array.isArray(data) ? data : [data] });
+      set({ userData : data });
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
