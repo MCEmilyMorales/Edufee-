@@ -109,6 +109,7 @@ export class InstitutionRepository {
       await this.sendEmailRepository.sendApprovalEmail(institution);
     } else if (status === InstitutionRole.denied) {
       institution.isActive = InstitutionRole.denied;
+      await this.sendEmailRepository.sendRejectionEmail(institution);
     }
     const response = await this.institutionRepository.save(institution);
     return response;
