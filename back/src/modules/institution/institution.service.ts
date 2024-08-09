@@ -11,6 +11,10 @@ export class InstitutionService {
     return this.institutionRepository.getAllInstitutions(page, limit);
   }
 
+  getNamesInstitutions() {
+    return this.institutionRepository.getNamesInstitutions();
+  }
+
   getInstitutionById(id: string) {
     return this.institutionRepository.getInstitutionById(id);
   }

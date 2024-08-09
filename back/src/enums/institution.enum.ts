@@ -1,5 +1,5 @@
 export enum InstitutionRole {
   pending = 'pending',
-  aproved = 'aproved',
+  approved = 'approved',
   denied = 'denied',
 }
