@@ -51,60 +51,11 @@ function PaymentContent() {
       return;
     }
 
-    const registerPayment = async () => {
-      if (paymentRegisteredRef.current || registrationInProgressRef.current) {
-        return;
-      }
-
-      registrationInProgressRef.current = true;
-
-      const transactionId = `${userID}-${amount}-${reference}`;
-      const hasRegistered = localStorage.getItem(transactionId);
-      if (hasRegistered === "true") {
-        console.log("Payment already registered");
-        paymentRegisteredRef.current = true;
-        registrationInProgressRef.current = false;
-        return;
-      }
-
-      try {
-        const response = await fetch(
-          "http://localhost:3005/payments/register",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              amount: parseInt(amount, 10),
-              institution: userData.institution?.name,
-              studentName: userData.name,
-              reference,
-              pdfImage: reference,
-              userId: userID,
-              institutionId: userData.institution?.id,
-            }),
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to register payment");
-        }
-
-        localStorage.setItem(transactionId, "true");
-        paymentRegisteredRef.current = true;
-        console.log("Payment registered successfully");
-      } catch (error) {
-        console.error("Error registering payment:", error);
-      } finally {
-        registrationInProgressRef.current = false;
-      }
-      registerPayment();
-    };
-
-    const uploadPDFToCloudinary = async (pdfBlob: Blob) => {
+    const uploadPDFToCloudinary = async (
+      pdfBlob: Blob
+    ): Promise<string | null> => {
       if (pdfUploadedRef.current || uploadInProgressRef.current) {
-        return;
+        return null;
       }
 
       uploadInProgressRef.current = true;
@@ -116,7 +67,7 @@ function PaymentContent() {
         console.log("PDF already uploaded");
         pdfUploadedRef.current = true;
         uploadInProgressRef.current = false;
-        return;
+        return localStorage.getItem(uploadId) || null;
       }
 
       const formData = new FormData();
@@ -145,13 +96,72 @@ function PaymentContent() {
           throw new Error("Failed to upload PDF to Cloudinary");
         }
 
-        console.log("PDF uploaded to Cloudinary successfully");
-        localStorage.setItem(uploadId, "true");
+        const data = await response.json();
+        const fileUrl = data.secure_url; // Save the URL from Cloudinary response
+        //console.log("PDF uploaded to Cloudinary successfully");
+        //console.log("Cloudinary URL:", fileUrl); // Log the URL to the console
+
+        // Modify the file URL to end with .png instead of .pdf
+        const pngUrl = fileUrl.replace(/\.pdf$/, ".png");
+        console.log(pngUrl);
+        localStorage.setItem(uploadId, pngUrl);
         pdfUploadedRef.current = true;
+        return pngUrl;
       } catch (error) {
         console.error("Error uploading PDF to Cloudinary:", error);
+        return null;
       } finally {
         uploadInProgressRef.current = false;
+      }
+    };
+
+    const registerPayment = async (pdfImage: string) => {
+      if (paymentRegisteredRef.current || registrationInProgressRef.current) {
+        return;
+      }
+
+      registrationInProgressRef.current = true;
+
+      const transactionId = `${userID}-${amount}-${reference}`;
+      const hasRegistered = localStorage.getItem(transactionId);
+      if (hasRegistered === "true") {
+        console.log("Payment already registered");
+        paymentRegisteredRef.current = true;
+        registrationInProgressRef.current = false;
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          "http://localhost:3005/payments/register",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              amount: parseInt(amount, 10),
+              institution: userData.institution?.name,
+              studentName: userData.name,
+              reference,
+              pdfImage, // Use the Cloudinary URL here
+              userId: userID,
+              institutionId: userData.institution?.id,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to register payment");
+        }
+
+        localStorage.setItem(transactionId, "true");
+        paymentRegisteredRef.current = true;
+        console.log("Payment registered successfully");
+      } catch (error) {
+        console.error("Error registering payment:", error);
+      } finally {
+        registrationInProgressRef.current = false;
       }
     };
 
@@ -175,7 +185,10 @@ function PaymentContent() {
         }
 
         const blob = await response.blob();
-        await Promise.all([registerPayment(), uploadPDFToCloudinary(blob)]);
+        const pdfUrl = await uploadPDFToCloudinary(blob);
+        if (pdfUrl) {
+          await registerPayment(pdfUrl);
+        }
       } catch (error) {
         console.error("Error handling PDF:", error);
       } finally {
