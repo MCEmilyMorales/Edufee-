@@ -45,20 +45,36 @@ export class InstitutionRepository {
 
   async signUp(institution: Partial<Institution>) {
     if (!institution) throw new BadRequestException();
-    const { email } = institution;
-    const [existEmailInstitution, existEmailUser] = await Promise.all([
-      this.institutionRepository.findOneBy({
-        email,
-      }),
-      this.userRepository.findOneBy({ email }),
-    ]);
+    const { email, name } = institution;
+    const errors = [];
+    const [existEmailInstitution, existNameInstitution, existEmailUser] =
+      await Promise.all([
+        this.institutionRepository.findOneBy({
+          email,
+        }),
+        this.institutionRepository.findOneBy({
+          name,
+        }),
+        this.userRepository.findOneBy({ email }),
+      ]);
     if (existEmailInstitution) {
-      throw new ConflictException('Email de institución.');
+      errors.push({ field: 'Email' });
+    }
+    if (existNameInstitution) {
+      errors.push({ field: 'Name' });
     }
     if (existEmailUser) {
-      throw new ConflictException('Email de user.');
+      errors.push({ field: 'Email' });
     }
 
+    if (errors.length > 0) {
+      throw new ConflictException({
+        status: 'error',
+        code: 409,
+        message: 'Existen conflictos con los datos proporcionados',
+        errores: errors,
+      });
+    }
     const newInstitution = await this.institutionRepository.save(institution);
 
     const dbInstitution = await this.institutionRepository.findOneBy({

@@ -79,9 +79,9 @@ export class UsersController {
     return this.usersService.changeStatus(id, status);
   }
 
-  @ApiBearerAuth()
-  @Roles(Role.admin, Role.student)
-  @UseGuards(AuthGuard, RolesGuard)
+  // @ApiBearerAuth()
+  // @Roles(Role.admin, Role.student)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Put('delete/:id')
   async deleteUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.deleteUser(id);
