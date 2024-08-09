@@ -34,6 +34,16 @@ export class InstitutionRepository {
     return institutions;
   }
 
+  async getNamesInstitutions() {
+    const institutions = await this.institutionRepository.find({
+      select: ['name'],
+    });
+    if (!institutions)
+      throw new BadRequestException(`No hay instituciones creadas`);
+
+    return institutions;
+  }
+
   async getInstitutionById(id: string) {
     const institution = await this.institutionRepository.findOne({
       where: { id },
@@ -114,14 +124,14 @@ export class InstitutionRepository {
       }
 
       if (
-        status !== InstitutionRole.aproved &&
+        status !== InstitutionRole.approved &&
         status !== InstitutionRole.denied
       ) {
         throw new BadRequestException(`Status debe ser aproved o denied`);
       }
 
-      if (status === InstitutionRole.aproved) {
-        institution.isActive = InstitutionRole.aproved;
+      if (status === InstitutionRole.approved) {
+        institution.isActive = InstitutionRole.approved;
         await this.sendEmailRepository.sendApprovalEmail(institution);
       } else if (status === InstitutionRole.denied) {
         institution.isActive = InstitutionRole.denied;
